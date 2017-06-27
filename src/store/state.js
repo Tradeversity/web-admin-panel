@@ -1,19 +1,6 @@
-// import _ from 'lodash'
+import { assignIn } from 'lodash'
 
-const reg = require.context('.', true, /\.\/.+\/state\.js$/)
+const req = require.context('.', true, /\.\/.+\/state\.js$/)
+const state = req.keys().map(key => req(key).default)
 
-module.exports = reg.keys().map(key => reg(key).default)
-// requireState.keys().forEach((key) => {
-//   const storeName = key.replace(/\.\/(.+)\/.+$/, '$1')
-//   const fromName = `from${_.upperFirst(storeName)}`
-//   const state = requireState(key)
-//   const getState = (state = {}) => state[storeName] || {}
-
-//   Object.keys(state).forEach((name) => {
-//     const selector = state[name]
-//     console.log(selector)
-//     if (_.isObject(selector)) {
-//       module.exports[fromName][name] = (state, ...args) => selector(getState(state), ...args)
-//     }
-//   })
-// })
+export default assignIn({}, ...state)

@@ -101,14 +101,20 @@
         <router-view></router-view>
       </v-container>
     </main>
+
+    <flagged-dialog></flagged-dialog>
   </v-app>
 </template>
 
 <script>
+import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import BrandLogo from '@/assets/brand_logo.svg'
 
 export default {
   name: 'app',
+  components: {
+    FlaggedDialog,
+  },
   data () {
     return {
       brandLogo: BrandLogo,
@@ -148,7 +154,7 @@ export default {
   },
   computed: {
     isLogged () {
-      return this.$route.fullPath !== '/'
+      return this.$route.fullPath !== '/login'
     }
   }
 }

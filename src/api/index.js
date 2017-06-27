@@ -3,6 +3,13 @@ import router from '@/router'
 import config from '../config'
 import cookie from 'vue-cookie'
 
+const token = cookie.get('token')
+
+if (token) {
+  axios.defaults.headers.common['Authorization'] = token
+  axios.defaults.headers.common['X-Tradeversity-Environment'] = 'Development'
+}
+
 const statusHandler = status => {
   switch (status) {
     case 401:
@@ -27,12 +34,6 @@ export default {
 
     const url = config.serverURI + uri
     const instance = axios({ method, url, data })
-    const token = cookie.get('token')
-
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = token
-      // axios.defaults.headers.common['X-Tradeversity-Environment'] = 'Development'
-    }
 
     axios.interceptors.request.use((config) => {
       return config

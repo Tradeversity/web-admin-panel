@@ -1,3 +1,6 @@
-const reg = require.context('.', true, /\.\/.+\/actions\.js$/)
+import { assignIn } from 'lodash'
 
-module.exports = reg.keys().map(key => reg(key).default)
+const req = require.context('.', true, /\.\/.+\/actions\.js$/)
+const actions = req.keys().map(key => req(key).default)
+
+export default assignIn({}, ...actions)

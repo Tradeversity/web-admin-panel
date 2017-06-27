@@ -17,6 +17,24 @@ Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.use(VueCookie)
 
+router.beforeEach((to, from, next) => {
+  next()
+  // console.log(to, from)
+  if (to.fullPath === from.fullPath) {
+    return false
+  }
+  // console.log('schoolid', store.state.schoolID)
+  if (to.fullPath !== '/login' && store.state.schoolID === null) {
+    // console.log('true')
+    // next({
+    //   path: '/login',
+      // query: { redirect: to.fullPath },
+    // })
+  } else {
+    next()
+  }
+})
+
 sync(store, router)
 
 /* eslint-disable no-new */

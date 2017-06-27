@@ -13,33 +13,39 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'Login',
       component: Login,
     }, {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      meta: { auth: true }
     }, {
       path: '/users',
       name: 'Users',
       component: Users,
+      meta: { auth: true }
     }, {
       path: '/filters',
       name: 'Filters',
       component: Filters,
+      meta: { auth: true }
     }, {
       path: '/listings',
       name: 'Listings',
       component: Listings,
+      meta: { auth: true }
     }, {
       path: '/organizations',
       name: 'Organizations',
       component: Organizations,
+      meta: { auth: true }
     }, {
       path: '/sponsors',
       name: 'Sponsors',
       component: Sponsors,
+      meta: { auth: true }
     }
   ],
 })

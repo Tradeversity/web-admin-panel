@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Listings
+      Flagged Listings
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -13,18 +13,17 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="listings"
       :search="search"
     >
-      <template
-        slot="items"
-        scope="props"
-      >
-        <td @click.stop="isListingDialogOpen = !isListingDialogOpen">{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.author }}</td>
-        <td class="text-xs-right">{{ props.item.category }}</td>
-        <td class="text-xs-right">{{ props.item.reports }}</td>
-        <td class="text-xs-right">{{ props.item.archived }}</td>
+      <template slot="items" scope="props" @click.stop="openFlaggedItem">
+        <td>{{ props.item.title }}</td>
+        <td class="text-xs-right">
+          {{ props.item.category }}
+        </td>
+        <td class="text-xs-right">
+          {{ new Date(props.item.created_at).toDateString() }}
+        </td>
       </template>
       <template slot="pageText" scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -39,34 +38,10 @@
 <script>
 import ListingDialog from '@/components/dialogs/Listing'
 
-const data = [
-  {
-    name: 'textbook',
-    author: 'zach barnes',
-    category: 'books',
-    reports: '0',
-    archived: 'false',
-  }, {
-    name: 'dvd',
-    author: 'garfield',
-    category: 'electronics',
-    reports: '2',
-    archived: 'false',
-  }, {
-    name: 'umbrella',
-    author: 'big boy',
-    category: 'everything else',
-    reports: '0',
-    archived: 'true',
-  }
-]
-
 const headers = [
-  { text: 'Name', value: 'name', left: true },
-  { text: 'Author', value: 'author' },
+  { text: 'Title', value: 'title', left: true },
   { text: 'Category', value: 'category' },
-  { text: 'Reports', value: 'reports' },
-  { text: 'Archived', value: 'archived' },
+  { text: 'Created', value: 'created_at' },
 ]
 
 export default {
@@ -78,12 +53,29 @@ export default {
       pagination: {},
       isListingDialogOpen: false,
       headers: headers,
-      items: data,
+    }
+  },
+  computed: {
+    listings () {
+      console.log('Listing', this.$store.state.listings)
+      return this.$store.state.listings || []
     }
   },
   watch: {
     isListingDialogOpen: (value) => {
       console.log('Listings', value)
+    }
+  },
+  methods: {
+    openFlaggedItem: function () {
+      console.log('opening...')
+      this.$store.commit('OPEN_FLAGGED_DIALOG')
+    }
+  },
+  mounted () {
+    if (this.$store.state.listings.length < 1) {
+      console.log(this.$store.state)
+      this.$store.dispatch('GET_LISTINGS')
     }
   }
 }
