@@ -16,14 +16,16 @@
       :items="listings"
       :search="search"
     >
-      <template slot="items" scope="props" @click.stop="openFlaggedItem">
-        <td>{{ props.item.title }}</td>
-        <td class="text-xs-right">
-          {{ props.item.category }}
-        </td>
-        <td class="text-xs-right">
-          {{ new Date(props.item.created_at).toDateString() }}
-        </td>
+      <template slot="items" scope="props">
+        <tr slot="selected" @click.stop="openFlaggedItem">
+          <td>{{ props.item.title }}</td>
+          <td class="text-xs-right">
+            {{ props.item.category }}
+          </td>
+          <td class="text-xs-right">
+            {{ new Date(props.item.created_at).toDateString() }}
+          </td>
+        </tr>
       </template>
       <template slot="pageText" scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -81,6 +83,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-
+<style lang="stylus" scoped>
+.tr-click-wrapper
+  width: 100%
+  display: inline-block
 </style>
