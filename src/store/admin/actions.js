@@ -9,9 +9,10 @@ const errorHandler = error => {
  */
 
 const GET_ALL_SCHOOLS = ({ state, commit }) => {
-  api.request('post', `/admin/school/all`)
+  api.request('get', `/admin/school/all`)
     .then(response => {
-      commit('SET_SCHOOL', response.data)
+      commit('SET_SCHOOL', response.data.schools[0])
+      commit('SET_SCHOOLS', response.data.schools)
     })
     .catch(errorHandler)
 }
@@ -35,7 +36,7 @@ const POST_UPDATE = ({ state }, school) => {
 const GET_SCHOOL = ({ state, commit }, schoolID) => {
   const baseURL = `/admin/school/${schoolID}`
 
-  api.request('post', `${baseURL}/`)
+  api.request('get', `${baseURL}/`)
     .then(response => {
       commit('SET_SCHOOL', response.data)
     })
@@ -45,7 +46,7 @@ const GET_SCHOOL = ({ state, commit }, schoolID) => {
 const GET_KEEN = ({ state, commit }, schoolID) => {
   const baseURL = `/admin/school/${schoolID}`
 
-  api.request('post', `${baseURL}/keen`)
+  api.request('get', `${baseURL}/keen`)
     .then(response => {
       commit('SET_KEEN', response.data)
     })
@@ -59,7 +60,7 @@ const GET_KEEN = ({ state, commit }, schoolID) => {
 const GET_EVENTS = ({ state, commit }) => {
   const baseURL = `/admin/school/${state.schooldID}`
 
-  api.request('post', `${baseURL}/events`)
+  api.request('get', `${baseURL}/events`)
     .then(response => {
       commit('SET_EVENTS', response.data)
     })
@@ -69,7 +70,7 @@ const GET_EVENTS = ({ state, commit }) => {
 const GET_SPONSORED_LISTINGS = ({ state, commit }, organizationsID) => {
   const baseURL = `/admin/school/${state.schooldID}`
 
-  api.request('post', `${baseURL}/organization/${organizationsID}/sponsored_listings`)
+  api.request('get', `${baseURL}/organization/${organizationsID}/sponsored_listings`)
     .then(response => {
       commit('SET_SPONSORED_LISTINGS', response.data)
     })
@@ -79,7 +80,7 @@ const GET_SPONSORED_LISTINGS = ({ state, commit }, organizationsID) => {
 const GET_ORGANIZATION_EVENTS = ({ state, commit }, organizationsID) => {
   const baseURL = `/admin/school/${state.schooldID}`
 
-  api.request('post', `${baseURL}/organization/${organizationsID}/events`)
+  api.request('get', `${baseURL}/organization/${organizationsID}/events`)
     .then(response => {
       commit('SET_ORGANIZATION_EVENTS', response.data)
     })

@@ -1,41 +1,39 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-title>
-        Listings
-        <v-spacer></v-spacer>
-        <v-text-field
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-          v-model="search"
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table
-        :headers="headers"
-        :items="items"
-        :search="search"
+  <v-card>
+    <v-card-title>
+      Listings
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :search="search"
+    >
+      <template
+        slot="items"
+        scope="props"
       >
-        <template
-          slot="items"
-          scope="props"
-        >
-          <td @click.stop="isListingDialogOpen = !isListingDialogOpen">{{ props.item.name }}</td>
-          <td class="text-xs-right">{{ props.item.author }}</td>
-          <td class="text-xs-right">{{ props.item.category }}</td>
-          <td class="text-xs-right">{{ props.item.reports }}</td>
-          <td class="text-xs-right">{{ props.item.archived }}</td>
-        </template>
-        <template slot="pageText" scope="{ pageStart, pageStop }">
-          From {{ pageStart }} to {{ pageStop }}
-        </template>
-      </v-data-table>
-    </v-card>
+        <td @click.stop="isListingDialogOpen = !isListingDialogOpen">{{ props.item.name }}</td>
+        <td class="text-xs-right">{{ props.item.author }}</td>
+        <td class="text-xs-right">{{ props.item.category }}</td>
+        <td class="text-xs-right">{{ props.item.reports }}</td>
+        <td class="text-xs-right">{{ props.item.archived }}</td>
+      </template>
+      <template slot="pageText" scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 
-    <v-btn primary light @click.native.stop="isListingDialogOpen = !isListingDialogOpen">Open Dialog</v-btn>
-    <listing-dialog :isListingDialogOpen="isListingDialogOpen" />
-  </v-container>
+    <!--<v-btn primary light @click.native.stop="isListingDialogOpen = !isListingDialogOpen">Open Dialog</v-btn>
+    <listing-dialog :isListingDialogOpen="isListingDialogOpen" />-->
 </template>
 
 <script>

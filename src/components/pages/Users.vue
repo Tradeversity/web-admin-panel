@@ -1,55 +1,54 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-title>
-        Users
-        <v-spacer></v-spacer>
-        <v-text-field
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-          v-model="search"
-        />
-      </v-card-title>
-      <v-data-table
-        v-bind:headers="headers"
-        v-bind:items="items"
-        v-bind:search="search"
-      >
-        <template slot="items" scope="props">
-          <td>
-            <v-edit-dialog
-              @open="props.item._name = props.item.name"
-              @cancel="props.item.name = props.item._name || props.item.name"
-              lazy
-            > {{ props.item.name }}
-              <v-text-field
-                slot="input"
-                label="Edit"
-                v-bind:value="props.item.name"
-                v-on:change="val => props.item.name = val"
-                single-line counter="counter"
-              ></v-text-field>
-              <v-text-field
-                slot="input"
-                label="Edit"
-                v-bind:value="props.item.name"
-                v-on:change="val => props.item.name = val"
-                single-line counter="counter"
-              ></v-text-field>
-            </v-edit-dialog>
-          </td>
-          <td class="text-xs-right">{{ props.item.email }}</td>
-          <td class="text-xs-right">{{ props.item.reports }}</td>
-        </template>
-        <template slot="pageText" scope="{ pageStart, pageStop }">
-          From {{ pageStart }} to {{ pageStop }}
-        </template>
-      </v-data-table>
-    </v-card>
+  <v-card>
+    <v-card-title>
+      Users
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      v-bind:headers="headers"
+      v-bind:items="flaggedUsers"
+      v-bind:search="search"
+    >
+      <template slot="items" scope="props">
+        <td>
+          <v-edit-dialog
+            @open="props.item._name = props.item.name"
+            @cancel="props.item.name = props.item._name || props.item.name"
+            lazy
+          > {{ props.item.name }}
+            <v-text-field
+              slot="input"
+              label="Edit"
+              v-bind:value="props.item.name"
+              v-on:change="val => props.item.name = val"
+              single-line counter="counter"
+            ></v-text-field>
+            <v-text-field
+              slot="input"
+              label="Edit"
+              v-bind:value="props.item.name"
+              v-on:change="val => props.item.name = val"
+              single-line counter="counter"
+            ></v-text-field>
+          </v-edit-dialog>
+        </td>
+        <td class="text-xs-right">{{ props.item.email }}</td>
+        <td class="text-xs-right">{{ props.item.reports }}</td>
+      </template>
+      <template slot="pageText" scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 
-    <fab
+    <!--<fab
       :position="position"
       :bg-color="bgColor"
       :actions="fabActions"
@@ -84,8 +83,7 @@
           <v-btn class="blue--text darken-1" flat @click.native="isUserDialogOpen = false">Save</v-btn>
         </v-card-row>
       </v-card>
-    </v-dialog>
-  </v-container>
+    </v-dialog>-->
 </template>
 
 <script>
@@ -116,37 +114,24 @@ export default {
           left: true,
         },
         { text: 'Email', value: 'email' },
-        { text: 'Reports', value: 'reports' },
+        { text: 'Flags', value: 'flags' },
       ],
-      items: [
-        {
-          name: 'test',
-          email: 'test@gmail.com',
-          reports: 3,
-        }, {
-          name: 'tawef',
-          email: 'test@gmail.com',
-          reports: 5,
-        }, {
-          name: 't32t',
-          email: 'test@gmail.com',
-          reports: 1,
-        }, {
-          name: 'tsdfht',
-          email: 'test@gmail.com',
-          reports: 3,
-        }, {
-          name: 'twaet',
-          email: 'test@gmail.com',
-          reports: 4,
-        }
-      ]
+    }
+  },
+  computed: {
+    flaggedUsers () {
+      return this.$store.state.flaggedUsers
     }
   },
   methods: {
     addUser (event) {
       console.log('Adding user...')
       this.isUserDialogOpen = !this.isUserDialogOpen
+    }
+  },
+  mounted () {
+    if (this.$store.state.flaggedUsers.length < 1) {
+      this.$store.dispatch('GET_FLAGGED_USERS')
     }
   }
 }

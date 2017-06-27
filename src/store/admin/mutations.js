@@ -1,10 +1,16 @@
 export default {
+  SET_USER (state, user) {
+    state.user = user
+  },
   SET_SCHOOL (state, school) {
     state.school = school
 
     if (school.hasOwnProperty('id')) {
       state.schoolID = school.id
     }
+  },
+  SET_SCHOOLS (state, schools) {
+    state.schools = schools
   },
   SET_KEEN (state, keen) {
     state.keen = keen

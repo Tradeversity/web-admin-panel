@@ -1,103 +1,101 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-card-title>
-            Active users
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              class="secondary--text"
-              @click.native.stop="isRefreshing = !isRefreshing"
-            >
-              <transition name="rotate">
-                <v-icon :class="{'is-rotating': isRefreshing}">
-                  cached
-                </v-icon>
-              </transition>
-            </v-btn>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-row class="pa-4">
-            <active-users-chart />
-          </v-card-row>
-        </v-card>
-      </v-flex>
+  <v-layout row wrap>
+    <v-flex xs12>
+      <v-card>
+        <v-card-title>
+          Active users
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            class="secondary--text"
+            @click.native.stop="isRefreshing = !isRefreshing"
+          >
+            <transition name="rotate">
+              <v-icon :class="{'is-rotating': isRefreshing}">
+                cached
+              </v-icon>
+            </transition>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-row class="pa-4">
+          <active-users-chart />
+        </v-card-row>
+      </v-card>
+    </v-flex>
 
-      <v-flex xs12 md5>
-        <v-card class="mt-4">
-          <v-card-title>
-            Pageviews by browser
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              class="secondary--text"
-              @click.native.stop="isRefreshing = !isRefreshing"
-            >
-              <transition name="rotate">
-                <v-icon :class="{'is-rotating': isRefreshing}">
-                  cached
-                </v-icon>
-              </transition>
-            </v-btn>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-row class="pa-4">
-            <pageviews-chart />
-          </v-card-row>
-        </v-card>
-      </v-flex>
+    <v-flex xs12 md5>
+      <v-card class="mt-4">
+        <v-card-title>
+          Pageviews by browser
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            class="secondary--text"
+            @click.native.stop="isRefreshing = !isRefreshing"
+          >
+            <transition name="rotate">
+              <v-icon :class="{'is-rotating': isRefreshing}">
+                cached
+              </v-icon>
+            </transition>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-row class="pa-4">
+          <pageviews-chart />
+        </v-card-row>
+      </v-card>
+    </v-flex>
 
-      <v-flex xs12 md7>
-        <v-card class="mt-4">
-          <v-card-title>
-            Reports in past month
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              class="secondary--text"
-              @click.native.stop="isRefreshing = !isRefreshing"
-            >
-              <transition name="rotate">
-                <v-icon :class="{'is-rotating': isRefreshing}">
-                  cached
-                </v-icon>
-              </transition>
-            </v-btn>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-row class="pa-4">
-            <reports-chart />
-          </v-card-row>
-        </v-card>
-      </v-flex>
+    <v-flex xs12 md7>
+      <v-card class="mt-4">
+        <v-card-title>
+          Reports in past month
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            class="secondary--text"
+            @click.native.stop="isRefreshing = !isRefreshing"
+          >
+            <transition name="rotate">
+              <v-icon :class="{'is-rotating': isRefreshing}">
+                cached
+              </v-icon>
+            </transition>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-row class="pa-4">
+          <reports-chart />
+        </v-card-row>
+      </v-card>
+    </v-flex>
 
-      <v-flex xs12>
-        <v-card class="mt-4">
-          <v-card-title>
-            Listings (past month)
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              class="secondary--text"
-              @click.native.stop="isRefreshing = !isRefreshing"
-            >
-              <transition name="rotate">
-                <v-icon :class="{'is-rotating': isRefreshing}">
-                  cached
-                </v-icon>
-              </transition>
-            </v-btn>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-row class="pa-4">
-            <listings-chart />
-          </v-card-row>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+    <v-flex xs12>
+      <v-card class="mt-4">
+        <v-card-title>
+          Listings (past month)
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            class="secondary--text"
+            @click.native.stop="isRefreshing = !isRefreshing"
+          >
+            <transition name="rotate">
+              <v-icon :class="{'is-rotating': isRefreshing}">
+                cached
+              </v-icon>
+            </transition>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-row class="pa-4">
+          <listings-chart />
+        </v-card-row>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -117,6 +115,11 @@ export default {
   data () {
     return {
       isRefreshing: false,
+    }
+  },
+  computed: {
+    schoolID () {
+      return this.$store.state.schoolID
     }
   },
   watch: {

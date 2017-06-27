@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-layout>
     <v-navigation-drawer
       width="250px"
       persistent
@@ -7,7 +7,6 @@
       :mini-variant.sync="mini"
       v-model="drawer"
       enable-resize-watcher
-      v-if="isLogged"
     >
       <v-list class="pa-0">
         <v-list-item>
@@ -69,7 +68,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar class="primary" fixed light v-if="isLogged">
+    <v-toolbar class="primary" fixed light>
       <v-toolbar-side-icon
         light
         @click.native.stop="drawer = !drawer"
@@ -95,20 +94,14 @@
         </v-icon>
       </v-btn>
     </v-toolbar>
-
-    <main>
-      <v-container fluid>
-        <router-view></router-view>
-      </v-container>
-    </main>
-  </v-app>
+  </v-layout>
 </template>
 
 <script>
 import BrandLogo from '@/assets/brand_logo.svg'
 
 export default {
-  name: 'app',
+  name: 'Navbar',
   data () {
     return {
       brandLogo: BrandLogo,
@@ -146,53 +139,8 @@ export default {
       ],
     }
   },
-  computed: {
-    isLogged () {
-      return this.$route.fullPath !== '/'
-    }
-  }
 }
 </script>
-
-<style lang="stylus">
-@import '../node_modules/vuetify/src/stylus/settings/_colors'
-
-$theme := {
-  primary: #D6262E
-  accent: $red.accent-2
-  secondary: #00BFA5
-  info: $blue.lighten-1
-  warning: $amber.darken-2
-  error: $red.accent-4
-  success: $green.lighten-2
-}
-
-@import '../node_modules/vuetify/src/stylus/main'
-
-body, html, #app
-  background-color: #f6f6f6
-
-#app
-  font-family: 'Roboto', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
-  color: #2c3e50
-
-  .fab-wrapper
-    right: 1rem !important
-    i
-      left: unset
-    .fab
-      bottom: 0
-      left: -.3rem
-      right: 0
-
-.container
-  max-width: 1200px;
-
-.dialog
-  background-color: white
-</style>
 
 <style lang="stylus" scoped>
 .image-wrapper

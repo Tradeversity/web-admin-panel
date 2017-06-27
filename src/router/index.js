@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from '@/components/pages/Login'
 import Dashboard from '@/components/pages/Dashboard'
 import Users from '@/components/pages/Users'
 import Filters from '@/components/pages/Filters'
@@ -13,6 +14,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Login',
+      component: Login,
+    }, {
+      path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
     }, {
