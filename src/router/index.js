@@ -4,7 +4,7 @@ import Login from '@/components/pages/Login'
 import Dashboard from '@/components/pages/Dashboard'
 import Users from '@/components/pages/Users'
 import Filters from '@/components/pages/Filters'
-import Listings from '@/components/pages/Listings'
+import Flagged from '@/components/pages/Flagged'
 import Organizations from '@/components/pages/Organizations'
 import Sponsors from '@/components/pages/Sponsors'
 
@@ -32,9 +32,9 @@ export default new Router({
       component: Filters,
       meta: { auth: true }
     }, {
-      path: '/listings',
-      name: 'Listings',
-      component: Listings,
+      path: '/flagged',
+      name: 'Flagged',
+      component: Flagged,
       meta: { auth: true }
     }, {
       path: '/organizations',

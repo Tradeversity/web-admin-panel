@@ -99,26 +99,46 @@
     <main>
       <v-container fluid>
         <router-view></router-view>
+
+        <v-btn
+          floating
+          class="primary fab"
+          @click.native.stop="add"
+          v-show="isFABActive"
+        >
+          <v-icon light>add</v-icon>
+        </v-btn>
       </v-container>
     </main>
 
     <flagged-dialog></flagged-dialog>
+    <add-listing-dialog></add-listing-dialog>
   </v-app>
 </template>
 
 <script>
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
+import AddListingDialog from '@/components/dialogs/AddListing.vue'
 import BrandLogo from '@/assets/brand_logo.svg'
 
 export default {
   name: 'app',
   components: {
     FlaggedDialog,
+    AddListingDialog,
   },
   data () {
     return {
       brandLogo: BrandLogo,
       brandName: '52inc',
+      bgColor: '#52A9DB',
+      position: 'bottom-right',
+      fabActions: [
+        {
+          name: 'addListing',
+          icon: 'account_circle'
+        }
+      ],
       drawer: true,
       right: null,
       left: null,
@@ -133,8 +153,8 @@ export default {
           path: '/users',
           icon: 'people',
         }, {
-          title: 'Listings',
-          path: '/listings',
+          title: 'Flagged',
+          path: '/flagged',
           icon: 'view_list',
         }, {
           title: 'Sponsors',
@@ -155,6 +175,17 @@ export default {
   computed: {
     isLogged () {
       return this.$route.fullPath !== '/login'
+    },
+
+    isFABActive () {
+      return this.$route.path === '/sponsors'
+    }
+  },
+  methods: {
+    add () {
+      if (this.isFABActive) {
+        this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+      }
     }
   }
 }
@@ -212,4 +243,9 @@ body, html, #app
   bottom: 0
   left: 0
   width: 100%
+
+.fab
+  position: absolute
+  bottom: 1rem
+  right: 1rem
 </style>

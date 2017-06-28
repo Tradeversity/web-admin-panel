@@ -16,17 +16,25 @@
       :items="listings"
       :search="search"
     >
-      <template slot="items" scope="props">
-        <tr slot="selected" @click.stop="openFlaggedItem">
-          <td>{{ props.item.title }}</td>
-          <td class="text-xs-right">
-            {{ props.item.category }}
-          </td>
-          <td class="text-xs-right">
-            {{ new Date(props.item.created_at).toDateString() }}
-          </td>
-        </tr>
+
+      <template slot="items" scope="props" >
+        <td @click.stop="openFlaggedItem(props.item)">
+          {{ props.item.title }}
+        </td>
+        <td
+          class="text-xs-right"
+          @click.stop="openFlaggedItem(props.item)"
+        >
+          {{ props.item.category }}
+        </td>
+        <td
+          class="text-xs-right"
+          @click.stop="openFlaggedItem(props.item)"
+        >
+          {{ new Date(props.item.created_at).toDateString() }}
+        </td>
       </template>
+
       <template slot="pageText" scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
       </template>
@@ -38,8 +46,6 @@
 </template>
 
 <script>
-import ListingDialog from '@/components/dialogs/Listing'
-
 const headers = [
   { text: 'Title', value: 'title', left: true },
   { text: 'Category', value: 'category' },
@@ -47,8 +53,7 @@ const headers = [
 ]
 
 export default {
-  name: 'Listings',
-  components: { ListingDialog },
+  name: 'Flagged',
   data () {
     return {
       search: '',
@@ -59,25 +64,24 @@ export default {
   },
   computed: {
     listings () {
-      console.log('Listing', this.$store.state.listings)
-      return this.$store.state.listings || []
+      return this.$store.state.flaggedListings || []
     }
   },
   watch: {
     isListingDialogOpen: (value) => {
-      console.log('Listings', value)
+      // console.log('Listings', value)
     }
   },
   methods: {
-    openFlaggedItem: function () {
-      console.log('opening...')
+    openFlaggedItem: function (item) {
+      this.$store.commit('SET_FLAGGED_ITEM', item)
       this.$store.commit('OPEN_FLAGGED_DIALOG')
     }
   },
   mounted () {
     if (this.$store.state.listings.length < 1) {
-      console.log(this.$store.state)
-      this.$store.dispatch('GET_LISTINGS')
+      // console.log(this.$store.state)
+      this.$store.dispatch('GET_FLAGGED_LISTINGS')
     }
   }
 }

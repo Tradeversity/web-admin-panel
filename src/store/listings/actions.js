@@ -47,7 +47,7 @@ const GET_FLAGGED_LISTINGS = ({ state, commit }) => {
 const POST_REMOVE_LISTING = ({ state }, listingID) => {
   const baseURL = `/admin/school/${state.schoolID}`
 
-  api.request('post', `${baseURL}/remove_listings/${listingID}`)
+  api.request('post', `${baseURL}/remove_listing/${listingID}`)
     .then(response => {})
     .catch(errorHandler)
 }
