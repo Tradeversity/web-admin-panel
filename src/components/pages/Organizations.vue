@@ -1,82 +1,77 @@
 <template>
-  <v-card class="secondary elevation-0">
-    <v-card-text>
-      <v-container fluid>
-        {{ this.organizations }}
-        <v-layout row>
-          <v-flex xs4>
-            <v-subheader class="grey--text text--lighten-1">Normal with hint text</v-subheader>
-          </v-flex>
-          <v-flex xs5>
-            <v-text-field
-              name="input-1-3"
-              label="Hint Text"
-              single-line
-              light
-              prepend-icon="phone"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs3>
-            <v-btn-dropdown closeOnClick v-bind:options="[{ text: 'Mobile' }]" label="Mobile" light></v-btn-dropdown>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs4>
-            <v-subheader class="grey--text text--lighten-1">Focus</v-subheader>
-          </v-flex>
-          <v-flex xs5>
-            <v-text-field
-              name="input-2-3"
-              label="Hint Text"
-              class="input-group--focused"
-              prepend-icon="phone"
-              value="650"
-              single-line
-              light
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs3>
-            <v-btn-dropdown closeOnClick v-bind:options="[{ text: 'Mobile' }]" label="Mobile" light></v-btn-dropdown>
-          </v-flex>
-        </v-layout>
-        <v-layout row>
-          <v-flex xs4>
-            <v-subheader class="grey--text text--lighten-1">Normal with input text</v-subheader>
-          </v-flex>
-          <v-flex xs5>
-            <v-text-field
-              name="input-3-3"
-              label="Hint Text"
-              value="650-555-1234"
-              prepend-icon="phone"
-              single-line
-              light
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs3>
-            <v-btn-dropdown closeOnClick v-bind:options="[{ text: 'Mobile' }]" label="Mobile" light></v-btn-dropdown>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card-text>
+  <v-card>
+    <v-card-title>
+      Organizations
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="organizations"
+      :search="search"
+    >
+
+      <template slot="items" scope="props" >
+        <td>
+          {{ props.item.title }}
+        </td>
+        <td
+          class="text-xs-right"
+
+        >
+          {{ props.item.category }}
+        </td>
+        <td
+          class="text-xs-right"
+
+        >
+          {{ new Date(props.item.created_at).toDateString() }}
+        </td>
+      </template>
+
+      <template slot="pageText" scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
   </v-card>
 </template>
 
 <script>
-  export default {
-    name: 'Organizations',
-    computed: {
-      organizations () {
-        console.log('organizations', this.$store.state.organizations)
-        return this.$store.state.organizations
-      }
-    },
-    mounted () {
-      if (this.$store.state.organizations.length < 1) {
-        this.$store.dispatch('GET_ORGANIZATIONS')
-      }
+const headers = [
+  { text: 'Name', value: 'name', left: true },
+  { text: 'Email', value: 'email' },
+]
+
+export default {
+  name: 'Organizations',
+  data () {
+    return {
+      search: '',
+      pagination: {},
+      headers: headers,
+    }
+  },
+  computed: {
+    organizations () {
+      return this.$store.state.organizations.length > 0 &&
+        this.$store.state.organizations.map((value) => {
+          value['name'] = `${value.first_name} ${value.last_name}`
+          return value
+        }) || []
+    }
+  },
+  mounted () {
+    if (this.$store.state.organizations.length < 1) {
+      this.$store.dispatch('GET_ORGANIZATIONS')
     }
   }
+}
 </script>
 
 <style scoped>

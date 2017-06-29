@@ -40,9 +40,6 @@
       </template>
     </v-data-table>
   </v-card>
-
-    <!--<v-btn primary light @click.native.stop="isListingDialogOpen = !isListingDialogOpen">Open Dialog</v-btn>
-    <listing-dialog :isListingDialogOpen="isListingDialogOpen" />-->
 </template>
 
 <script>

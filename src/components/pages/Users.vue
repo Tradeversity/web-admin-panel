@@ -47,43 +47,6 @@
       </template>
     </v-data-table>
   </v-card>
-
-    <!--<fab
-      :position="position"
-      :bg-color="bgColor"
-      :actions="fabActions"
-      @addUser="addUser"
-    ></fab>
-
-    <v-dialog v-model="isUserDialogOpen">
-      <v-card>
-        <v-card-row>
-          <v-card-title>User Profile</v-card-title>
-        </v-card-row>
-        <v-card-row>
-          <v-card-text>
-            <v-text-field label="Email" required></v-text-field>
-            <v-text-field label="Password" type="password" required></v-text-field>
-            <v-text-field label="Legal first name" required></v-text-field>
-            <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-            <v-text-field label="Legal last name" hint="example of persistent helper text"
-              persistent-hint
-              required
-            ></v-text-field>
-            <v-select
-              label="Age"
-              required
-              :items="['0-17', '18-29', '30-54', '54+']"
-            ></v-select>
-            <small>*indicates required field</small>
-          </v-card-text>
-        </v-card-row>
-        <v-card-row actions>
-          <v-btn class="blue--text darken-1" flat @click.native="isUserDialogOpen = false">Close</v-btn>
-          <v-btn class="blue--text darken-1" flat @click.native="isUserDialogOpen = false">Save</v-btn>
-        </v-card-row>
-      </v-card>
-    </v-dialog>-->
 </template>
 
 <script>
@@ -132,6 +95,7 @@ export default {
   mounted () {
     if (this.$store.state.flaggedUsers.length < 1) {
       this.$store.dispatch('GET_FLAGGED_USERS')
+      // this.$store.dispatch('GET_USERS')
     }
   }
 }

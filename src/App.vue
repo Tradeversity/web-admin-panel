@@ -113,12 +113,14 @@
 
     <flagged-dialog></flagged-dialog>
     <add-listing-dialog></add-listing-dialog>
+    <add-organization-dialog></add-organization-dialog>
   </v-app>
 </template>
 
 <script>
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import AddListingDialog from '@/components/dialogs/AddListing.vue'
+import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
 import BrandLogo from '@/assets/brand_logo.svg'
 
 export default {
@@ -126,6 +128,7 @@ export default {
   components: {
     FlaggedDialog,
     AddListingDialog,
+    AddOrganizationDialog,
   },
   data () {
     return {
@@ -178,13 +181,29 @@ export default {
     },
 
     isFABActive () {
-      return this.$route.path === '/sponsors'
+      let isActive = false
+
+      switch (this.$route.path) {
+        case '/sponsors':
+        case '/organizations':
+          isActive = true
+          break
+      }
+
+      return isActive
     }
   },
   methods: {
     add () {
       if (this.isFABActive) {
-        this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+        switch (this.$route.path) {
+          case '/sponsors':
+            this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+            break
+          case '/organizations':
+            this.$store.commit('OPEN_ADD_ORGANIZATION_DIALOG')
+            break
+        }
       }
     }
   }
@@ -245,7 +264,7 @@ body, html, #app
   width: 100%
 
 .fab
-  position: absolute
+  position: fixed
   bottom: 1rem
   right: 1rem
 </style>

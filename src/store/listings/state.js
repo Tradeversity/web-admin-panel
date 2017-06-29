@@ -3,4 +3,9 @@ export default {
   sponsoredListings: [],
   flaggedListings: [],
   selectedListing: {},
+  filters: [
+    'fuck',
+    'shit',
+    'ass',
+  ],
 }

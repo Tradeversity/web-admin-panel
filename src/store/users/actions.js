@@ -4,6 +4,16 @@ const errorHandler = error => {
   console.log(error)
 }
 
+const GET_USERS = ({ state, commit }) => {
+  const baseURL = `/admin/school/${state.schoolID}`
+
+  api.request('get', `${baseURL}/users`)
+    .then(response => {
+      commit('SET_USERS', response.data)
+    })
+    .catch(errorHandler)
+}
+
 const GET_FLAGGED_USERS = ({ state, commit }) => {
   const baseURL = `/admin/school/${state.schoolID}`
 
@@ -39,6 +49,7 @@ const POST_BLOCK_USER = (state, user) => {
 }
 
 export default {
+  GET_USERS,
   GET_FLAGGED_USERS,
   POST_UNFLAG_USER,
   POST_WARN_USER,

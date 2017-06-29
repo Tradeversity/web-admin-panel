@@ -1,72 +1,50 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs12 sm4 class="mb-4">
+  <v-layout row wrap justify-space-between>
+    <v-flex xs12 sm6 md4 class="mb-4">
       <v-card>
-        <v-card-text>
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field
-                name="filterKeyword"
-                label="Keyword"
-                single-line
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-btn-dropdown
-                v-bind:options="[
-                  { text: 'Report Post' },
-                  { text: 'Report User' },
-                  { text: 'Delete Matched' },
-                ]"
-                label="Action"
-              ></v-btn-dropdown>
-            </v-flex>
-          </v-layout>
-        </v-card-text>
+        <v-card-row>
+          <v-card-title>
+            Set filter
+          </v-card-title>
+        </v-card-row>
+        <v-card-row>
+          <v-card-text>
+            <v-text-field
+              name="filterKeyword"
+              label="Keyword"
+              :hint="filterHint"
+              :error="addFilterError"
+              v-model="filter"
+              autofocus
+              min="3"
+              append-icon="arrow_forward"
+              :append-icon-cb="addFilter"
+              @keyup.native.enter="addFilter"
+            ></v-text-field>
+          </v-card-text>
+        </v-card-row>
       </v-card>
     </v-flex>
-
-    <v-flex xs12 sm8>
+    <v-flex xs12 sm6 md7>
       <v-card>
-        <v-card-title>
-          Filters
-          <v-spacer></v-spacer>
-          <v-text-field
-            append-icon="search"
-            label="Search"
-            single-line
-            hide-details
-            v-model="search"
-          ></v-text-field>
-        </v-card-title>
-        <v-data-table
-          v-bind:headers="headers"
-          v-bind:items="items"
-          v-bind:search="search"
-        >
-          <template slot="items" scope="props">
-            <td>
-              <v-edit-dialog
-                @open="props.item._name = props.item.name"
-                @cancel="props.item.name = props.item._name || props.item.name"
-                lazy
-              > {{ props.item.name }}
-                <v-text-field
-                  slot="input"
-                  label="Edit"
-                  v-bind:value="props.item.name"
-                  v-on:change="val => props.item.name = val"
-                  single-line counter="counter"
-                ></v-text-field>
-              </v-edit-dialog>
-            </td>
-            <td class="text-xs-right">{{ props.item.keyword }}</td>
-            <td class="text-xs-right">{{ props.item.action }}</td>
-          </template>
-          <template slot="pageText" scope="{ pageStart, pageStop }">
-            From {{ pageStart }} to {{ pageStop }}
-          </template>
-        </v-data-table>
+        <v-card-row>
+          <v-card-title>
+            Active filters
+          </v-card-title>
+        </v-card-row>
+        <v-card-row class="pt-3 pb-5">
+          <v-card-text v-if="keywords.length > 0">
+            <v-chip
+              v-for="keyword in keywords"
+              @click.native.stop="removeFilter(keyword)"
+              :key="keyword"
+              close
+            >{{ keyword }}</v-chip>
+          </v-card-text>
+          <v-card-text v-else>
+            No filters have been set
+          </v-card-text>
+        </v-card-row>
       </v-card>
     </v-flex>
   </v-layout>
@@ -77,39 +55,43 @@
     name: 'Filters',
     data () {
       return {
-        search: '',
-        headers: [
-          {
-            text: 'Keyword',
-            value: 'keyword',
-            left: true,
-          }, {
-            text: 'Action',
-            value: 'action',
-          },
-        ],
-        items: [
-          {
-            keyword: 'fuck',
-            action: 'notification',
-          }, {
-            keyword: 'shit',
-            action: 'delete',
-          }, {
-            keyword: 'dick',
-            action: 'notification',
-          }, {
-            keyword: 'cunt',
-            action: 'notification',
-          }
-        ]
+        filter: '',
+        addFilterError: false,
+        filterHint: 'Flags any listings that matches this keyword',
+      }
+    },
+    computed: {
+      keywords () {
+        return this.$store.state.filters
+      }
+    },
+    methods: {
+      addFilter () {
+        if (this.filter.length > 2) {
+          this.$store.commit('ADD_FILTER_KEYWORD', this.filter)
+          this.filter = ''
+        } else {
+          this.addFilterError = true
+          this.filterHint = 'Keyword needs to be longer than 2 characters'
+        }
+      },
+
+      removeFilter (filter) {
+        this.$store.commit('REMOVE_FILTER_KEYWORD', filter)
+      }
+    },
+    watch: {
+      filter (newValue, oldValue) {
+        if (this.addFilterError && newValue !== oldValue) {
+          this.addFilterError = false
+          this.filterHint = 'Clean up some listings'
+        }
       }
     }
   }
 </script>
 
-<style scoped>
-.container {
-  position: relative;
-}
+<style lang="stylus" scoped>
+.container
+  position: relative
 </style>
