@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/pages/Login'
+import Reset from '@/components/pages/Reset'
 import Dashboard from '@/components/pages/Dashboard'
 import Users from '@/components/pages/Users'
 import Filters from '@/components/pages/Filters'
@@ -16,6 +17,10 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+    }, {
+      path: '/reset',
+      name: 'Reset',
+      component: Reset,
     }, {
       path: '/dashboard',
       name: 'Dashboard',

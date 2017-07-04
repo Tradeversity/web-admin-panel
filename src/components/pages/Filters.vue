@@ -32,7 +32,7 @@
             Active filters
           </v-card-title>
         </v-card-row>
-        <v-card-row class="pt-3 pb-5">
+        <v-card-row class="pt-3 pb-4">
           <v-card-text v-if="keywords.length > 0">
             <v-chip
               v-for="keyword in keywords"

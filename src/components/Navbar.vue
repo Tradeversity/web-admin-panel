@@ -57,15 +57,6 @@
           </router-link>
         </v-list-item>
       </v-list>
-      <v-list class="pull-bottom">
-        <v-list-item>
-          <div v-if="!mini" class="image-wrapper">
-            <a href="https://52inc.com" target="_blank">
-              <img :src="brandLogo" :alt="brandName">
-            </a>
-          </div>
-        </v-list-item>
-      </v-list>
     </v-navigation-drawer>
 
     <v-toolbar class="primary" fixed light>
@@ -98,14 +89,10 @@
 </template>
 
 <script>
-import BrandLogo from '@/assets/brand_logo.svg'
-
 export default {
   name: 'Navbar',
   data () {
     return {
-      brandLogo: BrandLogo,
-      brandName: '52inc',
       drawer: true,
       right: null,
       left: null,

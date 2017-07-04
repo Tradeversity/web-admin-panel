@@ -13,7 +13,10 @@
         <v-list-item>
           <v-list-tile avatar tag="div">
             <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+              <img
+                :src="avatar"
+                role="presentation"
+              />
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>John Doe</v-list-tile-title>
@@ -56,15 +59,6 @@
               </v-list-tile-content>
             </v-list-tile>
           </router-link>
-        </v-list-item>
-      </v-list>
-      <v-list class="pull-bottom">
-        <v-list-item>
-          <div v-if="!mini" class="image-wrapper">
-            <a href="https://52inc.com" target="_blank">
-              <img :src="brandLogo" :alt="brandName">
-            </a>
-          </div>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -121,7 +115,6 @@
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import AddListingDialog from '@/components/dialogs/AddListing.vue'
 import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
-import BrandLogo from '@/assets/brand_logo.svg'
 
 export default {
   name: 'app',
@@ -132,8 +125,6 @@ export default {
   },
   data () {
     return {
-      brandLogo: BrandLogo,
-      brandName: '52inc',
       bgColor: '#52A9DB',
       position: 'bottom-right',
       fabActions: [
@@ -177,7 +168,15 @@ export default {
   },
   computed: {
     isLogged () {
-      return this.$route.fullPath !== '/login'
+      return this.$route.fullPath !== '/login' && this.$route.fullPath !== '/reset'
+    },
+
+    user () {
+      return this.$store.state.user.user
+    },
+
+    avatar () {
+      return this.user.avatar || 'https://randomuser.me/api/portraits/men/85.jpg'
     },
 
     isFABActive () {

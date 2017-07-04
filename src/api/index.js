@@ -14,7 +14,7 @@ const statusHandler = status => {
   switch (status) {
     case 401:
     case 503:
-      router.push({ path: '/' })
+      router.push({ path: '/login' })
       break
     default:
   }

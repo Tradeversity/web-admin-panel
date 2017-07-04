@@ -1,6 +1,7 @@
 <template>
   <v-dialog v-model="isOpen">
     <v-card>
+      <form @submit.prevent="submit">
       <v-card-row class="primary">
         <v-card-title class="white--text">
           Invite user
@@ -56,10 +57,12 @@
         >Reset</v-btn>
         <v-btn
           class="secondary--text darken-1"
+          type="submit"
           flat
-          @click.native="submit"
+          :loading="isLoading"
         >Submit</v-btn>
       </v-card-row>
+      </form>
     </v-card>
 
     <v-snackbar
@@ -83,6 +86,7 @@ export default {
     return {
       snackbar: false,
       confirm: '',
+      isLoading: false,
       formState: {
         form: 'info',
         snackMessage: 'Invite user to organization',

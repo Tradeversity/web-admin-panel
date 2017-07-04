@@ -1,36 +1,43 @@
 <template>
   <v-layout column align-center>
-    <v-card class="login-card">
-      <form @submit.prevent="login">
-        <v-card-title class="primary white--text">
-          Tradeversity
-        </v-card-title>
-        <v-card-row>
-          <v-card-text>
-            <v-text-field
-              name="email"
-              label="Email"
-              type="email"
-              v-model="email"
-            ></v-text-field>
-            <v-text-field
-              name="password"
-              label="Password"
-              type="password"
-              v-model="password"
-            ></v-text-field>
-          </v-card-text>
-        </v-card-row>
-        <v-card-row actions>
-          <v-btn
-            flat
-            type="submit"
-            class="primary--text"
-            :loading="isLoading"
-          >Login</v-btn>
-        </v-card-row>
-      </form>
-    </v-card>
+    <v-flex xs12>
+      <v-card class="login-card">
+        <form @submit.prevent="login">
+          <v-card-title class="primary white--text">
+            Tradeversity
+          </v-card-title>
+          <v-card-row>
+            <v-card-text>
+              <v-text-field
+                name="email"
+                label="Email"
+                type="email"
+                v-model="email"
+              ></v-text-field>
+              <v-text-field
+                name="password"
+                label="Password"
+                type="password"
+                v-model="password"
+              ></v-text-field>
+            </v-card-text>
+          </v-card-row>
+          <v-card-row actions>
+            <v-btn
+              flat
+              type="submit"
+              class="primary--text"
+              :loading="isLoading"
+            >Login</v-btn>
+          </v-card-row>
+        </form>
+      </v-card>
+    </v-flex>
+    <v-flex xs12 class="pt-3">
+      <a>
+        Forgot password?
+      </a>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -44,7 +51,9 @@ export default {
       section: 'Login',
       email: '',
       password: '',
+      forgotEmail: '',
       isLoading: false,
+      isForgotCardActive: false,
     }
   },
   methods: {
@@ -64,6 +73,7 @@ export default {
         if (!response.data) {
           return false
         }
+
         this.$store.commit('SET_USER', response.data)
         this.$store.dispatch('GET_ALL_SCHOOLS')
         this.$cookie.set('user', JSON.stringify(response.data))
@@ -75,6 +85,10 @@ export default {
         console.log(error)
         this.isLoading = false
       })
+    },
+
+    forgot () {
+
     }
   }
 }
