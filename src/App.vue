@@ -19,7 +19,9 @@
               />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>John Doe</v-list-tile-title>
+              <v-list-tile-title>
+                {{ user.display_name || ''}}
+              </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn icon @click.native.stop="mini = !mini">
@@ -176,7 +178,7 @@ export default {
     },
 
     avatar () {
-      return this.user.avatar || 'https://randomuser.me/api/portraits/men/85.jpg'
+      return this.user.avatar_url || 'https://randomuser.me/api/portraits/men/85.jpg'
     },
 
     isFABActive () {
