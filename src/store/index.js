@@ -9,11 +9,6 @@ import mutations from './mutations'
 
 Vue.use(Vuex)
 
-// console.log('state', state)
-// console.log('actions', actions)
-// console.log('mutations', mutations)
-// console.log('schoolID', state.schoolID)
-
 export default new Vuex.Store({
   state: state,
   actions: actions,
@@ -23,11 +18,23 @@ export default new Vuex.Store({
       getState: (key) => {
         let savedState = VueCookie.get(key)
         savedState = JSON.parse(savedState)
-        // console.log('SAVED STATE', savedState.schoolID)
+
         return savedState
       },
       setState: (key, state) => {
-        return VueCookie.set(key, JSON.stringify(state), { expires: 3 })
+        const token = VueCookie.get('TV_ADMIN_TOKEN')
+        const user = VueCookie.get('TV_ADMIN_USER')
+
+        if (
+          token !== null &&
+          user !== null &&
+          token.length > 1 &&
+          user.length > 1
+        ) {
+          return VueCookie.set('TV_ADMIN_VUEX', JSON.stringify(state), { expires: 3 })
+        }
+
+        return false
       }
     }),
     (store) => {

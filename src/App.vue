@@ -75,7 +75,7 @@
 
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon light>
+      <v-btn icon light to="/logout" router>
         <v-icon>
           account_circle
         </v-icon>
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+import Avatar from '@/assets/avatar.png'
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import AddListingDialog from '@/components/dialogs/AddListing.vue'
 import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
@@ -170,7 +171,9 @@ export default {
   },
   computed: {
     isLogged () {
-      return this.$route.fullPath !== '/login' && this.$route.fullPath !== '/reset'
+      const isAuthed = this.$route.meta.requiredAuth || false
+      const hasToken = this.$cookie.get('TV_ADMIN_TOKEN')
+      return isAuthed && hasToken !== null
     },
 
     user () {
@@ -178,7 +181,7 @@ export default {
     },
 
     avatar () {
-      return this.user.avatar_url || 'https://randomuser.me/api/portraits/men/85.jpg'
+      return this.user.avatar_url || Avatar
     },
 
     isFABActive () {
@@ -214,10 +217,11 @@ export default {
 <style lang="stylus">
 @import '../node_modules/vuetify/src/stylus/settings/_colors'
 
+// #00BFA5
 $theme := {
   primary: #D6262E
   accent: $red.accent-2
-  secondary: #00BFA5
+  secondary: $grey.darken-1
   info: $blue.lighten-1
   warning: $amber.darken-2
   error: $red.accent-4
@@ -249,6 +253,10 @@ body, html, #app
 
 .dialog
   background-color: white
+
+.input-group
+  i, label
+    color: $theme.secondary !important
 </style>
 
 <style lang="stylus" scoped>
