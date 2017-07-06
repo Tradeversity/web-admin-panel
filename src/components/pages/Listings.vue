@@ -1,7 +1,30 @@
 <template>
   <v-card>
+    <v-progress-linear
+      v-show="isLoading"
+      :indeterminate="true"
+    ></v-progress-linear>
     <v-card-title>
-      Flagged Listings
+      Listings
+
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show flagged items'}"
+        v-if="!showFlagged"
+        @click.native.stop="loadFlaggedItems"
+      >
+        <v-icon>flag</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show flagged items'}"
+        v-if="showFlagged"
+        @click.native.stop="loadListings"
+      >
+        <v-icon>format_list_bulleted</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -16,7 +39,7 @@
       :items="listings"
       :search="search"
     >
-      <template slot="items" scope="props" >
+      <template slot="items" scope="props">
         <td @click.stop="openFlaggedItem(props.item)">
           {{ props.item.title }}
         </td>
@@ -49,18 +72,22 @@ const headers = [
 ]
 
 export default {
-  name: 'Flagged',
+  name: 'Listing',
   data () {
     return {
       search: '',
       pagination: {},
       isListingDialogOpen: false,
+      isLoading: false,
+      showFlagged: false,
       headers: headers,
     }
   },
   computed: {
     listings () {
-      return this.$store.state.flaggedListings || []
+      return (this.showFlagged
+      ? this.$store.state.flaggedListings
+      : this.$store.state.listings) || []
     }
   },
   watch: {
@@ -69,15 +96,40 @@ export default {
     }
   },
   methods: {
-    openFlaggedItem: function (item) {
+    openFlaggedItem (item) {
       this.$store.commit('SET_FLAGGED_ITEM', item)
-      this.$store.commit('OPEN_FLAGGED_DIALOG')
+      this.$store.commit('OPEN_LISTING_DIALOG')
+    },
+
+    loadListings () {
+      this.showFlagged = false
+
+      if (this.$store.state.listings.length < 1) {
+        this.isLoading = true
+        this.$store.dispatch('GET_LISTINGS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
+    },
+
+    loadFlaggedItems () {
+      this.showFlagged = true
+
+      if (this.$store.state.flaggedListings.length < 1) {
+        this.isLoading = true
+        this.$store.dispatch('GET_FLAGGED_LISTINGS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
     }
   },
   mounted () {
-    if (this.$store.state.flaggedListings.length < 1) {
-      // console.log(this.$store.state)
-      this.$store.dispatch('GET_FLAGGED_LISTINGS')
+    if (this.$store.state.listings.length < 1) {
+      this.$store.dispatch('GET_LISTINGS')
     }
   }
 }

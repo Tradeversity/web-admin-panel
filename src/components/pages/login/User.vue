@@ -109,7 +109,21 @@ export default {
           this.$store.dispatch('GET_ALL_SCHOOLS')
             .then(() => {
               const schoolName = this.$store.state.school.short_name
-              this.$router.push({ path: `/school/${schoolName}/dashboard` })
+
+              if (response.data.user.account_role === 'global_admin') {
+                console.log('Sending to super...')
+                this.$router.push({
+                  path: '/super',
+                })
+              } else if (response.data.user.account_role === 'admin') {
+                this.$router.push({
+                  path: `/school/${schoolName}/dashboard`,
+                })
+              } else if (response.data.user.account_type === 'organizaiton') {
+                this.$router.push({
+                  path: `/school/${schoolName}/events`,
+                })
+              }
             })
             .catch((error) => {
               console.log('EOROROROR', error)

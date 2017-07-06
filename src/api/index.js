@@ -3,24 +3,18 @@ import router from '@/router'
 import config from '../config'
 import cookie from 'vue-cookie'
 
-const token = cookie.get('TV_ADMIN_TOKEN')
-
-console.log('TOKEN', token)
-
-if (token !== null) {
-  axios.defaults.headers.common['Authorization'] = token
-  axios.defaults.headers.common['X-Tradeversity-Environment'] = 'Development'
-}
-
 const statusHandler = status => {
   switch (status) {
     case 401:
     case 503:
-      router.push({ path: '/login' })
+      // router.push({ path: '/login' })
       break
     default:
   }
 }
+
+const token = cookie.get('TV_ADMIN_TOKEN')
+axios.defaults.headers.common['Authorization'] = token
 
 export default {
   request (method, uri, data = null) {
@@ -37,16 +31,23 @@ export default {
     const url = config.serverURI + uri
     const instance = axios({ method, url, data })
 
-    const token = cookie.get('TV_ADMIN_TOKEN')
+    // if (token !== null) {
+    //   axios.defaults.headers.common['Authorization'] = token
+    //   axios.defaults.headers.post['Authorization'] = token
+    //   axios.defaults.headers.get['Authorization'] = token
+    // }
 
-    console.log('TOKEN', token)
-
-    if (token !== null) {
-      axios.defaults.headers.common['Authorization'] = token
-      axios.defaults.headers.common['X-Tradeversity-Environment'] = 'Development'
-    }
+    // console.log('axios', axios.defaults)
 
     axios.interceptors.request.use((config) => {
+      // console.log('TOKEN', token)
+      // console.log('REQUEST CONFIG', config)
+
+      // if (token !== null) {
+      //   config.headers.common['Authorization'] = token
+      //   // config.headers.common['X-Tradeversity-Environment'] = 'Development'
+      // }
+
       return config
     }, (error) => {
       return Promise.reject(error)

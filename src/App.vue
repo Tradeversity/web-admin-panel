@@ -102,13 +102,16 @@
           @click.native.stop="add"
           v-show="isFABActive"
         >
-          <v-icon light>add</v-icon>
+          <v-icon class="white--text">add</v-icon>
         </v-btn>
       </v-container>
     </main>
 
     <flagged-dialog></flagged-dialog>
     <add-listing-dialog></add-listing-dialog>
+    <add-admin-dialog></add-admin-dialog>
+    <add-school-dialog></add-school-dialog>
+    <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
   </v-app>
 </template>
@@ -118,17 +121,22 @@ import Avatar from '@/assets/avatar.png'
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import AddListingDialog from '@/components/dialogs/AddListing.vue'
 import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
+import AddAdminDialog from '@/components/dialogs/AddAdmin.vue'
+import AddSchoolDialog from '@/components/dialogs/AddSchool.vue'
+import AddEventDialog from '@/components/dialogs/AddEvent.vue'
 
 export default {
   name: 'app',
   components: {
     FlaggedDialog,
     AddListingDialog,
+    AddAdminDialog,
+    AddSchoolDialog,
+    AddEventDialog,
     AddOrganizationDialog,
   },
   data () {
     return {
-      bgColor: '#52A9DB',
       position: 'bottom-right',
       fabActions: [
         {
@@ -151,9 +159,9 @@ export default {
       ) {
         return this.$store.state.school.short_name
       } else {
-        this.$router.push({
-          path: '/login'
-        })
+        // this.$router.push({
+        //   path: '/login'
+        // })
 
         return false
       }
@@ -161,8 +169,9 @@ export default {
 
     isLogged () {
       const isAuthed = this.$route.meta.requiredAuth || false
+      const navbar = !this.$route.meta.noNavbar
       const hasToken = this.$cookie.get('TV_ADMIN_TOKEN')
-      return isAuthed && hasToken !== null
+      return isAuthed && hasToken !== null && navbar
     },
 
     user () {
@@ -177,8 +186,9 @@ export default {
       let isActive = false
 
       switch (this.$route.path) {
-        case '/sponsors':
-        case '/organizations':
+        case '/super':
+        case `/school/${this.schoolName}/sponsors`:
+        case `/school/${this.schoolName}/organizations`:
           isActive = true
           break
       }
@@ -197,8 +207,8 @@ export default {
           path: `/school/${this.schoolName}/users`,
           icon: 'people',
         }, {
-          title: 'Flagged',
-          path: `/school/${this.schoolName}/flagged`,
+          title: 'Listings',
+          path: `/school/${this.schoolName}/listings`,
           icon: 'view_list',
         }, {
           title: 'Sponsors',
@@ -208,6 +218,10 @@ export default {
           title: 'Organizations',
           path: `/school/${this.schoolName}/organizations`,
           icon: 'folder_shared',
+        }, {
+          title: 'Events',
+          path: `/school/${this.schoolName}/events`,
+          icon: 'event',
         }, {
           title: 'Filters',
           path: `/school/${this.schoolName}/filters`,
@@ -220,11 +234,14 @@ export default {
     add () {
       if (this.isFABActive) {
         switch (this.$route.path) {
-          case '/sponsors':
+          case `/school/${this.schoolName}/sponsors`:
             this.$store.commit('OPEN_ADD_LISTING_DIALOG')
             break
-          case '/organizations':
+          case `/school/${this.schoolName}/organizations`:
             this.$store.commit('OPEN_ADD_ORGANIZATION_DIALOG')
+            break
+          case '/super':
+            this.$store.commit('OPEN_ADD_SCHOOL_DIALOG')
             break
         }
       }
@@ -234,9 +251,9 @@ export default {
     const school = this.$store.state.school
 
     if (school === null || school === undefined) {
-      this.$router.push({
-        path: '/login'
-      })
+      // this.$router.push({
+      //   path: '/login'
+      // })
     } else {
       this.schoolName = school.short_name
     }

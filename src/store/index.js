@@ -1,3 +1,5 @@
+// import _ from 'lodash'
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
@@ -18,23 +20,12 @@ export default new Vuex.Store({
       getState: (key) => {
         let savedState = VueCookie.get(key)
         savedState = JSON.parse(savedState)
-
+        // console.log('Loading saved state...', savedState)
         return savedState
       },
       setState: (key, state) => {
-        const token = VueCookie.get('TV_ADMIN_TOKEN')
-        const user = VueCookie.get('TV_ADMIN_USER')
-
-        if (
-          token !== null &&
-          user !== null &&
-          token.length > 1 &&
-          user.length > 1
-        ) {
-          return VueCookie.set('TV_ADMIN_VUEX', JSON.stringify(state), { expires: 3 })
-        }
-
-        return false
+        // console.log('Saving state, showing schools', state.schools)
+        return VueCookie.set(key, JSON.stringify(state), { expires: 3 })
       }
     }),
     (store) => {

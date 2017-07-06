@@ -67,8 +67,15 @@
     },
     methods: {
       addFilter () {
+        if (this.$store.state.filters.indexOf(this.filter) !== -1) {
+          this.addFilterError = true
+          this.filterHint = 'Duplicate keyword'
+          return false
+        }
+
         if (this.filter.length > 2) {
           this.$store.commit('ADD_FILTER_KEYWORD', this.filter)
+          this.$store.dispatch('PUT_WORD_FILTER', this.$store.state.filters)
           this.filter = ''
         } else {
           this.addFilterError = true
@@ -78,6 +85,7 @@
 
       removeFilter (filter) {
         this.$store.commit('REMOVE_FILTER_KEYWORD', filter)
+        this.$store.dispatch('PUT_WORD_FILTER', this.$store.state.filters)
       }
     },
     watch: {
@@ -86,6 +94,11 @@
           this.addFilterError = false
           this.filterHint = 'Clean up some listings'
         }
+      }
+    },
+    mounted () {
+      if (this.$store.state.filters.length < 1) {
+        this.$store.dispatch('GET_WORD_FILTER')
       }
     }
   }

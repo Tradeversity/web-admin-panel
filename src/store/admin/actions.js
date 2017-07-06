@@ -29,6 +29,40 @@ const POST_UPDATE = ({ state }, school) => {
     .catch(errorHandler)
 }
 
+const POST_ADMIN = ({ state, commit }, admin) => {
+  const formattedData = {
+    email: admin.email,
+    first_name: admin.firstName,
+    last_name: admin.lastName,
+    password: admin.password,
+    school_id: admin.schoolId,
+    platform: window.navigator.userAgent,
+    type: 'Web',
+  }
+
+  api.request('post', `/admin/`, formattedData)
+    .then(response => {
+      commit('SET_SCHOOL_ADMIN', admin)
+    })
+    .catch(errorHandler)
+}
+
+const UPDATE_ADMIN = ({ state, commit }, admin) => {
+  api.request('post', `/admin/school/${admin.schoolID}`, admin)
+    .then(response => {
+      // commit('ADD_SCHOOL_ADMIN', admin)
+    })
+    .catch(errorHandler)
+}
+
+const DELETE_ADMIN = ({ state, commit }, admin) => {
+  api.request('delete', `/admin/school/${admin.schoolID}`, admin)
+    .then(response => {
+
+    })
+    .catch(errorHandler)
+}
+
 /*
  *  University Admin Endpoints
  */
@@ -100,6 +134,9 @@ export default {
   GET_ALL_SCHOOLS,
   POST_SCHOOL,
   POST_UPDATE,
+  POST_ADMIN,
+  DELETE_ADMIN,
+  UPDATE_ADMIN,
 
   // University Admin Endpoints
   GET_SCHOOL,

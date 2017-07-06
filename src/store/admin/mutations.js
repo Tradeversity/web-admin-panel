@@ -11,6 +11,7 @@ export default {
     }
   },
   SET_SCHOOLS (state, schools) {
+    console.log('Setting schools...', schools)
     state.schools = schools
   },
   SET_KEEN (state, keen) {
@@ -25,4 +26,23 @@ export default {
   SET_SPONSORED_LISTINGS (state, sponsoredListings) {
     state.sponsoredListings = sponsoredListings
   },
+  SET_SCHOOL_ADMIN (state, admin) {
+    const formattedSchools = state.schools.map((school) => {
+      const ID = admin.schoolID
+
+      if (ID === school.id) {
+        school.admins.push(admin)
+      }
+
+      state.school = school
+    })
+
+    state.school = formattedSchools
+  },
+  SET_NEW_ADMIN (state, admin) {
+    state.newAdmin = admin
+  },
+  SET_NEW_SCHOOL (state, school) {
+    state.newSchool = school
+  }
 }

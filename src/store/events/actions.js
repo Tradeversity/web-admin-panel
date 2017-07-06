@@ -20,7 +20,18 @@ const POST_DENY_EVENT = ({ state }, eventID) => {
     .catch(errorHandler)
 }
 
+const GET_EVENTS = ({ state, commit }) => {
+  const baseURL = `/admin/school/${state.schoolID}`
+
+  api.request('get', `${baseURL}/events`)
+    .then(response => {
+      commit('SET_EVENTS', response.data.events)
+    })
+    .catch(errorHandler)
+}
+
 export default {
   POST_APPROVE_EVENT,
   POST_DENY_EVENT,
+  GET_EVENTS,
 }

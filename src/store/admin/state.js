@@ -4,6 +4,8 @@ export default {
   keen: {},
   schoolID: null,
   schools: [],
+  newAdmin: {},
+  newSchool: {},
   organizationEvents: [],
   sponsoredListings: [],
 }

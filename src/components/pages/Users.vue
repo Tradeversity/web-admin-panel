@@ -1,7 +1,30 @@
 <template>
   <v-card>
+    <v-progress-linear
+      v-show="isLoading"
+      :indeterminate="true"
+    ></v-progress-linear>
     <v-card-title>
       Users
+
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show flagged items'}"
+        v-if="!showFlagged"
+        @click.native.stop="loadFlaggedUsers"
+      >
+        <v-icon>flag</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show flagged items'}"
+        v-if="showFlagged"
+        @click.native.stop="loadUsers"
+      >
+        <v-icon>format_list_bulleted</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -13,34 +36,15 @@
     </v-card-title>
     <v-data-table
       v-bind:headers="headers"
-      v-bind:items="flaggedUsers"
+      v-bind:items="users"
       v-bind:search="search"
     >
       <template slot="items" scope="props">
-        <td>
-          <v-edit-dialog
-            @open="props.item._name = props.item.name"
-            @cancel="props.item.name = props.item._name || props.item.name"
-            lazy
-          > {{ props.item.name }}
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-bind:value="props.item.name"
-              v-on:change="val => props.item.name = val"
-              single-line counter="counter"
-            ></v-text-field>
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-bind:value="props.item.name"
-              v-on:change="val => props.item.name = val"
-              single-line counter="counter"
-            ></v-text-field>
-          </v-edit-dialog>
+        <td>{{ props.item.display_name }}</td>
+        <td class="text-xs-right">{{ props.item.account_role }}</td>
+        <td class="text-xs-right">
+          {{ new Date(props.item.created_at).toDateString() }}
         </td>
-        <td class="text-xs-right">{{ props.item.email }}</td>
-        <td class="text-xs-right">{{ props.item.reports }}</td>
       </template>
       <template slot="pageText" scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -60,6 +64,8 @@ export default {
   data () {
     return {
       isUserDialogOpen: false,
+      isLoading: false,
+      showFlagged: false,
       search: '',
       pagination: {},
       bgColor: '#52A9DB',
@@ -76,26 +82,53 @@ export default {
           value: 'name',
           left: true,
         },
-        { text: 'Email', value: 'email' },
-        { text: 'Flags', value: 'flags' },
+        { text: 'Role', value: 'account_role' },
+        { text: 'Created', value: 'created_at' },
       ],
     }
   },
   computed: {
-    flaggedUsers () {
-      return this.$store.state.flaggedUsers
+    users () {
+      return (this.showFlagged
+      ? this.$store.state.flaggedUsers
+      : this.$store.state.users) || []
     }
   },
   methods: {
     addUser (event) {
       console.log('Adding user...')
       this.isUserDialogOpen = !this.isUserDialogOpen
+    },
+
+    loadUsers () {
+      this.showFlagged = false
+
+      if (this.$store.state.users.length < 1) {
+        this.isLoading = true
+        this.$store.dispatch('GET_USERS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
+    },
+
+    loadFlaggedUsers () {
+      this.showFlagged = true
+
+      if (this.$store.state.flaggedUsers.length < 1) {
+        this.isLoading = true
+        this.$store.dispatch('GET_FLAGGED_USERS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
     }
   },
   mounted () {
-    if (this.$store.state.flaggedUsers.length < 1) {
-      this.$store.dispatch('GET_FLAGGED_USERS')
-      // this.$store.dispatch('GET_USERS')
+    if (this.$store.state.users.length < 1) {
+      this.$store.dispatch('GET_USERS')
     }
   }
 }

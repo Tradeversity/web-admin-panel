@@ -76,6 +76,28 @@ const POST_REMOVE_ANSWER = ({ state }, answerID) => {
     .catch(errorHandler)
 }
 
+const GET_WORD_FILTER = ({ state, commit }) => {
+  const baseURL = `/admin/school/${state.schoolID}`
+
+  api.request('get', `${baseURL}/word_filter`)
+    .then(response => {
+      commit('SET_WORD_FILTERS', response.data.word_filter)
+    })
+    .catch(errorHandler)
+}
+
+const PUT_WORD_FILTER = ({ state, commit }, filters) => {
+  const baseURL = `/admin/school/${state.schoolID}`
+
+  api.request('put', `${baseURL}/word_filter`, {
+    words: filters.toString(),
+  })
+    .then(response => {
+      commit('SET_WORD_FILTERS', response.data.word_filter)
+    })
+    .catch(errorHandler)
+}
+
 export default {
   GET_LISTING,
   GET_LISTINGS,
@@ -85,4 +107,6 @@ export default {
   POST_UNFLAG_LISTING,
   POST_REMOVE_QUESTION,
   POST_REMOVE_ANSWER,
+  GET_WORD_FILTER,
+  PUT_WORD_FILTER,
 }
