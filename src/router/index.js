@@ -16,7 +16,8 @@ import Sponsors from '@/components/pages/Sponsors'
 
 const Logout = {
   name: 'Logout',
-  mounted () {
+  template: '<p>Logging out...</p>',
+  created () {
     this.$router.push({
       path: '/login',
     })
@@ -33,7 +34,7 @@ export default new Router({
       component: Login,
       children: [
         {
-          path: '*',
+          path: '/',
           name: 'User',
           component: LoginUser,
         }, {
@@ -55,42 +56,42 @@ export default new Router({
       name: 'Logout',
       component: Logout,
     }, {
-      path: '/dashboard',
+      path: '/school/:schoolName/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: {
         requiredAuth: true,
       }
     }, {
-      path: '/users',
+      path: '/school/:schoolName/users',
       name: 'Users',
       component: Users,
       meta: {
         requiredAuth: true,
       }
     }, {
-      path: '/filters',
+      path: '/school/:schoolName/filters',
       name: 'Filters',
       component: Filters,
       meta: {
         requiredAuth: true,
       }
     }, {
-      path: '/flagged',
+      path: '/school/:schoolName/flagged',
       name: 'Flagged',
       component: Flagged,
       meta: {
         requiredAuth: true,
       }
     }, {
-      path: '/organizations',
+      path: '/school/:schoolName/organizations',
       name: 'Organizations',
       component: Organizations,
       meta: {
         requiredAuth: true,
       }
     }, {
-      path: '/sponsors',
+      path: '/school/:schoolName/sponsors',
       name: 'Sponsors',
       component: Sponsors,
       meta: {

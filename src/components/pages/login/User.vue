@@ -102,11 +102,18 @@ export default {
             return false
           }
 
-          this.$store.commit('SET_USER', response.data)
-          this.$store.dispatch('GET_ALL_SCHOOLS')
           this.$cookie.set('TV_ADMIN_USER', JSON.stringify(response.data))
           this.$cookie.set('TV_ADMIN_TOKEN', response.data.access_token)
-          this.$router.push({ path: '/dashboard' })
+
+          this.$store.commit('SET_USER', response.data)
+          this.$store.dispatch('GET_ALL_SCHOOLS')
+            .then(() => {
+              const schoolName = this.$store.state.school.short_name
+              this.$router.push({ path: `/school/${schoolName}/dashboard` })
+            })
+            .catch((error) => {
+              console.log('EOROROROR', error)
+            })
         })
         .catch(error => {
           console.log(error)

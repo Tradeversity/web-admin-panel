@@ -4,6 +4,7 @@ export default {
   },
   SET_SCHOOL (state, school) {
     state.school = school
+    console.log(state.school)
 
     if (school.hasOwnProperty('id')) {
       state.schoolID = school.id

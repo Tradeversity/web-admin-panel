@@ -140,36 +140,25 @@ export default {
       right: null,
       left: null,
       mini: false,
-      pages: [
-        {
-          title: 'Dashboard',
-          path: '/dashboard',
-          icon: 'dashboard',
-        }, {
-          title: 'Users',
-          path: '/users',
-          icon: 'people',
-        }, {
-          title: 'Flagged',
-          path: '/flagged',
-          icon: 'view_list',
-        }, {
-          title: 'Sponsors',
-          path: '/sponsors',
-          icon: 'store',
-        }, {
-          title: 'Organizations',
-          path: '/organizations',
-          icon: 'folder_shared',
-        }, {
-          title: 'Filters',
-          path: '/filters',
-          icon: 'note_add',
-        },
-      ],
     }
   },
   computed: {
+    schoolName () {
+      console.log('School', this.$store.state.school)
+      if (
+        this.$store.state.hasOwnProperty('school') &&
+        this.$store.state.school.hasOwnProperty('short_name')
+      ) {
+        return this.$store.state.school.short_name
+      } else {
+        this.$router.push({
+          path: '/login'
+        })
+
+        return false
+      }
+    },
+
     isLogged () {
       const isAuthed = this.$route.meta.requiredAuth || false
       const hasToken = this.$cookie.get('TV_ADMIN_TOKEN')
@@ -177,7 +166,7 @@ export default {
     },
 
     user () {
-      return this.$store.state.user.user
+      return this.$store.state.user.user || {}
     },
 
     avatar () {
@@ -195,6 +184,36 @@ export default {
       }
 
       return isActive
+    },
+
+    pages () {
+      return [
+        {
+          title: 'Dashboard',
+          path: `/school/${this.schoolName}/dashboard`,
+          icon: 'dashboard',
+        }, {
+          title: 'Users',
+          path: `/school/${this.schoolName}/users`,
+          icon: 'people',
+        }, {
+          title: 'Flagged',
+          path: `/school/${this.schoolName}/flagged`,
+          icon: 'view_list',
+        }, {
+          title: 'Sponsors',
+          path: `/school/${this.schoolName}/sponsors`,
+          icon: 'store',
+        }, {
+          title: 'Organizations',
+          path: `/school/${this.schoolName}/organizations`,
+          icon: 'folder_shared',
+        }, {
+          title: 'Filters',
+          path: `/school/${this.schoolName}/filters`,
+          icon: 'note_add',
+        },
+      ]
     }
   },
   methods: {
@@ -209,6 +228,17 @@ export default {
             break
         }
       }
+    }
+  },
+  mounted () {
+    const school = this.$store.state.school
+
+    if (school === null || school === undefined) {
+      this.$router.push({
+        path: '/login'
+      })
+    } else {
+      this.schoolName = school.short_name
     }
   }
 }

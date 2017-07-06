@@ -44,9 +44,9 @@ export default {
     }
   },
   mounted () {
-    this.$cookie.set('TV_ADMIN_TOKEN', null)
-    this.$cookie.set('TV_ADMIN_USER', null)
-    this.$cookie.set('TV_ADMIN_VUEX', null)
+    // this.$cookie.set('TV_ADMIN_TOKEN', null)
+    // this.$cookie.set('TV_ADMIN_USER', null)
+    // this.$cookie.set('TV_ADMIN_VUEX', null)
   }
 }
 </script>
