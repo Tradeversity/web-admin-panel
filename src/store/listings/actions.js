@@ -4,8 +4,8 @@ const errorHandler = error => {
   console.log(error)
 }
 
-const GET_LISTING = ({ state, commit }, listingID) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_LISTING = ({ getters, commit }, listingID) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/listings/${listingID}`)
     .then(response => {
@@ -14,8 +14,8 @@ const GET_LISTING = ({ state, commit }, listingID) => {
     .catch(errorHandler)
 }
 
-const GET_LISTINGS = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_LISTINGS = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/listings`)
     .then(response => {
@@ -24,8 +24,8 @@ const GET_LISTINGS = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const GET_SPONSORED_LISTINGS = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_SPONSORED_LISTINGS = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/sponsored_listings`)
     .then(response => {
@@ -34,8 +34,8 @@ const GET_SPONSORED_LISTINGS = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const GET_FLAGGED_LISTINGS = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_FLAGGED_LISTINGS = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/flagged_listings`)
     .then(response => {
@@ -44,40 +44,40 @@ const GET_FLAGGED_LISTINGS = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const POST_REMOVE_LISTING = ({ state }, listingID) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_REMOVE_LISTING = ({ getters }, listingID) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('post', `${baseURL}/remove_listing/${listingID}`)
     .then(response => {})
     .catch(errorHandler)
 }
 
-const POST_UNFLAG_LISTING = ({ state }, listingID) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_UNFLAG_LISTING = ({ getters }, listingID) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('post', `${baseURL}/unflag_listing/${listingID}`)
     .then(response => {})
     .catch(errorHandler)
 }
 
-const POST_REMOVE_QUESTION = ({ state }, questionID) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_REMOVE_QUESTION = ({ getters }, questionID) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('post', `${baseURL}/remove_question/${questionID}`)
     .then(response => {})
     .catch(errorHandler)
 }
 
-const POST_REMOVE_ANSWER = ({ state }, answerID) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_REMOVE_ANSWER = ({ getters }, answerID) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('post', `${baseURL}/remove_answer/${answerID}`)
     .then(response => {})
     .catch(errorHandler)
 }
 
-const GET_WORD_FILTER = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_WORD_FILTER = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/word_filter`)
     .then(response => {
@@ -86,8 +86,8 @@ const GET_WORD_FILTER = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const PUT_WORD_FILTER = ({ state, commit }, filters) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const PUT_WORD_FILTER = ({ getters, commit }, filters) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('put', `${baseURL}/word_filter`, {
     words: filters.toString(),

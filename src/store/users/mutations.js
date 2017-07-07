@@ -4,5 +4,8 @@ export default {
   },
   SET_USERS (state, data) {
     state.users = data.users
+  },
+  SET_SELECTED_USER (state, user) {
+    state.selectedUser = user
   }
 }

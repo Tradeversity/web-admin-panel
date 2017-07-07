@@ -46,6 +46,9 @@ new Vue({
   components: { App },
 })
 
+// const ID = VueCookie.get('TV_ADMIN_SCHOOLID')
+// console.log('Setting school ID...', ID)
+// store.commit('SET_SCHOOL_ID', ID)
 // Check local storage to handle refreshes
 // const cookieUser = JSON.parse(this.$cookie.get('user'))
 

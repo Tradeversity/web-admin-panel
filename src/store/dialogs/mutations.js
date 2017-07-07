@@ -35,6 +35,12 @@ export default {
   CLOSE_ADD_EVENT_DIALOG (state) {
     state.isAddEventDialogOpen = false
   },
+  OPEN_USER_DIALOG (state) {
+    state.isUserDialogOpen = true
+  },
+  CLOSE_USER_DIALOG (state) {
+    state.isUserDialogOpen = false
+  },
   SET_FLAGGED_ITEM (state, item) {
     state.flaggedItem = item
   }

@@ -147,7 +147,7 @@ export default {
       state.form = 'info'
       state.snackMessage = 'Add event'
 
-      console.log('state', state)
+      // console.log('state', state)
 
       return state
     },
@@ -159,7 +159,7 @@ export default {
 
       set (value) {
         this.$store.commit('SET_NEW_EVENT', this.formData)
-        console.log(this.$store.state.newEvent, value)
+        // console.log(this.$store.state.newEvent, value)
       }
     },
 

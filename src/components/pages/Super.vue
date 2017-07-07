@@ -1,5 +1,8 @@
 <template>
   <v-layout column align-center>
+    <v-flex xs12 class="mb-3">
+      <router-link to="/logout">Go back to login...</router-link>
+    </v-flex>
     <v-flex
       xs12
       class="mb-4 card-wrap"
@@ -114,6 +117,7 @@ export default {
     },
 
     gotoAdmin (school) {
+      this.$cookie.set('TV_ADMIN_SCHOOLID', school.id)
       this.$store.commit('SET_SCHOOL', school)
       this.$router.push({
         path: `school/${school.short_name}/dashboard`

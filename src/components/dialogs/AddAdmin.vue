@@ -125,7 +125,7 @@ export default {
 
       set (value) {
         this.$store.commit('SET_NEW_ADMIN', this.formData)
-        console.log(this.$store.state.newAdmin, value)
+        // console.log(this.$store.state.newAdmin, value)
       }
     },
 
@@ -136,7 +136,7 @@ export default {
 
       set (value) {
         if (!value) {
-          console.log('Hi!')
+          // console.log('Hi!')
           this.$store.commit('SET_NEW_ADMIN', {
             firstName: '',
             lastName: '',

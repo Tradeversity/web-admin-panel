@@ -107,6 +107,7 @@
       </v-container>
     </main>
 
+    <user-dialog></user-dialog>
     <flagged-dialog></flagged-dialog>
     <add-listing-dialog></add-listing-dialog>
     <add-admin-dialog></add-admin-dialog>
@@ -118,6 +119,7 @@
 
 <script>
 import Avatar from '@/assets/avatar.png'
+import UserDialog from '@/components/dialogs/User.vue'
 import FlaggedDialog from '@/components/dialogs/Flagged.vue'
 import AddListingDialog from '@/components/dialogs/AddListing.vue'
 import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
@@ -128,6 +130,7 @@ import AddEventDialog from '@/components/dialogs/AddEvent.vue'
 export default {
   name: 'app',
   components: {
+    UserDialog,
     FlaggedDialog,
     AddListingDialog,
     AddAdminDialog,
@@ -152,7 +155,7 @@ export default {
   },
   computed: {
     schoolName () {
-      console.log('School', this.$store.state.school)
+      // console.log('School', this.$store.state.school)
       if (
         this.$store.state.hasOwnProperty('school') &&
         this.$store.state.school.hasOwnProperty('short_name')
@@ -187,11 +190,14 @@ export default {
 
       switch (this.$route.path) {
         case '/super':
+        case `/school/${this.schoolName}/event-manager`:
         case `/school/${this.schoolName}/sponsors`:
         case `/school/${this.schoolName}/organizations`:
           isActive = true
           break
       }
+
+      // console.log(this.$route.path, this.schoolName)
 
       return isActive
     },
@@ -234,6 +240,9 @@ export default {
     add () {
       if (this.isFABActive) {
         switch (this.$route.path) {
+          case `/school/${this.schoolName}/event-manager`:
+            this.$store.commit('OPEN_ADD_EVENT_DIALOG')
+            break
           case `/school/${this.schoolName}/sponsors`:
             this.$store.commit('OPEN_ADD_LISTING_DIALOG')
             break

@@ -1,17 +1,13 @@
+// import Cookie from 'vue-cookie'
+
 export default {
   SET_USER (state, user) {
     state.user = user
   },
   SET_SCHOOL (state, school) {
     state.school = school
-    console.log(state.school)
-
-    if (school.hasOwnProperty('id')) {
-      state.schoolID = school.id
-    }
   },
   SET_SCHOOLS (state, schools) {
-    console.log('Setting schools...', schools)
     state.schools = schools
   },
   SET_KEEN (state, keen) {
@@ -36,6 +32,8 @@ export default {
 
       state.school = school
     })
+
+    console.log('formatted', formattedSchools)
 
     state.school = formattedSchools
   },

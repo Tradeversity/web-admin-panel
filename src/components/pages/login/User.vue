@@ -106,28 +106,28 @@ export default {
           this.$cookie.set('TV_ADMIN_TOKEN', response.data.access_token)
 
           this.$store.commit('SET_USER', response.data)
-          this.$store.dispatch('GET_ALL_SCHOOLS')
-            .then(() => {
-              const schoolName = this.$store.state.school.short_name
+          // this.$store.dispatch('GET_ALL_SCHOOLS')
+          //  .then(() => {
+          const schoolName = this.$store.state.school.short_name
 
-              if (response.data.user.account_role === 'global_admin') {
-                console.log('Sending to super...')
-                this.$router.push({
-                  path: '/super',
-                })
-              } else if (response.data.user.account_role === 'admin') {
-                this.$router.push({
-                  path: `/school/${schoolName}/dashboard`,
-                })
-              } else if (response.data.user.account_type === 'organization') {
-                this.$router.push({
-                  path: `/school/${schoolName}/event-manager`,
-                })
-              }
+          if (response.data.user.account_role === 'global_admin') {
+            console.log('Sending to super...')
+            this.$router.push({
+              path: '/super',
             })
-            .catch((error) => {
-              console.log('EOROROROR', error)
+          } else if (response.data.user.account_role === 'admin') {
+            this.$router.push({
+              path: `/school/${schoolName}/dashboard`,
             })
+          } else if (response.data.user.account_type === 'organization') {
+            this.$router.push({
+              path: `/school/${schoolName}/event-manager`,
+            })
+          }
+            // })
+            // .catch((error) => {
+            //   console.log('EOROROROR', error)
+            // })
         })
         .catch(error => {
           console.log(error)

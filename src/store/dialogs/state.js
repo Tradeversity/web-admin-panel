@@ -1,4 +1,5 @@
 export default {
+  isUserDialogOpen: false,
   isFlaggedDialogOpen: false,
   isAddListingDialogOpen: false,
   isAddAdminDialogOpen: false,

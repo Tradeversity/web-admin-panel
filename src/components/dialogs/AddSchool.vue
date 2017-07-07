@@ -177,7 +177,7 @@ export default {
       state.form = 'info'
       state.snackMessage = 'Add school'
 
-      console.log('state', state)
+      // console.log('state', state)
 
       return state
     },
@@ -189,7 +189,7 @@ export default {
 
       set (value) {
         this.$store.commit('SET_NEW_SCHOOL', this.formData)
-        console.log(this.$store.state.newSchool, value)
+        // console.log(this.$store.state.newSchool, value)
       }
     },
 

@@ -121,7 +121,7 @@ export default {
 
       set (value) {
         this.$store.commit('SET_NEW_ORGANIZATION', this.formData)
-        console.log(this.$store.state.newOrganization, value)
+        // console.log(this.$store.state.newOrganization, value)
       }
     },
 

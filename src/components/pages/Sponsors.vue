@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     listings () {
-      return [
+      return this.$store.state.sponsoredListings || [
         {
           title: 'grass',
           category: 'earth',
@@ -95,6 +95,11 @@ export default {
           this.isLoading = false
         }, 1000)
       })
+    }
+  },
+  mounted () {
+    if (this.$store.state.sponsoredListings.length < 1) {
+      this.$store.dispatch('GET_SPONSORED_LISTINGS')
     }
   }
 }

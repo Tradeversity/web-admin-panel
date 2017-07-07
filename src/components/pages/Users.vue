@@ -43,9 +43,9 @@
       v-bind:search="search"
     >
       <template slot="items" scope="props">
-        <td>{{ props.item.display_name }}</td>
-        <td class="text-xs-right">{{ props.item.account_role }}</td>
-        <td class="text-xs-right">
+        <td @click.stop="openUserDialog(props.item)">{{ props.item.display_name }}</td>
+        <td @click.stop="openUserDialog(props.item)" class="text-xs-right">{{ props.item.account_role }}</td>
+        <td @click.stop="openUserDialog(props.item)" class="text-xs-right">
           {{ new Date(props.item.created_at).toDateString() }}
         </td>
       </template>
@@ -98,6 +98,13 @@ export default {
     }
   },
   methods: {
+    openUserDialog (user) {
+      const formattedUser = user
+      formattedUser.isFlagged = this.showFlagged
+      this.$store.commit('SET_SELECTED_USER', formattedUser)
+      this.$store.commit('OPEN_USER_DIALOG')
+    },
+
     addUser (event) {
       console.log('Adding user...')
       this.isUserDialogOpen = !this.isUserDialogOpen
@@ -156,5 +163,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+td
+  cursor: pointer
 </style>

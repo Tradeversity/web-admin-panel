@@ -39,7 +39,7 @@
     props: ['isListingDialogOpen'],
     watch: {
       isListingDialogOpen: (value) => {
-        console.log(value)
+        // console.log(value)
       }
     }
     // data () {

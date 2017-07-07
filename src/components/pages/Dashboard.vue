@@ -118,9 +118,9 @@ export default {
     }
   },
   computed: {
-    schoolID () {
-      return this.$store.state.schoolID
-    }
+    // schoolID () {
+    //   return this.$store.state.schoolID
+    // }
   },
   watch: {
     isRefreshing: () => {

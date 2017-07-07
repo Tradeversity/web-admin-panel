@@ -4,8 +4,8 @@ const errorHandler = error => {
   console.log(error)
 }
 
-const GET_ORGANIZATIONS = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const GET_ORGANIZATIONS = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/organizations`)
     .then(response => {
@@ -14,8 +14,8 @@ const GET_ORGANIZATIONS = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const POST_ORGANIZATION = ({ state, commit }, organization) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_ORGANIZATION = ({ getters, commit }, organization) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
   const formattedData = {
     email: organization.email,
     first_name: organization.firstName,
@@ -32,8 +32,8 @@ const POST_ORGANIZATION = ({ state, commit }, organization) => {
     .catch(errorHandler)
 }
 
-const POST_BLOCK_ORGANIZATION = ({ state }, organization) => {
-  const baseURL = `/admin/school/${state.schoolID}`
+const POST_BLOCK_ORGANIZATION = ({ getters }, organization) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('post', `${baseURL}/block_organization/${organization.id}`)
     .then(response => {})

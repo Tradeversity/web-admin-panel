@@ -14,7 +14,10 @@ const statusHandler = status => {
 }
 
 const token = cookie.get('TV_ADMIN_TOKEN')
-axios.defaults.headers.common['Authorization'] = token
+
+if (token && token !== null) {
+  axios.defaults.headers.common['Authorization'] = token
+}
 
 export default {
   request (method, uri, data = null) {

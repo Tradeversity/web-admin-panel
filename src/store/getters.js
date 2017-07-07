@@ -1,9 +1,16 @@
-const requireGetters = require.context('.', true, /\.\/.+\/getters\.js$/)
+export default {
+  schoolID (state) {
+    console.log('State', state, state.school)
+    return state.school.id
+  }
+}
 
-requireGetters.keys().forEach((key) => {
-  const actions = requireGetters(key)
+// const requireGetters = require.context('.', true, /\.\/.+\/getters\.js$/)
 
-  Object.keys(actions).forEach((name) => {
-    module.exports[name] = actions[name]
-  })
-})
+// requireGetters.keys().forEach((key) => {
+//   const actions = requireGetters(key)
+
+//   Object.keys(actions).forEach((name) => {
+//     module.exports[name] = actions[name]
+//   })
+// })

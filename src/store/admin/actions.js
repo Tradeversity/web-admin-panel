@@ -23,8 +23,8 @@ const POST_SCHOOL = ({ state }, school) => {
     .catch(errorHandler)
 }
 
-const POST_UPDATE = ({ state }, school) => {
-  api.request('post', `/admin/school/${state.schooldID}`, school)
+const POST_UPDATE = ({ getters }, school) => {
+  api.request('post', `/admin/school/${getters.schooldID}`, school)
     .then(response => {})
     .catch(errorHandler)
 }
@@ -91,8 +91,8 @@ const GET_KEEN = ({ state, commit }, schoolID) => {
  *  Organizations Admin Endpoints
  */
 
-const GET_EVENTS = ({ state, commit }) => {
-  const baseURL = `/admin/school/${state.schooldID}`
+const GET_EVENTS = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schooldID}`
 
   api.request('get', `${baseURL}/events`)
     .then(response => {
@@ -101,8 +101,8 @@ const GET_EVENTS = ({ state, commit }) => {
     .catch(errorHandler)
 }
 
-const GET_SPONSORED_LISTINGS = ({ state, commit }, organizationsID) => {
-  const baseURL = `/admin/school/${state.schooldID}`
+const GET_SPONSORED_LISTINGS = ({ getters, commit }, organizationsID) => {
+  const baseURL = `/admin/school/${getters.schooldID}`
 
   api.request('get', `${baseURL}/organization/${organizationsID}/sponsored_listings`)
     .then(response => {
@@ -111,8 +111,8 @@ const GET_SPONSORED_LISTINGS = ({ state, commit }, organizationsID) => {
     .catch(errorHandler)
 }
 
-const GET_ORGANIZATION_EVENTS = ({ state, commit }, organizationsID) => {
-  const baseURL = `/admin/school/${state.schooldID}`
+const GET_ORGANIZATION_EVENTS = ({ getters, commit }, organizationsID) => {
+  const baseURL = `/admin/school/${getters.schooldID}`
 
   api.request('get', `${baseURL}/organization/${organizationsID}/events`)
     .then(response => {
@@ -121,8 +121,8 @@ const GET_ORGANIZATION_EVENTS = ({ state, commit }, organizationsID) => {
     .catch(errorHandler)
 }
 
-const POST_EVENT = ({ state }, eventID) => {
-  const baseURL = `/admin/school/${state.schooldID}`
+const POST_EVENT = ({ getters }, eventID) => {
+  const baseURL = `/admin/school/${getters.schooldID}`
 
   api.request('post', `${baseURL}/event/${eventID}/deny`)
     .then(response => {})
