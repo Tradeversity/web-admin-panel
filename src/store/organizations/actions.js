@@ -9,16 +9,26 @@ const GET_ORGANIZATIONS = ({ state, commit }) => {
 
   api.request('get', `${baseURL}/organizations`)
     .then(response => {
-      commit('SET_FLAGGED_USERS', response.data)
+      commit('SET_ORGANIZATIONS', response.data)
     })
     .catch(errorHandler)
 }
 
-const POST_ORGANIZATION = ({ state }, organization) => {
+const POST_ORGANIZATION = ({ state, commit }, organization) => {
   const baseURL = `/admin/school/${state.schoolID}`
+  const formattedData = {
+    email: organization.email,
+    first_name: organization.firstName,
+    last_name: organization.lastName,
+    password: organization.password,
+    platform: window.navigator.userAgent,
+    type: 'Web',
+  }
 
-  api.request('post', `${baseURL}/organization`, organization)
-    .then(response => {})
+  api.request('post', `${baseURL}/organization`, formattedData)
+    .then(response => {
+      commit('ADD_ORGANIZATION', response.data)
+    })
     .catch(errorHandler)
 }
 

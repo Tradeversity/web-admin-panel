@@ -72,7 +72,7 @@ export default new Router({
         noNavbar: true,
       }
     }, {
-      path: '/event-manager',
+      path: '/school/:schoolName/event-manager',
       name: 'EventManager',
       component: EventManager,
       meta: {

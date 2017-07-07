@@ -1,5 +1,9 @@
 <template>
   <v-card>
+    <v-progress-linear
+      v-show="isLoading"
+      :indeterminate="true"
+    ></v-progress-linear>
     <v-card-title>
       Sponsored Listings
       <v-spacer></v-spacer>
@@ -10,6 +14,9 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <v-btn icon flat @click.native.stop="refresh">
+        <v-icon>refresh</v-icon>
+      </v-btn>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -61,6 +68,7 @@ export default {
     return {
       search: '',
       pagination: {},
+      isLoading: false,
       headers: headers,
     }
   },
@@ -77,6 +85,16 @@ export default {
           created_at: 15645645635,
         },
       ]
+    }
+  },
+  methods: {
+    refresh () {
+      this.isLoading = true
+      this.$store.dispatch('GET_SPONSORED_LISTINGS').then(() => {
+        setTimeout(() => {
+          this.isLoading = false
+        }, 1000)
+      })
     }
   }
 }

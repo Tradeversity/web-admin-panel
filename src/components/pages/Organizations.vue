@@ -1,5 +1,9 @@
 <template>
   <v-card>
+    <v-progress-linear
+      v-show="isLoading"
+      :indeterminate="true"
+    ></v-progress-linear>
     <v-card-title>
       Organizations
       <v-spacer></v-spacer>
@@ -10,6 +14,9 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <v-btn icon flat @click.native.stop="refresh">
+        <v-icon>refresh</v-icon>
+      </v-btn>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -19,18 +26,9 @@
 
       <template slot="items" scope="props" >
         <td>
-          {{ props.item.title }}
+          {{ props.item.display_name }}
         </td>
-        <td
-          class="text-xs-right"
-
-        >
-          {{ props.item.category }}
-        </td>
-        <td
-          class="text-xs-right"
-
-        >
+        <td class="text-xs-right">
           {{ new Date(props.item.created_at).toDateString() }}
         </td>
       </template>
@@ -44,8 +42,8 @@
 
 <script>
 const headers = [
-  { text: 'Name', value: 'name', left: true },
-  { text: 'Email', value: 'email' },
+  { text: 'Name', value: 'display_name', left: true },
+  { text: 'Created at', value: 'created_at' },
 ]
 
 export default {
@@ -54,16 +52,23 @@ export default {
     return {
       search: '',
       pagination: {},
+      isLoading: false,
       headers: headers,
     }
   },
   computed: {
     organizations () {
-      return this.$store.state.organizations.length > 0 &&
-        this.$store.state.organizations.map((value) => {
-          value['name'] = `${value.first_name} ${value.last_name}`
-          return value
-        }) || []
+      return this.$store.state.organizations
+    }
+  },
+  methods: {
+    refresh () {
+      this.isLoading = true
+      this.$store.dispatch('GET_ORGANIZATIONS').then(() => {
+        setTimeout(() => {
+          this.isLoading = false
+        }, 1000)
+      })
     }
   },
   mounted () {

@@ -4,19 +4,23 @@ const errorHandler = error => {
   console.log(error)
 }
 
-const POST_APPROVE_EVENT = ({ state }, eventID) => {
+const POST_APPROVE_EVENT = ({ state, dispatch }, eventID) => {
   const baseURL = `/admin/school/${state.schoolID}`
 
   api.request('post', `${baseURL}/event/${eventID}/approve`)
-    .then(response => {})
+    .then(response => {
+      dispatch('GET_EVENTS')
+    })
     .catch(errorHandler)
 }
 
-const POST_DENY_EVENT = ({ state }, eventID) => {
+const POST_DENY_EVENT = ({ state, dispatch }, eventID) => {
   const baseURL = `/admin/school/${state.schoolID}`
 
   api.request('post', `${baseURL}/event/${eventID}/deny`)
-    .then(response => {})
+    .then(response => {
+      dispatch('GET_EVENTS')
+    })
     .catch(errorHandler)
 }
 
@@ -25,7 +29,7 @@ const GET_EVENTS = ({ state, commit }) => {
 
   api.request('get', `${baseURL}/events`)
     .then(response => {
-      commit('SET_EVENTS', response.data.events)
+      commit('SET_EVENTS', response.data)
     })
     .catch(errorHandler)
 }

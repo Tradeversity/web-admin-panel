@@ -33,6 +33,9 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <v-btn icon flat @click.native.stop="refresh">
+        <v-icon>refresh</v-icon>
+      </v-btn>
     </v-card-title>
     <v-data-table
       :headers="headers"
@@ -120,6 +123,23 @@ export default {
       if (this.$store.state.flaggedListings.length < 1) {
         this.isLoading = true
         this.$store.dispatch('GET_FLAGGED_LISTINGS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
+    },
+
+    refresh () {
+      this.isLoading = true
+      if (this.showFlagged) {
+        this.$store.dispatch('GET_FLAGGED_LISTINGS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      } else {
+        this.$store.dispatch('GET_LISTINGS').then(() => {
           setTimeout(() => {
             this.isLoading = false
           }, 1000)

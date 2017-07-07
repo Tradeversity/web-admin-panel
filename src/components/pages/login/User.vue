@@ -119,9 +119,9 @@ export default {
                 this.$router.push({
                   path: `/school/${schoolName}/dashboard`,
                 })
-              } else if (response.data.user.account_type === 'organizaiton') {
+              } else if (response.data.user.account_type === 'organization') {
                 this.$router.push({
-                  path: `/school/${schoolName}/events`,
+                  path: `/school/${schoolName}/event-manager`,
                 })
               }
             })

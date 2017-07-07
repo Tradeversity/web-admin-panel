@@ -33,6 +33,9 @@
         hide-details
         v-model="search"
       ></v-text-field>
+      <v-btn icon flat @click.native.stop="refresh">
+        <v-icon>refresh</v-icon>
+      </v-btn>
     </v-card-title>
     <v-data-table
       v-bind:headers="headers"
@@ -119,6 +122,24 @@ export default {
       if (this.$store.state.flaggedUsers.length < 1) {
         this.isLoading = true
         this.$store.dispatch('GET_FLAGGED_USERS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      }
+    },
+
+    refresh () {
+      this.isLoading = true
+
+      if (this.showFlagged) {
+        this.$store.dispatch('GET_FLAGGED_USERS').then(() => {
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
+        })
+      } else {
+        this.$store.dispatch('GET_USERS').then(() => {
           setTimeout(() => {
             this.isLoading = false
           }, 1000)
