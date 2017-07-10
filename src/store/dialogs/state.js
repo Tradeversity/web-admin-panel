@@ -7,5 +7,7 @@ export default {
   isAddSchoolDialogOpen: false,
   isAddEventDialogOpen: false,
   isAddOrganizationDialogOpen: false,
+  isConfirmDialogOpen: false,
   flaggedItem: {},
+  confirmationAction: {},
 }

@@ -1,109 +1,26 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer
-      width="250px"
-      persistent
-      light
-      :mini-variant.sync="mini"
-      v-model="drawer"
-      enable-resize-watcher
-      v-if="isLogged"
-    >
-      <v-list class="pa-0">
-        <v-list-item>
-          <v-list-tile avatar tag="div">
-            <v-list-tile-avatar>
-              <img
-                :src="avatar"
-                role="presentation"
-              />
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ user.display_name || ''}}
-              </v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-btn icon @click.native.stop="mini = !mini">
-                <v-icon>chevron_left</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-        </v-list-item>
-      </v-list>
-      <v-list class="pt-0 nav-list" dense>
-        <v-divider></v-divider>
-        <v-list-item v-for="page in pages" :key="pages">
-          <router-link :to="page.path" class="nav-item">
-            <v-list-tile>
-              <v-list-tile-action>
-                <v-icon>{{ page.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ page.title }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </router-link>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item>
-          <router-link to="/logout" class="nav-item">
-            <v-list-tile>
-              <v-list-tile-action>
-                <v-icon>power_settings_new</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  Logout
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </router-link>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
 
-    <v-toolbar class="primary" fixed light v-if="isLogged">
-      <v-toolbar-side-icon
-        light
-        @click.native.stop="drawer = !drawer"
-      >
-      </v-toolbar-side-icon>
-      <v-toolbar-title class="hidden-sm-and-down">
-
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon light to="/logout" router>
-        <v-icon>
-          account_circle
-        </v-icon>
-      </v-btn>
-      <v-btn icon light>
-        <v-icon>
-          notifications
-        </v-icon>
-      </v-btn>
-      <v-btn icon light>
-        <v-icon>
-          more_vert
-        </v-icon>
-      </v-btn>
-    </v-toolbar>
+    <drawer v-if="navbar.isActive ===  'admin'"></drawer>
+    <toolbar v-if="navbar.isActive ===  'admin'"></toolbar>
+    <super-toolbar v-if="navbar.isActive ===  'super'"></super-toolbar>
+    <event-toolbar v-if="navbar.isActive ===  'event'"></event-toolbar>
 
     <main>
       <v-container fluid>
         <router-view></router-view>
 
         <v-btn
-          floating
-          class="fab"
+          fab
+          dark
+          fixed
+          bottom
+          right
           :style="{ backgroundColor: schoolColor }"
           @click.native.stop="add"
           v-show="isFABActive"
         >
-          <v-icon class="white--text">add</v-icon>
+          <v-icon>add</v-icon>
         </v-btn>
       </v-container>
     </main>
@@ -116,23 +33,33 @@
     <add-school-dialog></add-school-dialog>
     <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
+    <confirm-dialog></confirm-dialog>
   </v-app>
 </template>
 
 <script>
-import Avatar from '@/assets/avatar.png'
-import UserDialog from '@/components/dialogs/User.vue'
-import FlaggedDialog from '@/components/dialogs/Flagged.vue'
-import AddListingDialog from '@/components/dialogs/AddListing.vue'
-import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
-import AddAdminDialog from '@/components/dialogs/AddAdmin.vue'
-import AddSchoolDialog from '@/components/dialogs/AddSchool.vue'
-import AddEventDialog from '@/components/dialogs/AddEvent.vue'
-import SetLocationDialog from '@/components/dialogs/SetLocation.vue'
+import Drawer from '@/components/organisms/Drawer'
+import Toolbar from '@/components/organisms/Toolbar'
+import SuperToolbar from '@/components/organisms/SuperToolbar'
+import EventToolbar from '@/components/organisms/EventToolbar'
+
+import UserDialog from '@/components/dialogs/User'
+import FlaggedDialog from '@/components/dialogs/Flagged'
+import AddListingDialog from '@/components/dialogs/AddListing'
+import AddOrganizationDialog from '@/components/dialogs/AddOrganization'
+import AddAdminDialog from '@/components/dialogs/AddAdmin'
+import AddSchoolDialog from '@/components/dialogs/AddSchool'
+import AddEventDialog from '@/components/dialogs/AddEvent'
+import SetLocationDialog from '@/components/dialogs/SetLocation'
+import ConfirmDialog from '@/components/dialogs/Confirm'
 
 export default {
   name: 'app',
   components: {
+    Drawer,
+    Toolbar,
+    SuperToolbar,
+    EventToolbar,
     UserDialog,
     FlaggedDialog,
     AddListingDialog,
@@ -141,6 +68,7 @@ export default {
     AddEventDialog,
     AddOrganizationDialog,
     SetLocationDialog,
+    ConfirmDialog,
   },
   data () {
     return {
@@ -158,6 +86,22 @@ export default {
     }
   },
   computed: {
+    navbar () {
+      let active = ''
+
+      if (this.$route.path.indexOf('/school') > -1) {
+        active = 'admin'
+      } else if (this.$route.path === '/event-manager') {
+        active = 'event'
+      } else if (this.$route.path === '/super') {
+        active = 'super'
+      }
+
+      return {
+        isActive: active,
+      }
+    },
+
     schoolColor () {
       return this.$store.getters.schoolColor
     },
@@ -185,14 +129,6 @@ export default {
       return isAuthed && hasToken !== null && navbar
     },
 
-    user () {
-      return this.$store.state.user.user || {}
-    },
-
-    avatar () {
-      return this.user.avatar_url || Avatar
-    },
-
     isFABActive () {
       let isActive = false
 
@@ -208,40 +144,6 @@ export default {
       // console.log(this.$route.path, this.schoolName)
 
       return isActive
-    },
-
-    pages () {
-      return [
-        {
-          title: 'Dashboard',
-          path: `/school/${this.schoolName}/dashboard`,
-          icon: 'dashboard',
-        }, {
-          title: 'Users',
-          path: `/school/${this.schoolName}/users`,
-          icon: 'people',
-        }, {
-          title: 'Listings',
-          path: `/school/${this.schoolName}/listings`,
-          icon: 'view_list',
-        }, {
-          title: 'Sponsors',
-          path: `/school/${this.schoolName}/sponsors`,
-          icon: 'store',
-        }, {
-          title: 'Organizations',
-          path: `/school/${this.schoolName}/organizations`,
-          icon: 'folder_shared',
-        }, {
-          title: 'Events',
-          path: `/school/${this.schoolName}/events`,
-          icon: 'event',
-        }, {
-          title: 'Filters',
-          path: `/school/${this.schoolName}/filters`,
-          icon: 'note_add',
-        },
-      ]
     }
   },
   methods: {
@@ -304,14 +206,14 @@ body, html, #app
   -moz-osx-font-smoothing: grayscale
   color: #2c3e50
 
-  .fab-wrapper
-    right: 1rem !important
-    i
-      left: unset
-    .fab
-      bottom: 0
-      left: -.3rem
-      right: 0
+  // .fab-wrapper
+  //   right: 1rem !important
+  //   i
+  //     left: unset
+  //   .fab
+  //     bottom: 0
+  //     left: -.3rem
+  //     right: 0
 
 .container
   max-width: 1200px;

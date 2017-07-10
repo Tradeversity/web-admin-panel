@@ -1,8 +1,5 @@
 <template>
   <v-layout column align-center>
-    <v-flex xs12 class="mb-3">
-      <router-link to="/logout">Go back to login...</router-link>
-    </v-flex>
     <v-flex
       xs12
       class="mb-4 card-wrap"
@@ -10,34 +7,32 @@
       :key="school.id"
     >
       <v-card>
-        <v-card-row :style="{ backgroundColor: school.formattedColor }">
-          <v-card-title class="white--text">
-            {{ school.name.toUpperCase() }}
-          </v-card-title>
-        </v-card-row>
-        <v-card-row v-if="school.admins.length < 1">
-          <v-card-text>
-            There are no admins available
-          </v-card-text>
-        </v-card-row>
-        <v-card-row v-else class="list-row">
-          <v-list two-line class="list">
-            <template v-for="(admin, index) in school.admins">
-              <v-divider v-if="index !== 0"></v-divider>
-              <v-list-tile @click.native.stop="openEditAdminDialog(admin)">
-                <v-list-tile-content>
-                  <v-list-tile-title
-                    v-html="admin.display_name"
-                  ></v-list-tile-title>
-                  <v-list-tile-sub-title
-                    v-html="`Updated: ${Date(admin.updated_at)}`"
-                  ></v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </template>
-          </v-list>
-        </v-card-row>
-        <v-card-row actions>
+        <v-card-title class="white--text" :style="{ backgroundColor: school.formattedColor }">
+          <span class="headline">{{ school.name.toUpperCase() }}</span>
+        </v-card-title>
+
+        <v-card-text v-if="school.admins.length < 1">
+          There are no admins available
+        </v-card-text>
+
+        <v-list two-line v-else class="list">
+          <template v-for="(admin, index) in school.admins">
+            <v-divider v-if="index !== 0"></v-divider>
+            <v-list-tile @click.native.stop="openEditAdminDialog(admin)">
+              <v-list-tile-content>
+                <v-list-tile-title
+                  v-html="admin.display_name"
+                ></v-list-tile-title>
+                <v-list-tile-sub-title
+                  v-html="`Updated: ${Date(admin.updated_at)}`"
+                ></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
             flat
             icon
@@ -62,7 +57,7 @@
           >
             <v-icon>exit_to_app</v-icon>
           </v-btn>
-        </v-card-row>
+        </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>

@@ -1,25 +1,26 @@
 <template>
   <v-card class="card">
-    <v-card-title class="primary white--text">
-      Send reset link
+    <v-card-title>
+      <span class="headline">
+        Send reset link
+      </span>
     </v-card-title>
-    <v-card-row>
-      <v-card-text>
-        <v-text-field
-          name="email"
-          label="Email"
-          type="email"
-          primary
-          v-model="email"
-          :hint="message"
-          :error="error"
-          :persistent-hint="error"
-          append-icon="arrow_forward"
-          :append-icon-cb="sendEmail"
-          @keyup.native.enter="sendEmail"
-        ></v-text-field>
-      </v-card-text>
-    </v-card-row>
+
+    <v-card-text>
+      <v-text-field
+        name="email"
+        label="Email"
+        type="email"
+        primary
+        v-model="email"
+        :hint="message"
+        :error="error"
+        :persistent-hint="error"
+        append-icon="arrow_forward"
+        :append-icon-cb="sendEmail"
+        @keyup.native.enter="sendEmail"
+      ></v-text-field>
+    </v-card-text>
   </v-card>
 </template>
 

@@ -49,5 +49,14 @@ export default {
   },
   OPEN_SET_LOCATION_DIALOG (state) {
     state.isSetLocationDialogOpen = true
+  },
+  CLOSE_CONFIRM_DIALOG (state) {
+    state.isConfirmDialogOpen = false
+  },
+  OPEN_CONFIRM_DIALOG (state) {
+    state.isConfirmDialogOpen = true
+  },
+  SET_CONFIRMATION_ACTION (state, action) {
+    state.confirmationAction = action
   }
 }

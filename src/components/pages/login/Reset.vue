@@ -1,33 +1,34 @@
 <template>
   <v-card class="login-card">
     <form @submit.prevent="reset">
-      <v-card-title class="primary white--text">
-        Reset password
+      <v-card-title>
+        <span class="headline">Reset password</span>
       </v-card-title>
-      <v-card-row>
-        <v-card-text>
-          <v-text-field
-            name="password"
-            label="Password"
-            type="password"
-            v-model="password"
-          ></v-text-field>
-          <v-text-field
-            name="password"
-            label="Password"
-            type="password"
-            v-model="confirm"
-          ></v-text-field>
-        </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
+
+      <v-card-text>
+        <v-text-field
+          name="password"
+          label="Password"
+          type="password"
+          v-model="password"
+        ></v-text-field>
+        <v-text-field
+          name="password"
+          label="Password"
+          type="password"
+          v-model="confirm"
+        ></v-text-field>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn
           flat
           type="submit"
           class="primary--text"
           :loading="isLoading"
         >Reset</v-btn>
-      </v-card-row>
+      </v-card-actions>
     </form>
   </v-card>
 </template>

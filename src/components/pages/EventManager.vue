@@ -3,16 +3,16 @@
     <v-flex xs12 class="mb-4">
       <router-link to="/logout">Go back to login...</router-link>
     </v-flex>
-    <v-flex xs6 class="mb-4 card-wrap" v-for="event in events" :key="event.id">
+    <v-flex xs6 class="mb-4 card-wrap" v-for="eventItem in events" :key="eventItem.id">
       <v-card>
 
         <v-card-title class="white--text" :style="{ backgroundColor: schoolColor }">
-          <span class="headline">{{ event.title }}</span>
+          <span class="headline">{{ eventItem.title }}</span>
         </v-card-title>
 
         <v-card-media>
           <!--<event-location-map></event-location-map>-->
-          <img :src="`https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${event.lat},${event.long}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`" alt="google map image">
+          <img :src="`https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${eventItem.lat},${eventItem.long}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`" alt="google map image">
         </v-card-media>
 
         <v-list>
@@ -22,7 +22,7 @@
                 Description
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ event.description }}
+                {{ eventItem.description }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -32,7 +32,7 @@
                 Start time
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ getTime(event.start_time) }}
+                {{ getTime(eventItem.start_time) }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -42,7 +42,7 @@
                 End time
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ getTime(event.end_time) }}
+                {{ getTime(eventItem.end_time) }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -52,14 +52,14 @@
                 Location
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ event.location }}
+                {{ eventItem.location }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
 
         <v-card-actions>
-          <v-btn flat>Delete</v-btn>
+          <v-btn flat @click.native.stop="deleteEvent(eventItem)">Delete</v-btn>
           <v-btn flat>Edit</v-btn>
         </v-card-actions>
       </v-card>
@@ -86,6 +86,11 @@ export default {
       const mid = hours > 12 ? 'pm' : 'am'
 
       return `${day}/${month} ${hours}:${minutes}${mid}`
+    },
+
+    deleteEvent (eventItem) {
+      this.$store.commit('SET_CONFIRMATION_ACTION', eventItem)
+      this.$store.commit('OPEN_CONFIRM_DIALOG')
     }
   },
   computed: {

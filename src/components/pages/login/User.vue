@@ -1,8 +1,8 @@
 <template>
   <v-card class="card">
     <form @submit.prevent="login">
-      <v-card-title class="primary white--text">
-        Login
+      <v-card-title>
+        <span class="headline">Login</span>
       </v-card-title>
       <v-card-text>
         <v-text-field

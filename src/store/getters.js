@@ -1,8 +1,8 @@
-const schoolID = (state) => {
+const schoolID = state => {
   return state.school.id
 }
 
-const schoolColor = (state) => {
+const schoolColor = state => {
   const school = state.school
   let formattedColor = false
 
@@ -23,7 +23,23 @@ const schoolColor = (state) => {
   return formattedColor
 }
 
+const username = state => {
+  return state.user.display_name || 'Admin'
+}
+
+const avatar = state => {
+  return state.user.avatar_url || false
+}
+
+const activeUI = (state) => {
+  const route = state.route
+  console.log(state)
+}
+
 export default {
+  activeUI,
+  username,
+  avatar,
   schoolID,
   schoolColor,
 }
