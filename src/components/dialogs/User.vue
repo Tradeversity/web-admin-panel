@@ -1,12 +1,11 @@
 <template>
   <v-dialog v-model="isOpen">
     <v-card>
-      <v-card-row class="primary">
-        <v-card-title class="white--text">
+
+        <v-card-title class="primary white--text">
           {{ formData.display_name }}
         </v-card-title>
-      </v-card-row>
-      <v-card-row>
+
         <v-card-text class="text-xs-left">
           <v-btn
             block
@@ -29,7 +28,7 @@
             delete
           </v-btn>-->
         </v-card-text>
-      </v-card-row>
+
     </v-card>
   </v-dialog>
 </template>

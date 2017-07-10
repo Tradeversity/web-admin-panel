@@ -3,10 +3,9 @@
     <v-dialog v-model="isListingDialogOpen">
       <!--<v-btn primary light slot="activator">Open Dialog</v-btn>-->
       <v-card>
-        <v-card-row>
+
           <v-card-title>User Profile</v-card-title>
-        </v-card-row>
-        <v-card-row>
+
           <v-card-text>
             <v-text-field label="Email" required></v-text-field>
             <v-text-field label="Password" type="password" required></v-text-field>
@@ -23,11 +22,11 @@
             ></v-select>
             <small>*indicates required field</small>
           </v-card-text>
-        </v-card-row>
-        <v-card-row actions>
+
+        <v-card-actions>
           <v-btn class="blue--text darken-1" flat @click.native="isListingDialogOpen = false">Close</v-btn>
           <v-btn class="blue--text darken-1" flat @click.native="isListingDialogOpen = false">Save</v-btn>
-        </v-card-row>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-layout>

@@ -1,18 +1,17 @@
 <template>
   <v-dialog v-model="isOpen">
     <v-card>
-      <v-card-row primary>
-        <v-card-title>Flagged</v-card-title>
-      </v-card-row>
-      <v-card-row>
+
+        <v-card-title primary>Flagged</v-card-title>
+
         <v-card-text class="text-xs-left">
           {{ this.data.id }}
           {{ this.data.title }}
           {{ this.data.category }}
           {{ this.data.created }}
         </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
+
+      <v-card-actions>
         <v-btn
           class="accent--text"
           flat
@@ -23,7 +22,7 @@
           flat
           @click.native="approve"
         >Approve</v-btn>
-      </v-card-row>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

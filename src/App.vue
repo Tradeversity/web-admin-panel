@@ -98,7 +98,8 @@
 
         <v-btn
           floating
-          class="primary fab"
+          class="fab"
+          :style="{ backgroundColor: schoolColor }"
           @click.native.stop="add"
           v-show="isFABActive"
         >
@@ -107,6 +108,7 @@
       </v-container>
     </main>
 
+    <set-location-dialog></set-location-dialog>
     <user-dialog></user-dialog>
     <flagged-dialog></flagged-dialog>
     <add-listing-dialog></add-listing-dialog>
@@ -126,6 +128,7 @@ import AddOrganizationDialog from '@/components/dialogs/AddOrganization.vue'
 import AddAdminDialog from '@/components/dialogs/AddAdmin.vue'
 import AddSchoolDialog from '@/components/dialogs/AddSchool.vue'
 import AddEventDialog from '@/components/dialogs/AddEvent.vue'
+import SetLocationDialog from '@/components/dialogs/SetLocation.vue'
 
 export default {
   name: 'app',
@@ -137,6 +140,7 @@ export default {
     AddSchoolDialog,
     AddEventDialog,
     AddOrganizationDialog,
+    SetLocationDialog,
   },
   data () {
     return {
@@ -154,6 +158,10 @@ export default {
     }
   },
   computed: {
+    schoolColor () {
+      return this.$store.getters.schoolColor
+    },
+
     schoolName () {
       // console.log('School', this.$store.state.school)
       if (
@@ -273,15 +281,16 @@ export default {
 <style lang="stylus">
 @import '../node_modules/vuetify/src/stylus/settings/_colors'
 
+// #D6262E
 // #00BFA5
 $theme := {
-  primary: #D6262E
-  accent: $red.accent-2
-  secondary: $grey.darken-1
-  info: $blue.lighten-1
-  warning: $amber.darken-2
-  error: $red.accent-4
-  success: $green.lighten-2
+  primary: $blue.darken-2
+  accent: $blue.accent-2
+  secondary: $grey.darken-3
+  info: $blue.base
+  warning: $amber.base
+  error: $red.base
+  success: $green.base
 }
 
 @import '../node_modules/vuetify/src/stylus/main'

@@ -2,15 +2,15 @@
   <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
-      <v-card-row class="primary">
-        <v-card-title class="white--text">
-          Add admin
+        <v-card-title>
+          <span class="headline">Add event</span>
         </v-card-title>
-      </v-card-row>
-      <v-card-row>
+
         <v-card-text class="text-xs-left">
           <v-text-field
             label="Title"
+            max="80"
+            counter
             :hint="formState.title.hint"
             :error="formState.title.error"
             :persistent-hint="formState.title.error"
@@ -18,33 +18,79 @@
           ></v-text-field>
           <v-text-field
             label="Description"
+            max="150"
+            counter
+            multi-line
             :hint="formState.description.hint"
             :error="formState.description.error"
             :persistent-hint="formState.description.error"
             v-model="formData.description"
           ></v-text-field>
-          <v-text-field
-            label="Start time"
-            :hint="formState.startTime.hint"
-            :error="formState.startTime.error"
-            :persistent-hint="formState.startTime.error"
-            v-model="formData.startTime"
-          ></v-text-field>
-          <v-text-field
-            label="End time"
-            :hint="formState.endTime.hint"
-            :error="formState.endTime.error"
-            :persistent-hint="formState.endTime.error"
-            v-model="formData.endTime"
-          ></v-text-field>
-          <v-text-field
+
+          <v-layout row wrap>
+            <v-flex xs12 sm12>
+              <v-menu
+                lazy
+                :close-on-content-click="false"
+                v-model="timePicker1"
+                transition="scale-transition"
+                offset-y
+                :nudge-left="40"
+              >
+                <v-text-field
+                  slot="activator"
+                  prepend-icon="access_time"
+                  label="Start time"
+                  readonly
+                  :hint="formState.startTime.hint"
+                  :error="formState.startTime.error"
+                  :persistent-hint="formState.startTime.error"
+                  v-model="formData.startTime"
+                ></v-text-field>
+                <v-time-picker
+                  v-model="formData.startTime"
+                  autosave
+                ></v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm12>
+              <v-menu
+                lazy
+                :close-on-content-click="false"
+                v-model="timePicker2"
+                transition="scale-transition"
+                offset-y
+                :nudge-left="40"
+              >
+                <v-text-field
+                  slot="activator"
+                  prepend-icon="access_time"
+                  label="End time"
+                  readonly
+                  :hint="formState.endTime.hint"
+                  :error="formState.endTime.error"
+                  :persistent-hint="formState.endTime.error"
+                  v-model="formData.endTime"
+                ></v-text-field>
+                <v-time-picker
+                  v-model="formData.endTime"
+                  autosave
+                ></v-time-picker>
+              </v-menu>
+            </v-flex>
+          </v-layout>
+
+          <!--<v-text-field
             label="Location"
             :hint="formState.location.hint"
             :error="formState.location.error"
             :persistent-hint="formState.location.error"
             v-model="formData.location"
-          ></v-text-field>
-          <v-text-field
+          ></v-text-field>-->
+
+          <v-btn primary block @click.native.stop="openSetLocation">Set location</v-btn>
+
+          <!--<v-text-field
             label="Longitude"
             :hint="formState.long.hint"
             :error="formState.long.error"
@@ -57,34 +103,24 @@
             :error="formState.lat.error"
             :persistent-hint="formState.lat.error"
             v-model="formData.lat"
-          ></v-text-field>
+          ></v-text-field>-->
         </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
-        <v-btn
-          class="accent--text"
-          flat
-          @click.native="reset"
-        >Reset</v-btn>
-        <v-btn
-          class="secondary--text darken-1"
-          type="submit"
-          flat
-          :loading="isLoading"
-        >Submit</v-btn>
-      </v-card-row>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            flat
+            @click.native="reset"
+          >Reset</v-btn>
+          <v-btn
+            type="submit"
+            flat
+            primary
+            :loading="isLoading"
+          >Submit</v-btn>
+        </v-card-actions>
       </form>
     </v-card>
-
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="2000"
-      :success="formState.form === 'success'"
-      :error="formState.form === 'error'"
-    >
-      {{ formState.form.snackMessage }}
-      <v-btn flat light @click.native="snackbar = false">Close</v-btn>
-    </v-snackbar>
   </v-dialog>
 </template>
 
@@ -95,7 +131,8 @@ export default {
   name: 'AddEventDialog',
   data () {
     return {
-      snackbar: false,
+      timePicker1: false,
+      timePicker2: false,
       confirm: '',
       isLoading: false,
       fieldNames: [
@@ -107,33 +144,13 @@ export default {
         'lat',
         'long',
       ],
-      // formState: {
-      //   form: 'info',
-      //   snackMessage: 'Invite user to be a school admin',
-      //   firstName: {
-      //     hint: '',
-      //     error: false,
-      //   },
-      //   lastName: {
-      //     hint: '',
-      //     error: false,
-      //   },
-      //   email: {
-      //     hint: 'Invite will be sent to this address',
-      //     error: false,
-      //   },
-      //   password: {
-      //     hint: 'Please enter at least 8 characters',
-      //     error: false,
-      //   },
-      //   location: {
-      //     hint: '',
-      //     error: false,
-      //   }
-      // },
     }
   },
   computed: {
+    schoolColor () {
+      return this.$store.getters.schoolColor
+    },
+
     formState () {
       let state = {}
 
@@ -176,6 +193,10 @@ export default {
     }
   },
   methods: {
+    openSetLocation () {
+      this.$store.commit('OPEN_SET_LOCATION_DIALOG')
+    },
+
     reset () {
       this.$store.commit('SET_NEW_EVENT', {
         title: '',

@@ -1,10 +1,9 @@
 <template>
   <v-dialog v-model="isOpen">
     <v-card>
-      <v-card-row primary>
+
         <v-card-title>Add Listing</v-card-title>
-      </v-card-row>
-      <v-card-row>
+
         <v-card-text class="text-xs-left">
           <v-text-field label="Title"></v-text-field>
           <v-text-field label="Amount"></v-text-field>
@@ -30,8 +29,8 @@
             auto
           ></v-select>
         </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
+
+      <v-card-actions>
         <v-btn
           class="accent--text"
           flat
@@ -42,7 +41,7 @@
           flat
           @click.native="submit"
         >Submit</v-btn>
-      </v-card-row>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

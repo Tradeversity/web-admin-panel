@@ -43,5 +43,11 @@ export default {
   },
   SET_FLAGGED_ITEM (state, item) {
     state.flaggedItem = item
+  },
+  CLOSE_SET_LOCATION_DIALOG (state) {
+    state.isSetLocationDialogOpen = false
+  },
+  OPEN_SET_LOCATION_DIALOG (state) {
+    state.isSetLocationDialogOpen = true
   }
 }

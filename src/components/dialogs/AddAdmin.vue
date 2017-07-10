@@ -2,12 +2,10 @@
   <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
-      <v-card-row class="primary">
-        <v-card-title class="white--text">
+        <v-card-title class="primary white--text">
           Add admin
         </v-card-title>
-      </v-card-row>
-      <v-card-row>
+
         <v-card-text class="text-xs-left">
           <v-text-field
             label="First name"
@@ -48,20 +46,20 @@
             v-model="confirm"
           ></v-text-field>
         </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
-        <v-btn
-          class="accent--text"
-          flat
-          @click.native="reset"
-        >Reset</v-btn>
-        <v-btn
-          class="secondary--text darken-1"
-          type="submit"
-          flat
-          :loading="isLoading"
-        >Submit</v-btn>
-      </v-card-row>
+
+        <v-card-actions>
+          <v-btn
+            class="accent--text"
+            flat
+            @click.native="reset"
+          >Reset</v-btn>
+          <v-btn
+            class="secondary--text darken-1"
+            type="submit"
+            flat
+            :loading="isLoading"
+          >Submit</v-btn>
+        </v-card-actions>
       </form>
     </v-card>
 

@@ -1,16 +1,29 @@
-export default {
-  schoolID (state) {
-    console.log('State', state, state.school)
-    return state.school.id
-  }
+const schoolID = (state) => {
+  return state.school.id
 }
 
-// const requireGetters = require.context('.', true, /\.\/.+\/getters\.js$/)
+const schoolColor = (state) => {
+  const school = state.school
+  let formattedColor = false
 
-// requireGetters.keys().forEach((key) => {
-//   const actions = requireGetters(key)
+  if ((
+    school.color[0] === 255 &&
+    school.color[1] === 255 &&
+    school.color[2] === 255
+  ) || (
+    school.color[0] === 0 &&
+    school.color[1] === 0 &&
+    school.color[2] === 0
+  )) {
+    formattedColor = '#D6262E'
+  } else {
+    formattedColor = `rgb(${school.color[0]}, ${school.color[1]}, ${school.color[2]})`
+  }
 
-//   Object.keys(actions).forEach((name) => {
-//     module.exports[name] = actions[name]
-//   })
-// })
+  return formattedColor
+}
+
+export default {
+  schoolID,
+  schoolColor,
+}

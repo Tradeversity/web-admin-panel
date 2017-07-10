@@ -4,36 +4,35 @@
       <v-card-title class="primary white--text">
         Login
       </v-card-title>
-      <v-card-row>
-        <v-card-text>
-          <v-text-field
-            name="email"
-            label="Email"
-            type="email"
-            v-model="formData.email"
-            :hint="formState.email.hint"
-            :error="formState.email.error"
-            :persistent-hint="formState.email.error"
-          ></v-text-field>
-          <v-text-field
-            name="password"
-            label="Password"
-            type="password"
-            v-model="formData.password"
-            :hint="formState.password.hint"
-            :error="formState.password.error"
-            :persistent-hint="formState.password.error"
-          ></v-text-field>
-        </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
+      <v-card-text>
+        <v-text-field
+          name="email"
+          label="Email"
+          type="email"
+          v-model="formData.email"
+          :hint="formState.email.hint"
+          :error="formState.email.error"
+          :persistent-hint="formState.email.error"
+        ></v-text-field>
+        <v-text-field
+          name="password"
+          label="Password"
+          type="password"
+          v-model="formData.password"
+          :hint="formState.password.hint"
+          :error="formState.password.error"
+          :persistent-hint="formState.password.error"
+        ></v-text-field>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn
           flat
           type="submit"
           class="primary--text"
           :loading="isLoading"
         >Login</v-btn>
-      </v-card-row>
+      </v-card-actions>
     </form>
   </v-card>
 </template>

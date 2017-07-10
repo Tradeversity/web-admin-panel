@@ -2,12 +2,11 @@
   <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
-      <v-card-row class="primary">
-        <v-card-title class="white--text">
+
+        <v-card-title class="primary white--text">
           Add school
         </v-card-title>
-      </v-card-row>
-      <v-card-row>
+
         <v-card-text class="text-xs-left">
           <v-text-field
             label="Name"
@@ -109,8 +108,8 @@
             v-model="formData.categories"
           ></v-text-field>
         </v-card-text>
-      </v-card-row>
-      <v-card-row actions>
+
+      <v-card-actions>
         <v-btn
           class="accent--text"
           flat
@@ -122,7 +121,7 @@
           flat
           :loading="isLoading"
         >Submit</v-btn>
-      </v-card-row>
+      </v-card-actions>
       </form>
     </v-card>
 
