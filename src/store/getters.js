@@ -6,6 +6,10 @@ const schoolColor = state => {
   const school = state.school
   let formattedColor = false
 
+  if (!school.hasOwnProperty('color')) {
+    return '#D6262E'
+  }
+
   if ((
     school.color[0] === 255 &&
     school.color[1] === 255 &&
@@ -32,8 +36,9 @@ const avatar = state => {
 }
 
 const activeUI = (state) => {
-  const route = state.route
-  console.log(state)
+  // const route = state.route
+  // console.log(state)
+  return ''
 }
 
 export default {

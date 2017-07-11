@@ -1,10 +1,29 @@
 <template>
-  <v-dialog v-model="isOpen">
+  <v-dialog
+    v-model="isOpen"
+    width="400"
+  >
     <v-card>
-      <form @submit.prevent="submit">
-
-        <v-card-title class="primary white--text">
+      <!--<v-toolbar dark class="primary">
+        <v-btn icon @click.native.stop="close">
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>
           Add school
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn dark flat @click.native.stop="close">
+            Save
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>-->
+
+      <form @submit.prevent="submit">
+        <v-card-title>
+          <span class="headline">
+            Add school
+          </span>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -110,13 +129,14 @@
         </v-card-text>
 
       <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn
-          class="accent--text"
+          class="secondary--text"
           flat
           @click.native="reset"
         >Reset</v-btn>
         <v-btn
-          class="secondary--text darken-1"
+          class="primary--text darken-1"
           type="submit"
           flat
           :loading="isLoading"
@@ -205,6 +225,10 @@ export default {
     }
   },
   methods: {
+    close () {
+      this.$store.commit('CLOSE_ADD_SCHOOL_DIALOG')
+    },
+
     reset () {
       this.$store.commit('SET_NEW_SCHOOL', {
         name: '',
@@ -302,5 +326,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.dialog
+  width: 500px !important
 </style>

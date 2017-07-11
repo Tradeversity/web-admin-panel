@@ -3487,7 +3487,7 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leaflet@^1.1.0:
+leaflet@^1.0.1, leaflet@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.1.0.tgz#63246715cfc783dca6798b843a250e8e6fd84918"
 
@@ -6052,7 +6052,14 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.2.tgz#a0a6c50c941d2a4abda963f2f42c337ac450ee95"
 
-vue@^2.2.1, vue@^2.3.3, vue@^2.3.4:
+vue2-leaflet@^0.0.51:
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/vue2-leaflet/-/vue2-leaflet-0.0.51.tgz#c56f400e24ae4b2934a6a8fec8dc3734ee7b5a28"
+  dependencies:
+    leaflet "^1.0.1"
+    vue "^2.0.0-rc.8"
+
+vue@^2.0.0-rc.8, vue@^2.2.1, vue@^2.3.3, vue@^2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.4.tgz#5ec3b87a191da8090bbef56b7cfabd4158038171"
 

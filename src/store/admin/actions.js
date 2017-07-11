@@ -40,7 +40,25 @@ const POST_ADMIN = ({ state, commit }, admin) => {
     type: 'Web',
   }
 
-  api.request('post', `/admin/`, formattedData)
+  api.request(admin.isEdit ? 'put' : 'post', `/admin/`, formattedData)
+    .then(response => {
+      commit('SET_SCHOOL_ADMIN', admin)
+    })
+    .catch(errorHandler)
+}
+
+const PUT_ADMIN = ({ state, commit }, admin) => {
+  const formattedData = {
+    email: admin.email,
+    first_name: admin.firstName,
+    last_name: admin.lastName,
+    password: admin.password,
+    school_id: admin.schoolId,
+    platform: window.navigator.userAgent,
+    type: 'Web',
+  }
+
+  api.request('put', '/admin/', formattedData)
     .then(response => {
       commit('SET_SCHOOL_ADMIN', admin)
     })
@@ -135,6 +153,7 @@ export default {
   POST_SCHOOL,
   POST_UPDATE,
   POST_ADMIN,
+  PUT_ADMIN,
   DELETE_ADMIN,
   UPDATE_ADMIN,
 

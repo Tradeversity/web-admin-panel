@@ -1,8 +1,5 @@
 <template>
   <v-layout column align-center>
-    <v-flex xs12 class="mb-4">
-      <router-link to="/logout">Go back to login...</router-link>
-    </v-flex>
     <v-flex xs6 class="mb-4 card-wrap" v-for="eventItem in events" :key="eventItem.id">
       <v-card>
 
@@ -12,7 +9,7 @@
 
         <v-card-media>
           <!--<event-location-map></event-location-map>-->
-          <img :src="`https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${eventItem.lat},${eventItem.long}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`" alt="google map image">
+          <img :src="`https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${eventItem.latitude},${eventItem.longitude}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`" alt="google map image">
         </v-card-media>
 
         <v-list>
@@ -59,6 +56,7 @@
         </v-list>
 
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn flat @click.native.stop="deleteEvent(eventItem)">Delete</v-btn>
           <v-btn flat>Edit</v-btn>
         </v-card-actions>

@@ -2,8 +2,10 @@
   <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
-        <v-card-title class="primary white--text">
-          Add admin
+        <v-card-title>
+          <span class="headline">
+             Add admin
+          </span>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -48,13 +50,14 @@
         </v-card-text>
 
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
-            class="accent--text"
+            class="secondary--text"
             flat
             @click.native="reset"
           >Reset</v-btn>
           <v-btn
-            class="secondary--text darken-1"
+            class="primary--text darken-1"
             type="submit"
             flat
             :loading="isLoading"
@@ -118,6 +121,16 @@ export default {
 
     formData: {
       get () {
+        if (
+            this.$store.state.newAdmin.hasOwnProperty('id') &&
+            this.$store.state.newAdmin.id.length > 1
+          ) {
+          return {
+            firstName: this.$store.state.newAdmin.first_name,
+            lastName: this.$store.state.newAdmin.last_name,
+          }
+        }
+
         return this.$store.state.newAdmin
       },
 
@@ -200,6 +213,10 @@ export default {
         ) {
         const data = this.formData
         data.schoolId = this.school.id
+        console.log(this.school, this.$store.state.newAdmin)
+        data.isEdit = (
+          this.$store.state.newAdmin.hasOwnProperty('id') && this.$store.state.newAdmin.id.length > 1
+        )
 
         this.$store.dispatch('POST_ADMIN', data)
           .then(response => {

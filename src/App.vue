@@ -1,6 +1,5 @@
 <template>
   <v-app id="app">
-
     <drawer v-if="navbar.isActive ===  'admin'"></drawer>
     <toolbar v-if="navbar.isActive ===  'admin'"></toolbar>
     <super-toolbar v-if="navbar.isActive ===  'super'"></super-toolbar>
@@ -89,10 +88,10 @@ export default {
     navbar () {
       let active = ''
 
-      if (this.$route.path.indexOf('/school') > -1) {
-        active = 'admin'
-      } else if (this.$route.path === '/event-manager') {
+      if (this.$route.path === `/school/${this.schoolName}/event-manager`) {
         active = 'event'
+      } else if (this.$route.path.indexOf('/school') > -1) {
+        active = 'admin'
       } else if (this.$route.path === '/super') {
         active = 'super'
       }
