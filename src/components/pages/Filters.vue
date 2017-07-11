@@ -2,38 +2,38 @@
   <v-layout row wrap justify-space-between>
     <v-flex xs12 sm6 md4 class="mb-4">
       <v-card>
-        <v-card-row>
-          <v-card-title>
-            Set filter
-          </v-card-title>
-        </v-card-row>
-        <v-card-row>
-          <v-card-text>
-            <v-text-field
-              name="filterKeyword"
-              label="Keyword"
-              :hint="filterHint"
-              :error="addFilterError"
-              v-model="filter"
-              autofocus
-              min="3"
-              append-icon="arrow_forward"
-              :append-icon-cb="addFilter"
-              @keyup.native.enter="addFilter"
-            ></v-text-field>
-          </v-card-text>
-        </v-card-row>
+
+        <v-card-title>
+          Set filter
+        </v-card-title>
+
+        <v-card-text>
+          <v-text-field
+            name="filterKeyword"
+            label="Keyword"
+            :hint="filterHint"
+            :error="addFilterError"
+            v-model="filter"
+            autofocus
+            min="3"
+            append-icon="arrow_forward"
+            :append-icon-cb="addFilter"
+            @keyup.native.enter="addFilter"
+          ></v-text-field>
+        </v-card-text>
+
       </v-card>
     </v-flex>
     <v-flex xs12 sm6 md7>
       <v-card>
-        <v-card-row>
-          <v-card-title>
+        <v-card-title>
+          <span class="headline">
             Active filters
-          </v-card-title>
-        </v-card-row>
-        <v-card-row class="pt-3 pb-4">
-          <v-card-text v-if="keywords.length > 0">
+          </span>
+        </v-card-title>
+
+
+          <v-card-text v-if="keywords.length > 0" class="pt-3 pb-4">
             <v-chip
               v-for="keyword in keywords"
               @click.native.stop="removeFilter(keyword)"
@@ -44,7 +44,7 @@
           <v-card-text v-else>
             No filters have been set
           </v-card-text>
-        </v-card-row>
+
       </v-card>
     </v-flex>
   </v-layout>

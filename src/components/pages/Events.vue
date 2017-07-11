@@ -5,9 +5,12 @@
       :indeterminate="true"
     ></v-progress-linear>
     <v-card-title>
-      Events
+      <span class="headline">
+        Events
+      </span>
 
       <v-spacer></v-spacer>
+
       <v-text-field
         append-icon="search"
         label="Search"

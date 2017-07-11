@@ -1,6 +1,10 @@
-const schoolID = state => {
-  return state.school.id
-}
+/*
+ * Getters.js
+ * + Takes the active state and returns relevant data
+ *
+*/
+
+import _ from 'lodash'
 
 const schoolColor = state => {
   const school = state.school
@@ -27,19 +31,11 @@ const schoolColor = state => {
   return formattedColor
 }
 
-const username = state => {
-  return state.user.display_name || 'Admin'
-}
-
-const avatar = state => {
-  return state.user.avatar_url || false
-}
-
-const activeUI = (state) => {
-  // const route = state.route
-  // console.log(state)
-  return ''
-}
+const activeUI = state => ''
+const username = state => state.user.display_name || 'Admin'
+const schoolID = state => state.school.id
+const avatar = state => _.has(state.user, 'avatar_url') && state.user.avatar_url
+const organizationID = state => _.has(state.user, 'id') && state.user.id
 
 export default {
   activeUI,
@@ -47,4 +43,5 @@ export default {
   avatar,
   schoolID,
   schoolColor,
+  organizationID
 }

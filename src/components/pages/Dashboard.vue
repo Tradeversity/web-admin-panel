@@ -3,8 +3,12 @@
     <v-flex xs12>
       <v-card>
         <v-card-title>
-          Active users
+          <span class="headline">
+            Active users
+          </span>
+
           <v-spacer></v-spacer>
+
           <v-btn
             icon
             class="secondary--text"
@@ -17,18 +21,24 @@
             </transition>
           </v-btn>
         </v-card-title>
+
         <v-divider></v-divider>
-        <v-card-row class="pa-4">
+
+        <v-card-text class="pa-4">
           <active-users-chart />
-        </v-card-row>
+        </v-card-text>
       </v-card>
     </v-flex>
 
     <v-flex xs12 md5>
       <v-card class="mt-4">
         <v-card-title>
-          Pageviews by browser
+          <span class="headline">
+            Sales by categories
+          </span>
+
           <v-spacer></v-spacer>
+
           <v-btn
             icon
             class="secondary--text"
@@ -41,18 +51,24 @@
             </transition>
           </v-btn>
         </v-card-title>
+
         <v-divider></v-divider>
-        <v-card-row class="pa-4">
+
+        <v-card-text class="pa-4">
           <pageviews-chart />
-        </v-card-row>
+        </v-card-text>
       </v-card>
     </v-flex>
 
     <v-flex xs12 md7>
       <v-card class="mt-4">
         <v-card-title>
-          Reports in past month
+          <span class="headline">
+            Listings
+          </span>
+
           <v-spacer></v-spacer>
+
           <v-btn
             icon
             class="secondary--text"
@@ -65,18 +81,24 @@
             </transition>
           </v-btn>
         </v-card-title>
+
         <v-divider></v-divider>
-        <v-card-row class="pa-4">
+
+        <v-card-text class="pa-4">
           <reports-chart />
-        </v-card-row>
+        </v-card-text>
       </v-card>
     </v-flex>
 
     <v-flex xs12>
       <v-card class="mt-4">
         <v-card-title>
-          Listings (past month)
+          <span class="headline">
+            Listings (past month)
+          </span>
+
           <v-spacer></v-spacer>
+
           <v-btn
             icon
             class="secondary--text"
@@ -89,10 +111,12 @@
             </transition>
           </v-btn>
         </v-card-title>
+
         <v-divider></v-divider>
-        <v-card-row class="pa-4">
+
+        <v-card-text class="pa-4">
           <listings-chart />
-        </v-card-row>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>

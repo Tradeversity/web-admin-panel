@@ -41,7 +41,7 @@ export default {
   computed: {
     isOpen: {
       get () {
-        return true // this.$store.state.isSetLocationDialogOpen
+        return false // this.$store.state.isSetLocationDialogOpen
       },
 
       set (value) {

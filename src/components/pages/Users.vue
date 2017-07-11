@@ -5,7 +5,7 @@
       :indeterminate="true"
     ></v-progress-linear>
     <v-card-title>
-      Users
+      <span class="headline">Users</span>
 
       <v-btn
         icon

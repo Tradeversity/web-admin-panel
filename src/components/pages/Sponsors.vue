@@ -5,7 +5,7 @@
       :indeterminate="true"
     ></v-progress-linear>
     <v-card-title>
-      Sponsored Listings
+      <span class="headline">Sponsored Listings</span>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 const headers = [
   { text: 'Title', value: 'title', left: true },
   { text: 'Category', value: 'category' },
@@ -74,7 +76,8 @@ export default {
   },
   computed: {
     listings () {
-      return this.$store.state.sponsoredListings || [
+      console.log(this.$store.state.sponsoredListings)
+      return _.isObject(this.$store.state.sponsoredListings) ? [
         {
           title: 'grass',
           category: 'earth',
@@ -84,7 +87,7 @@ export default {
           category: 'pizza',
           created_at: 15645645635,
         },
-      ]
+      ] : this.$store.state.sponsoredListings
     }
   },
   methods: {

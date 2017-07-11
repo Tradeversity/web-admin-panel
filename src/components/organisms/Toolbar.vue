@@ -8,8 +8,8 @@
       light
       @click.native.stop="toggleDrawer"
     ></v-toolbar-side-icon>
-    <v-toolbar-title class="hidden-sm-and-down">
-      Tradeversity
+    <v-toolbar-title class="hidden-sm-and-down white--text">
+      Admin panel
     </v-toolbar-title>
   </v-toolbar>
 </template>

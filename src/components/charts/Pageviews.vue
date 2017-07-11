@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       data: {
-        labels: ['Chrome', 'Firefox', 'IE', 'Safari', 'Mobile'],
+        labels: ['Everything else', 'Electronics', 'Apparel', 'Recreation', 'Housing'],
         datasets: [
           {
             backgroundColor: [

@@ -32,6 +32,56 @@
               <v-menu
                 lazy
                 :close-on-content-click="false"
+                v-model="datePicker1"
+                transition="scale-transition"
+                offset-y
+                :nudge-left="40"
+              >
+                <v-text-field
+                  slot="activator"
+                  prepend-icon="date_range"
+                  label="Start time"
+                  readonly
+                  :hint="formState.startDate.hint"
+                  :error="formState.startDate.error"
+                  :persistent-hint="formState.startDate.error"
+                  v-model="formData.startDate"
+                ></v-text-field>
+                <v-date-picker
+                  v-model="formData.startDate"
+                  autosave
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm12>
+              <v-menu
+                lazy
+                :close-on-content-click="false"
+                v-model="datePicker2"
+                transition="scale-transition"
+                offset-y
+                :nudge-left="40"
+              >
+                <v-text-field
+                  slot="activator"
+                  prepend-icon="date_range"
+                  label="End date"
+                  readonly
+                  :hint="formState.endDate.hint"
+                  :error="formState.endDate.error"
+                  :persistent-hint="formState.endDate.error"
+                  v-model="formData.endDate"
+                ></v-text-field>
+                <v-date-picker
+                  v-model="formData.endDate"
+                  autosave
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 sm12>
+              <v-menu
+                lazy
+                :close-on-content-click="false"
                 v-model="timePicker1"
                 transition="scale-transition"
                 offset-y
@@ -80,30 +130,17 @@
             </v-flex>
           </v-layout>
 
-          <!--<v-text-field
-            label="Location"
-            :hint="formState.location.hint"
-            :error="formState.location.error"
-            :persistent-hint="formState.location.error"
-            v-model="formData.location"
-          ></v-text-field>-->
-
-          <v-btn primary block @click.native.stop="openSetLocation">Set location</v-btn>
-
-          <!--<v-text-field
-            label="Longitude"
-            :hint="formState.long.hint"
-            :error="formState.long.error"
-            :persistent-hint="formState.long.error"
-            v-model="formData.long"
-          ></v-text-field>
-          <v-text-field
-            label="Latitude"
-            :hint="formState.lat.hint"
-            :error="formState.lat.error"
-            :persistent-hint="formState.lat.error"
-            v-model="formData.lat"
-          ></v-text-field>-->
+          <div class="input-group input-group--text-field">
+            <div class="input-group__input">
+              <vue-google-autocomplete
+                id="map"
+                name="LocationSearch"
+                class="search"
+                placeholder="Location"
+                :placechanged="getAddressData"
+              ></vue-google-autocomplete>
+            </div>
+          </div>
         </v-card-text>
 
         <v-card-actions>
@@ -125,19 +162,27 @@
 </template>
 
 <script>
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
 // import validateEmail from '@/services/validateEmail'
 
 export default {
   name: 'AddEventDialog',
+  components: {
+    VueGoogleAutocomplete
+  },
   data () {
     return {
       timePicker1: false,
       timePicker2: false,
+      datePicker1: false,
+      datePicker2: false,
       confirm: '',
       isLoading: false,
       fieldNames: [
         'title',
         'description',
+        'startDate',
+        'endDate',
         'startTime',
         'endTime',
         'location',
@@ -175,8 +220,9 @@ export default {
       },
 
       set (value) {
+        console.log(value)
         this.$store.commit('SET_NEW_EVENT', this.formData)
-        // console.log(this.$store.state.newEvent, value)
+        console.log(this.$store.state.newEvent, value)
       }
     },
 
@@ -193,6 +239,10 @@ export default {
     }
   },
   methods: {
+    getAddressData (value) {
+      console.log(value)
+    },
+
     openSetLocation () {
       this.$store.commit('OPEN_SET_LOCATION_DIALOG')
     },
@@ -288,5 +338,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.search
+  border-bottom: 1px solid grey
 </style>

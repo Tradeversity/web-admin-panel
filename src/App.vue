@@ -182,8 +182,9 @@ export default {
 <style lang="stylus">
 @import '../node_modules/vuetify/src/stylus/settings/_colors'
 
-// #D6262E
-// #00BFA5
+// #D6262E red
+// #00BFA5 blue
+// #30d6bf teal
 $theme := {
   primary: $blue.darken-2
   accent: $blue.accent-2
@@ -193,6 +194,16 @@ $theme := {
   error: $red.base
   success: $green.base
 }
+
+// $theme := {
+//   primary: #D6262E
+//   accent: #30d6bf
+//   secondary: $grey.darken-3
+//   info: $blue.base
+//   warning: $amber.base
+//   error: $red.base
+//   success: $green.base
+// }
 
 @import '../node_modules/vuetify/src/stylus/main'
 

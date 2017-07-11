@@ -76,6 +76,22 @@ export default {
       }
     },
 
+    schoolName () {
+      // console.log('School', this.$store.state.school)
+      if (
+        this.$store.state.hasOwnProperty('school') &&
+        this.$store.state.school.hasOwnProperty('short_name')
+      ) {
+        return this.$store.state.school.short_name
+      } else {
+        // this.$router.push({
+        //   path: '/login'
+        // })
+
+        return false
+      }
+    },
+
     username () {
       return this.$store.getters.username
     },
