@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'ViewListing',
+  name: 'ViewListingDialog',
   data: () => ({
     isOpen: false,
   }),

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Super from '@/pages/Super'
+import CreateSchool from '@/pages/CreateSchool'
 import EventManager from '@/pages/EventManager'
 
 import Login from '@/pages/Login'
@@ -71,6 +72,10 @@ export default new Router({
         requiredAuth: true,
         noNavbar: true,
       }
+    }, {
+      path: '/super/create-school',
+      name: 'Create School',
+      component: CreateSchool,
     }, {
       path: '/school/:schoolName/event-manager',
       name: 'EventManager',

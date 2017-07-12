@@ -43,18 +43,18 @@
       :search="search"
     >
       <template slot="items" scope="props">
-        <td @click.stop="openFlaggedItem(props.item)">
+        <td @click.stop="openListing(props.item)">
           {{ props.item.title }}
         </td>
         <td
           class="text-xs-right"
-          @click.stop="openFlaggedItem(props.item)"
+          @click.stop="openListing(props.item)"
         >
           {{ props.item.category }}
         </td>
         <td
           class="text-xs-right"
-          @click.stop="openFlaggedItem(props.item)"
+          @click.stop="openListing(props.item)"
         >
           {{ new Date(props.item.created_at).toDateString() }}
         </td>
@@ -99,9 +99,9 @@ export default {
     }
   },
   methods: {
-    openFlaggedItem (item) {
-      this.$store.commit('SET_FLAGGED_ITEM', item)
-      this.$store.commit('OPEN_LISTING_DIALOG')
+    openListing (item) {
+      this.$store.commit('SET_SELECTED_LISTING', item)
+      this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
     },
 
     loadListings () {

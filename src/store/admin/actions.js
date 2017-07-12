@@ -139,10 +139,20 @@ const GET_ORGANIZATION_EVENTS = ({ getters, commit }, organizationsID) => {
     .catch(errorHandler)
 }
 
-const POST_EVENT = ({ getters }, eventID) => {
+const POST_EVENT = ({ getters }, eventItem) => {
   const baseURL = `/admin/school/${getters.schooldID}`
+  const data = {
+    title: eventItem.title,
+    description: eventItem.description,
+    start_time: eventItem.startTime,
+    end_time: eventItem.endTime,
+    location: eventItem.location,
+    lat: eventItem.latitude,
+    long: eventItem.longitude,
+    places_id: eventItem.placesId,
+  }
 
-  api.request('post', `${baseURL}/event/${eventID}/deny`)
+  api.request('post', `${baseURL}/event`, data)
     .then(response => {})
     .catch(errorHandler)
 }
