@@ -12,7 +12,7 @@
 export default {
   name: 'ViewListing',
   data: () => ({
-
+    isOpen: false,
   }),
   computed: {
     listing () {
@@ -20,7 +20,7 @@ export default {
     },
 
     listingImage () {
-      return this.listing.media_url
+      return '' // this.listing.media_url
     }
   }
 }

@@ -1,9 +1,16 @@
+/*
+ *  Event.vue
+ *  + Add, Edit, Delete events
+ *
+ *
+*/
+
 <template>
-  <v-dialog v-model="isOpen">
+  <v-dialog v-model="isOpen" width="500">
     <v-card>
       <form @submit.prevent="submit">
         <v-card-title>
-          <span class="headline">Add event</span>
+          <span class="headline">{{ title }}</span>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -16,6 +23,7 @@
             :persistent-hint="formState.title.error"
             v-model="formData.title"
           ></v-text-field>
+
           <v-text-field
             label="Description"
             max="150"
@@ -28,7 +36,7 @@
           ></v-text-field>
 
           <v-layout row wrap>
-            <v-flex xs12 sm12>
+            <v-flex xs12 sm6>
               <v-menu
                 lazy
                 :close-on-content-click="false"
@@ -40,7 +48,7 @@
                 <v-text-field
                   slot="activator"
                   prepend-icon="date_range"
-                  label="Start time"
+                  label="Start date"
                   readonly
                   :hint="formState.startDate.hint"
                   :error="formState.startDate.error"
@@ -52,33 +60,9 @@
                   autosave
                 ></v-date-picker>
               </v-menu>
+
             </v-flex>
-            <v-flex xs12 sm12>
-              <v-menu
-                lazy
-                :close-on-content-click="false"
-                v-model="datePicker2"
-                transition="scale-transition"
-                offset-y
-                :nudge-left="40"
-              >
-                <v-text-field
-                  slot="activator"
-                  prepend-icon="date_range"
-                  label="End date"
-                  readonly
-                  :hint="formState.endDate.hint"
-                  :error="formState.endDate.error"
-                  :persistent-hint="formState.endDate.error"
-                  v-model="formData.endDate"
-                ></v-text-field>
-                <v-date-picker
-                  v-model="formData.endDate"
-                  autosave
-                ></v-date-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex xs12 sm12>
+            <v-flex xs12 sm6>
               <v-menu
                 lazy
                 :close-on-content-click="false"
@@ -103,6 +87,7 @@
                 ></v-time-picker>
               </v-menu>
             </v-flex>
+
             <v-flex xs12 sm12>
               <v-menu
                 lazy
@@ -128,9 +113,43 @@
                 ></v-time-picker>
               </v-menu>
             </v-flex>
+            <v-flex xs12 sm12>
+
+
+              <v-menu
+                lazy
+                :close-on-content-click="false"
+                v-model="datePicker2"
+                transition="scale-transition"
+                offset-y
+                :nudge-left="40"
+              >
+                <v-text-field
+                  slot="activator"
+                  prepend-icon="date_range"
+                  label="End date"
+                  readonly
+                  :hint="formState.endDate.hint"
+                  :error="formState.endDate.error"
+                  :persistent-hint="formState.endDate.error"
+                  v-model="formData.endDate"
+                ></v-text-field>
+                <v-date-picker
+                  v-model="formData.endDate"
+                  autosave
+                ></v-date-picker>
+              </v-menu>
+            </v-flex>
           </v-layout>
 
-          <div class="input-group input-group--text-field">
+          <location-search
+            id="LocationSearch"
+            prependIcon="my_location"
+            prependIconCB
+            placeholder="Search location..."
+          ></location-search>
+
+          <!-- <div class="input-group input-group--text-field">
             <div class="input-group__input">
               <vue-google-autocomplete
                 id="map"
@@ -140,7 +159,7 @@
                 :placechanged="getAddressData"
               ></vue-google-autocomplete>
             </div>
-          </div>
+          </div> -->
         </v-card-text>
 
         <v-card-actions>
@@ -162,13 +181,15 @@
 </template>
 
 <script>
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
+// import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import LocationSearch from '@/components/molecules/LocationSearch'
 // import validateEmail from '@/services/validateEmail'
 
 export default {
   name: 'AddEventDialog',
   components: {
-    VueGoogleAutocomplete
+    // VueGoogleAutocomplete
+    LocationSearch,
   },
   data () {
     return {
@@ -212,6 +233,10 @@ export default {
       // console.log('state', state)
 
       return state
+    },
+
+    title () {
+      return 'Create event'
     },
 
     formData: {

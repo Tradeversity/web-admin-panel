@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Super from '@/components/pages/Super'
-import EventManager from '@/components/pages/EventManager'
+import Super from '@/pages/Super'
+import EventManager from '@/pages/EventManager'
 
-import Login from '@/components/pages/Login'
-import LoginForgot from '@/components/pages/login/Forgot'
-import LoginReset from '@/components/pages/login/Reset'
-import LoginUser from '@/components/pages/login/User'
-import LoginSuccess from '@/components/pages/login/Success'
+import Login from '@/pages/Login'
+import LoginForgot from '@/pages/login/Forgot'
+import LoginReset from '@/pages/login/Reset'
+import LoginUser from '@/pages/login/User'
+import LoginSuccess from '@/pages/login/Success'
 
-import Dashboard from '@/components/pages/Dashboard'
-import Users from '@/components/pages/Users'
-import Listings from '@/components/pages/Listings'
-import Filters from '@/components/pages/Filters'
-import Events from '@/components/pages/Events'
-import Organizations from '@/components/pages/Organizations'
-import Sponsors from '@/components/pages/Sponsors'
+import Dashboard from '@/pages/Dashboard'
+import Users from '@/pages/Users'
+import Listings from '@/pages/Listings'
+import Filters from '@/pages/Filters'
+import Events from '@/pages/Events'
+import Organizations from '@/pages/Organizations'
+import Sponsors from '@/pages/Sponsors'
 
 const Logout = {
   name: 'Logout',

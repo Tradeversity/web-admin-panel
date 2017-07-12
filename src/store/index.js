@@ -1,9 +1,12 @@
-// import _ from 'lodash'
+/*
+ *  index.js
+ *  + Configuring State, Actions, Mutations, and Getters
+ *    into one fantastic application
+*/
 
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-// import VueCookie from 'vue-cookie'
 
 import state from './state'
 import actions from './actions'
@@ -19,20 +22,5 @@ export default new Vuex.Store({
   getters: getters,
   plugins: [
     createPersistedState(),
-    // createPersistedState({
-    //   getState: (key) => {
-    //     let savedState = VueCookie.get(key)
-    //     savedState = JSON.parse(savedState)
-    //     console.log('Loading saved state...', savedState)
-    //     return savedState
-    //   },
-    //   setState: (key, state) => {
-    //     console.log('Saving state, showing schools', state, state.schools)
-    //     return VueCookie.set(key, JSON.stringify(state), { expires: 3 })
-    //   }
-    // }),
-    (store) => {
-      // console.log(store)
-    }
   ]
 })
