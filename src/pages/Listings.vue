@@ -100,6 +100,7 @@ export default {
   },
   methods: {
     openListing (item) {
+      console.log(item)
       this.$store.commit('SET_SELECTED_LISTING', item)
       this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
     },
@@ -154,6 +155,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+td
+  cursor: pointer
+
 .tr-click-wrapper
   width: 100%
   display: inline-block

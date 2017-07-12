@@ -3,7 +3,11 @@ export default {
     state.listings = data.listings
   },
   SET_SELECTED_LISTING (state, data) {
-    state.selectedListing = data.listing
+    if (data.hasOwnProperty('listing')) {
+      state.selectedListing = data.listing
+    } else {
+      state.selectedListing = data
+    }
   },
   SET_FLAGGED_LISTINGS (state, data) {
     state.flaggedListings = data.listings

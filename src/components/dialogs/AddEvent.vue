@@ -37,8 +37,6 @@
 
           <location-search
             id="LocationSearch"
-            prependIcon="my_location"
-            prependIconCB
             placeholder="Search location..."
           ></location-search>
 
