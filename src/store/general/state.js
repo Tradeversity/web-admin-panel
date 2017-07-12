@@ -1,3 +1,3 @@
 export default {
-  isDrawerOpen: false,
+  isDrawerOpen: true,
 }

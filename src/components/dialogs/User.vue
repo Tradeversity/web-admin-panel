@@ -1,34 +1,39 @@
 <template>
   <v-dialog v-model="isOpen">
     <v-card>
-
-        <v-card-title class="primary white--text">
+      <v-card-title>
+        <span class="headline">
           {{ formData.display_name }}
-        </v-card-title>
-
-        <v-card-text class="text-xs-left">
-          <v-btn
-            block
-            class="mb-4"
-            v-if="isFlagged"
-            @click.native.stop="flagUser"
-          >
-            {{ isFlagged ? 'unflag' : 'flag'}}
-          </v-btn>
-          <v-btn block class="mb-4" @click.native.stop="warnUser">
-            warn
-          </v-btn>
-          <!--<v-btn block class="mb-4" @click.native.stop="archiveUser">
-            archive
-          </v-btn>-->
-          <v-btn block class="mb-4" @click.native.stop="banUser">
-            ban
-          </v-btn>
-          <!--<v-btn block @click.native.stop="deleteUser">
-            delete
-          </v-btn>-->
-        </v-card-text>
-
+        </span>
+      </v-card-title>
+      <!-- <v-list>
+        <v-list-tile v-for="descriptor in description">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              descriptor.title
+            </v-list-tile-title>
+            <v-list-tile-sub-title>
+              descriptor.subTitle
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list> -->
+      <v-card-text class="text-xs-left">
+        <v-btn
+          block
+          class="mb-4"
+          v-if="isFlagged"
+          @click.native.stop="flagUser"
+        >
+          {{ isFlagged ? 'unflag' : 'flag'}}
+        </v-btn>
+        <v-btn block class="mb-4" @click.native.stop="warnUser">
+          warn
+        </v-btn>
+        <v-btn block class="mb-4" @click.native.stop="banUser">
+          ban
+        </v-btn>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -98,16 +103,22 @@ export default {
   methods: {
     warnUser () {
       this.$store.dispatch('POST_WARN_USER', this.formData.id)
+      this.$store.dispatch('GET_USERS')
+      this.$store.dispatch('GET_FLAGGED_USERS')
       this.$store.commit('CLOSE_USER_DIALOG')
     },
 
     archiveUser () {
       this.$store.dispatch('POST_ARCHIVE_USER', this.formData.id)
+      this.$store.dispatch('GET_USERS')
+      this.$store.dispatch('GET_FLAGGED_USERS')
       this.$store.commit('CLOSE_USER_DIALOG')
     },
 
     banUser () {
       this.$store.dispatch('POST_BAN_USER', this.formData.id)
+      this.$store.dispatch('GET_USERS')
+      this.$store.dispatch('GET_FLAGGED_USERS')
       this.$store.commit('CLOSE_USER_DIALOG')
     },
 

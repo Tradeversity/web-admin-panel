@@ -69,7 +69,7 @@
 
 <script>
 const headers = [
-  { text: 'Title', value: 'title', left: true },
+  { text: 'Title', value: 'title', align: 'left' },
   { text: 'Category', value: 'category' },
   { text: 'Created', value: 'created_at' },
 ]
@@ -148,9 +148,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.listings.length < 1) {
-      this.$store.dispatch('GET_LISTINGS')
-    }
+    this.$store.dispatch('GET_LISTINGS')
   }
 }
 </script>

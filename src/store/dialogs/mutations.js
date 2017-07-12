@@ -5,6 +5,12 @@ export default {
   CLOSE_FLAGGED_DIALOG (state) {
     state.isFlaggedDialogOpen = false
   },
+  OPEN_VIEW_LISTING_DIALOG (state) {
+    state.isViewListingDialogOpen = true
+  },
+  CLOSE_VIEW_LISTING_DIALOG (state) {
+    state.isViewListingDialogOpen = false
+  },
   OPEN_ADD_LISTING_DIALOG (state) {
     state.isAddListingDialogOpen = true
   },

@@ -75,10 +75,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.flaggedListings.length < 1) {
-      // console.log(this.$store.state)
-      this.$store.dispatch('GET_FLAGGED_LISTINGS')
-    }
+    this.$store.dispatch('GET_FLAGGED_LISTINGS')
   }
 }
 </script>

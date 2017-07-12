@@ -33,6 +33,7 @@
     <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
     <confirm-dialog></confirm-dialog>
+    <view-listing-dialog></view-listing-dialog>
   </v-app>
 </template>
 
@@ -51,6 +52,7 @@ import AddSchoolDialog from '@/components/dialogs/AddSchool'
 import AddEventDialog from '@/components/dialogs/AddEvent'
 import SetLocationDialog from '@/components/dialogs/SetLocation'
 import ConfirmDialog from '@/components/dialogs/Confirm'
+import ViewListingDialog from '@/components/dialogs/ViewListing'
 
 export default {
   name: 'app',
@@ -68,6 +70,7 @@ export default {
     AddOrganizationDialog,
     SetLocationDialog,
     ConfirmDialog,
+    ViewListingDialog,
   },
   data () {
     return {

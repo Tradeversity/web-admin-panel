@@ -101,9 +101,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.sponsoredListings.length < 1) {
-      this.$store.dispatch('GET_SPONSORED_LISTINGS')
-    }
+    this.$store.dispatch('GET_SPONSORED_LISTINGS')
   }
 }
 </script>

@@ -47,7 +47,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('GET_EVENTS')
+    this.$store.dispatch('GET_ORGANIZATION_EVENTS')
   }
 }
 </script>

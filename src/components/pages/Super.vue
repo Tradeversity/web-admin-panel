@@ -127,9 +127,7 @@ export default {
   },
 
   mounted () {
-    if (_.isEmpty(this.$store.state.schools)) {
-      this.$store.dispatch('GET_ALL_SCHOOLS')
-    }
+    this.$store.dispatch('GET_ALL_SCHOOLS')
   }
 }
 </script>

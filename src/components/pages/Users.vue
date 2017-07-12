@@ -83,7 +83,7 @@ export default {
         {
           text: 'Name',
           value: 'name',
-          left: true,
+          align: 'left',
         },
         { text: 'Role', value: 'account_role' },
         { text: 'Created', value: 'created_at' },
@@ -155,9 +155,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.users.length < 1) {
-      this.$store.dispatch('GET_USERS')
-    }
+    this.$store.dispatch('GET_USERS')
   }
 }
 </script>

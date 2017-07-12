@@ -92,9 +92,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.events.length < 1) {
-      this.$store.dispatch('GET_EVENTS')
-    }
+    this.$store.dispatch('GET_EVENTS')
   }
 }
 </script>

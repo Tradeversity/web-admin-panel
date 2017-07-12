@@ -74,9 +74,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.organizations.length < 1) {
-      this.$store.dispatch('GET_ORGANIZATIONS')
-    }
+    this.$store.dispatch('GET_ORGANIZATIONS')
   }
 }
 </script>
