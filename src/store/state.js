@@ -5,17 +5,24 @@
  *   to their store name
 */
 
-import { assignIn, upperFirst } from 'lodash'
+import { assignIn } from 'lodash'
 
 const req = require.context('.', true, /\.\/.+\/state\.js$/)
-const state = {}
-
-req.keys().map(key => {
-  const storeName = key.replace(/\.\/(.+)\/.+$/, '$1')
-  const fromName = `from${upperFirst(storeName)}`
-  const fromStates = req(key)
-
-  state[fromName] = fromStates[storeName] = fromStates.default
-})
+const state = req.keys().map(key => req(key).default)
 
 export default assignIn({}, ...state)
+
+// import { assignIn, upperFirst } from 'lodash'
+
+// const req = require.context('.', true, /\.\/.+\/state\.js$/)
+// const state = {}
+
+// req.keys().map(key => {
+//   const storeName = key.replace(/\.\/(.+)\/.+$/, '$1')
+//   const fromName = `from${upperFirst(storeName)}`
+//   const fromStates = req(key)
+
+//   state[fromName] = fromStates[storeName] = fromStates.default
+// })
+
+// export default assignIn({}, ...state)

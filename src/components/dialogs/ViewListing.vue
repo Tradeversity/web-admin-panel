@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="isOpen" width="400">
+  <v-dialog v-model="isOpen" width="400" content-class="dialog">
     <v-card>
       <v-card-media
-        v-if="listing.carousel"
+        v-if="listing.carousel && !editMode"
         class="white--text"
         :src="listingImage"
         height="300"
@@ -30,7 +30,46 @@
         </v-carousel>
       </v-card-media>
 
-      <v-list>
+      <v-card-text v-if="editMode">
+        <v-card class="primary">
+          <v-card-title class="white--text">
+            <span class="title">
+              Drag photos into here to upload or
+              <a href="#" class="white--text">
+                Browse your computer
+              </a>
+            </span>
+          </v-card-title>
+        </v-card>
+      </v-card-text>
+
+      <v-alert error v-model="listing.isFlagged " v-if="!editMode">
+        This listing has been flagged
+      </v-alert>
+
+      <v-card-text v-if="listing.isFlagged && !editMode">
+        <v-btn
+          block
+          primary
+          class="mb-3"
+          @click.native.stop="approve"
+        >
+          Approve
+        </v-btn>
+        <v-btn
+          block
+          error
+          @click.native.stop="deny"
+        >
+          Deny
+        </v-btn>
+      </v-card-text>
+
+      <v-card-text v-if="!editMode">
+        Description - {{ listing.description }}
+      </v-card-text>
+
+      <v-list v-if="!editMode">
         <v-list-tile v-for="description in descriptions" :key="description">
           <v-list-tile-content>
             <v-list-tile-title>
@@ -43,11 +82,77 @@
         </v-list-tile>
       </v-list>
 
+      <v-card-text v-else>
+        <v-text-field
+          label="Title"
+          v-model="formData.title"
+        ></v-text-field>
+        <v-text-field
+          label="Price"
+          v-model="formData.price"
+        ></v-text-field>
+        <v-text-field
+          label="Description"
+          v-model="formData.description"
+        ></v-text-field>
+        <v-text-field
+          label="Listing type"
+          v-model="formData.listing_type"
+        ></v-text-field>
+        <v-text-field
+          label="Category"
+          v-model="formData.category"
+        ></v-text-field>
+        <v-text-field
+          label="Condition"
+          v-model="formData.additional_properties.condition"
+        ></v-text-field>
+      </v-card-text>
+
       <v-divider></v-divider>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat primary>Submit</v-btn>
+
+        <v-btn flat icon v-tooltip:top="{ html: 'Edit listing' }" @click.native.stop="editMode = !editMode">
+          <v-icon>edit</v-icon>
+        </v-btn>
+
+        <v-dialog v-model="deleteDialog" lazy absolute>
+          <v-btn
+            flat
+            icon
+            slot="activator"
+            v-tooltip:top="{ html: 'Delete listing' }"
+          >
+            <v-icon>delete</v-icon>
+          </v-btn>
+
+          <v-card>
+            <v-card-title>
+              <span class="headline">Delete</span>
+              <v-spacer></v-spacer>
+              <v-btn icon flat @click.native.stop="deleteDialog = false">
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text>
+              Are you sure you would like to delete <b>{{ listing.title }}</b>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                flat
+                @click.native.stop="deleteDialog = false"
+              >Cancel</v-btn>
+              <v-btn
+                flat
+                primary
+                @click.native="deleteListing"
+              >Confirm</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -57,7 +162,8 @@
 export default {
   name: 'ViewListingDialog',
   data: () => ({
-
+    deleteDialog: false,
+    editMode: false,
   }),
   computed: {
     isOpen: {
@@ -67,6 +173,10 @@ export default {
 
       set (value) {
         if (!value) {
+          if (this.editMode) {
+            this.editMode = false
+          }
+
           this.$store.commit('CLOSE_VIEW_LISTING_DIALOG')
         }
       }
@@ -80,6 +190,10 @@ export default {
       if (this.listing.carousel.length === 1) {
         return this.listing.carousel[0]
       }
+    },
+
+    formData () {
+      return this.listing
     },
 
     descriptions () {
@@ -105,9 +219,34 @@ export default {
         },
       ]
     }
+  },
+  methods: {
+    editListing () {
+      this.$store.commit('SET_NEW_LISTING', this.listing)
+      this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+    },
+
+    deleteListing () {
+      this.$store.dispatch('DELETE_LISTING', this.listing.id)
+      this.$store.dispatch('GET_LISTING')
+      this.deleteDialog = false
+    },
+
+    approve () {
+      this.listing.isFlagged = false
+    },
+
+    deny () {
+      this.listing.isFlagged = false
+    }
   }
 }
 </script>
+
+<style lang="stylus">
+.dialog
+  overflow: visible
+</style>
 
 <style lang="stylus" scoped>
 .drop

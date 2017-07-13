@@ -93,15 +93,9 @@ export default {
       : this.$store.state.listings) || []
     }
   },
-  watch: {
-    isListingDialogOpen: (value) => {
-      // console.log('Listings', value)
-    }
-  },
   methods: {
     openListing (item) {
-      console.log(item)
-      // this.showFlagged && item.isFlagged = true
+      item.isFlagged = this.showFlagged
       this.$store.commit('SET_SELECTED_LISTING', item)
       this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
     },

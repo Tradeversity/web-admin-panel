@@ -102,7 +102,8 @@ export default {
           }
 
           this.$cookie.set('TV_ADMIN_USER', JSON.stringify(response.data))
-          this.$cookie.set('TV_ADMIN_TOKEN', response.data.access_token)
+          // this.$cookie.set('TV_ADMIN_TOKEN', response.data.access_token)
+          window.localStorage.setItem('TV_ADMIN_TOKEN', response.data.access_token)
 
           this.$store.commit('SET_USER', response.data)
           // this.$store.dispatch('GET_ALL_SCHOOLS')

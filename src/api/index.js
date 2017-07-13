@@ -1,19 +1,22 @@
 import axios from 'axios'
 import router from '@/router'
 import config from '../config'
-import cookie from 'vue-cookie'
+// import cookie from 'vue-cookie'
 
 const statusHandler = status => {
   switch (status) {
     case 401:
+    case 500:
     case 503:
-      // router.push({ path: '/login' })
+      router.push({ path: '/login' })
       break
     default:
   }
 }
 
-const token = cookie.get('TV_ADMIN_TOKEN')
+// const token = cookie.get('TV_ADMIN_TOKEN')
+const token = window.localStorage.getItem('TV_ADMIN_TOKEN')
+console.log(token)
 
 if (token && token !== null) {
   axios.defaults.headers.common['Authorization'] = token
