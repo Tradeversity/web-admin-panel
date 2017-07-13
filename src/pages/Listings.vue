@@ -101,6 +101,7 @@ export default {
   methods: {
     openListing (item) {
       console.log(item)
+      // this.showFlagged && item.isFlagged = true
       this.$store.commit('SET_SELECTED_LISTING', item)
       this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
     },
