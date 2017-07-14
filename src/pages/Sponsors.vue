@@ -25,7 +25,7 @@
     >
 
       <template slot="items" scope="props" >
-        <td>
+        <td @click.stop="openListing(props.item)">
           <v-edit-dialog
             @open="props.item._title = props.item.title"
             @cancel="props.item.title = props.item._title || props.item.title"
@@ -40,10 +40,10 @@
             ></v-text-field>
           </v-edit-dialog>
         </td>
-        <td class="text-xs-right">
+        <td class="text-xs-right" @click.stop="openListing(props.item)">
           {{ props.item.category }}
         </td>
-        <td class="text-xs-right">
+        <td class="text-xs-right" @click.stop="openListing(props.item)">
           {{ new Date(props.item.created_at).toDateString() }}
         </td>
       </template>
@@ -98,7 +98,12 @@ export default {
           this.isLoading = false
         }, 1000)
       })
-    }
+    },
+
+    openListing (item) {
+      this.$store.commit('SET_SELECTED_LISTING', item)
+      this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
+    },
   },
   mounted () {
     this.$store.dispatch('GET_SPONSORED_LISTINGS')

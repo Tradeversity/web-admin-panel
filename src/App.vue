@@ -33,7 +33,7 @@
     <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
     <confirm-dialog></confirm-dialog>
-    <view-listing-dialog></view-listing-dialog>
+    <listing-dialog></listing-dialog>
   </v-app>
 </template>
 
@@ -52,7 +52,7 @@ import AddSchoolDialog from '@/components/dialogs/AddSchool'
 import AddEventDialog from '@/components/dialogs/AddEvent'
 import SetLocationDialog from '@/components/dialogs/SetLocation'
 import ConfirmDialog from '@/components/dialogs/Confirm'
-import ViewListingDialog from '@/components/dialogs/ViewListing'
+import ListingDialog from '@/components/dialogs/Listing'
 
 export default {
   name: 'app',
@@ -70,7 +70,7 @@ export default {
     AddOrganizationDialog,
     SetLocationDialog,
     ConfirmDialog,
-    ViewListingDialog,
+    ListingDialog,
   },
   data () {
     return {
@@ -156,7 +156,7 @@ export default {
             this.$store.commit('OPEN_ADD_EVENT_DIALOG')
             break
           case `/school/${this.schoolName}/sponsors`:
-            this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+            this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
             break
           case `/school/${this.schoolName}/organizations`:
             this.$store.commit('OPEN_ADD_ORGANIZATION_DIALOG')

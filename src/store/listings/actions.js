@@ -98,6 +98,17 @@ const PUT_WORD_FILTER = ({ getters, commit }, filters) => {
     .catch(errorHandler)
 }
 
+const POST_IMAGE = ({ getters, commit }, imageFile) => {
+  console.log('here', imageFile)
+  api.request('post', `/media/upload_image`, {
+    image: imageFile
+  })
+    .then(response => {
+      console.log('IMAGERESPONSE', response)
+    })
+    .catch(errorHandler)
+}
+
 export default {
   GET_LISTING,
   GET_LISTINGS,
@@ -109,4 +120,5 @@ export default {
   POST_REMOVE_ANSWER,
   GET_WORD_FILTER,
   PUT_WORD_FILTER,
+  POST_IMAGE,
 }
