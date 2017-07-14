@@ -54,10 +54,21 @@ const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
     .catch(errorHandler)
 }
 
+const POST_EVENT = ({ getters, dispatch }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
+
+  api.request('post', `${baseURL}/event`, getters.eventFormData)
+    .then(response => {
+      dispatch('GET_EVENTS')
+    })
+    .catch(errorHandler)
+}
+
 export default {
   POST_APPROVE_EVENT,
   POST_DENY_EVENT,
   GET_EVENTS,
   GET_ORGANIZATION_EVENTS,
   DELETE_EVENT,
+  POST_EVENT,
 }

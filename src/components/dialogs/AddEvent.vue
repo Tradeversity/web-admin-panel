@@ -25,6 +25,16 @@
           ></v-text-field>
 
           <v-text-field
+            label="Location"
+            max="80"
+            counter
+            :hint="formState.location.hint"
+            :error="formState.location.error"
+            :persistent-hint="formState.location.error"
+            v-model="formData.location"
+          ></v-text-field>
+
+          <v-text-field
             label="Description"
             max="150"
             counter
@@ -37,7 +47,9 @@
 
           <location-search
             id="LocationSearch"
+            prependIcon="my_location"
             placeholder="Search location..."
+            v-on:placechanged="getAddressData"
           ></location-search>
 
           <v-menu
@@ -88,14 +100,14 @@
             ></v-time-picker>
           </v-menu>
 
-          <v-btn
+          <!-- <v-btn
             block
             primary
             v-if="!hasEndDate"
             @click.native.stop="hasEndDate = !hasEndDate"
           >
             Set end date
-          </v-btn>
+          </v-btn> -->
 
           <v-menu
             lazy
@@ -103,7 +115,6 @@
             transition="scale-transition"
             :nudge-left="40"
             :close-on-content-click="false"
-            v-if="hasEndDate"
             v-model="datePicker2"
           >
             <v-text-field
@@ -128,7 +139,6 @@
             transition="scale-transition"
             :nudge-left="40"
             :close-on-content-click="false"
-            v-if="hasEndDate"
             v-model="timePicker2"
           >
             <v-text-field
@@ -139,6 +149,7 @@
               :hint="formState.endTime.hint"
               :error="formState.endTime.error"
               :persistent-hint="formState.endTime.error"
+              :formatted-value="val => new Date(val).toISOString().substr(0, 10)"
               v-model="formData.endTime"
             ></v-text-field>
             <v-time-picker
@@ -232,7 +243,6 @@ export default {
       },
 
       set (value) {
-        console.log(value)
         this.$store.commit('SET_NEW_EVENT', this.formData)
         console.log(this.$store.state.newEvent, value)
       }
@@ -252,8 +262,14 @@ export default {
     }
   },
   methods: {
-    getAddressData (value) {
-      console.log(value)
+    getAddressData (addressData, placeResultData) {
+      this.formData.locationData = {
+        addressData: addressData,
+        placeResultData: placeResultData,
+      }
+
+      this.$store.commit('SET_NEW_EVENT', this.formData)
+      console.log('yes', this.$store.state.newEvent)
     },
 
     openSetLocation () {

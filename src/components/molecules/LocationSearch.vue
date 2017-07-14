@@ -129,7 +129,7 @@ export default {
     this.autocomplete.addListener('place_changed', () => {
       let place = this.autocomplete.getPlace()
 
-      if (!place.geometery) {
+      if (!place.geometry) {
         this.$emit('no-results-found', place)
         return false
       }
@@ -146,6 +146,7 @@ export default {
       let returnData = {}
 
       if (place.address_components !== undefined) {
+        console.log('true')
         // Get each component of the address from the place details
         for (let i = 0; i < place.address_components.length; i++) {
           let addressType = place.address_components[i].types[0]
