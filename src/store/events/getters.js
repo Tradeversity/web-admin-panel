@@ -1,6 +1,34 @@
 import _ from 'lodash'
+import moment from 'moment'
 
 const isDev = false
+
+const convertPM = (time) => {
+  const removedPost = time.replace('pm', '')
+  const colonIndex = time.indexOf(':')
+  let hh = removedPost.slice(0, colonIndex)
+
+  hh = parseInt(hh) + 12
+
+  return `${hh}${removedPost.slice(colonIndex)}`
+}
+
+const convertPeriod = (time) => {
+  if (
+    time.indexOf('am') !== -1 ||
+    time.indexOf('pm') !== -1
+  ) {
+    return time.indexOf('am') !== -1
+      ? time.replace('am', '')
+      : convertPM(time)
+  }
+
+  return time
+}
+
+const formatDateTime = (date, time) => {
+  return `${date.replace(/-/ig, '/')} ${convertPeriod(time)}:00`
+}
 
 const eventFormData = (state) => {
   let data = state.newEvent || {}
@@ -24,27 +52,18 @@ const eventFormData = (state) => {
     _.has(data, 'endDate') &&
     isDev
   ) {
-    console.log('start')
-    // Probably should be set inline, not by location
     const offset = new Date().getTimezoneOffset()
-    // const startTime = new Date()
-    // const start = `${data.startDate}${offset}:${data.startTime}`
-    // const end = `${data.endDate}${offset}:${data.endTime}`
-    const start = `${data.startDate} ${data.startTime}`
-    const end = `${data.endDate} ${data.endTime}`
 
-    data.startTime = Date.parse(start)
-    data.endTime = Date.parse(end)
+    const start = formatDateTime(data.startDate, data.startTime)
+    const end = formatDateTime(data.endDate, data.endTime)
+    const format = 'MN/DD/YYYY HH:mm:ss A'
 
-    console.log('offset', offset)
-    console.log('start', start)
-    console.log('end', end)
-    console.log('data start', data.startTime)
-    console.log('data end', data.endTime)
+    data.startTime = moment(start + offset, format).zone(offset).unix()
+    data.endTime = moment(end + offset, format).zone(offset).unix()
   } else {
-    const currentEpoch = Date.now()
+    const currentEpoch = Math.round(Date.now() / 1000)
     data.startTime = currentEpoch
-    data.endTime = currentEpoch + 15000
+    data.endTime = currentEpoch + 8.64e+7 // One day
   }
 
   return {
