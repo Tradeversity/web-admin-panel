@@ -44,7 +44,7 @@
 
 <script>
 const headers = [
-  { text: 'Name', value: 'display_name', left: true },
+  { text: 'Name', value: 'display_name', align: 'left' },
   { text: 'Created at', value: 'created_at' },
 ]
 

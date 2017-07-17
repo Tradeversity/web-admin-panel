@@ -34,6 +34,7 @@
     <add-organization-dialog></add-organization-dialog>
     <confirm-dialog></confirm-dialog>
     <event-dialog></event-dialog>
+    <listing-dialog></listing-dialog>
   </v-app>
 </template>
 

@@ -52,7 +52,7 @@
         This listing has been flagged
       </v-alert>
 
-      <v-card-text v-if="listing.isFlagged && !editMode">
+      <!-- <v-card-text v-if="listing.isFlagged && !editMode">
         <v-btn
           block
           primary
@@ -68,7 +68,7 @@
         >
           Deny
         </v-btn>
-      </v-card-text>
+      </v-card-text> -->
 
       <v-card-text v-if="!editMode">
         Description - {{ listing.description }}
@@ -117,9 +117,33 @@
       <v-divider></v-divider>
 
       <v-card-actions>
+        <v-btn
+          flat
+          icon
+          @click.native.stop="approve"
+          v-tooltip:top="{ html: 'Approve event'}"
+          v-if="listing.isFlagged && !editMode"
+        >
+          <v-icon>check_circle</v-icon>
+        </v-btn>
+        <v-btn
+          flat
+          icon
+          @click.native.stop="deny"
+          v-tooltip:top="{ html: 'Deny event'}"
+          v-if="listing.isFlagged && !editMode"
+        >
+          <v-icon>cancel</v-icon>
+        </v-btn>
+
         <v-spacer></v-spacer>
 
-        <v-btn flat icon v-tooltip:top="{ html: 'Edit listing' }" @click.native.stop="editMode = !editMode">
+        <v-btn
+          flat
+          icon
+          v-tooltip:top="{ html: 'Edit listing' }"
+          @click.native.stop="editMode = !editMode"
+        >
           <v-icon>edit</v-icon>
         </v-btn>
 
@@ -137,7 +161,11 @@
             <v-card-title>
               <span class="headline">Delete</span>
               <v-spacer></v-spacer>
-              <v-btn icon flat @click.native.stop="deleteDialog = false">
+              <v-btn
+                flat
+                icon
+                @click.native.stop="deleteDialog = false"
+              >
                 <v-icon>close</v-icon>
               </v-btn>
             </v-card-title>

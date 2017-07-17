@@ -2,9 +2,8 @@
   <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
-
-        <v-card-title class="primary white--text">
-          Invite user
+        <v-card-title>
+          <span class="headline">Invite user</span>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -49,6 +48,7 @@
         </v-card-text>
 
       <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn
           class="accent--text"
           flat
