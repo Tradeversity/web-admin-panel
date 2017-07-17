@@ -43,7 +43,12 @@
         </v-card>
       </v-card-text>
 
-      <v-alert error v-model="listing.isFlagged " v-if="!editMode">
+      <v-alert
+        error
+        class="mt-0"
+        v-if="!editMode"
+        v-model="listing.isFlagged"
+      >
         This listing has been flagged
       </v-alert>
 

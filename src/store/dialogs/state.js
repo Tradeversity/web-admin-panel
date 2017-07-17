@@ -9,6 +9,7 @@ export default {
   isAddOrganizationDialogOpen: false,
   isConfirmDialogOpen: false,
   isViewListingDialogOpen: false,
+  isEventDialogOpen: false,
   flaggedItem: {},
   confirmationAction: {},
 }

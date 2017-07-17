@@ -33,7 +33,7 @@
     <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
     <confirm-dialog></confirm-dialog>
-    <listing-dialog></listing-dialog>
+    <event-dialog></event-dialog>
   </v-app>
 </template>
 
@@ -53,6 +53,7 @@ import AddEventDialog from '@/components/dialogs/AddEvent'
 import SetLocationDialog from '@/components/dialogs/SetLocation'
 import ConfirmDialog from '@/components/dialogs/Confirm'
 import ListingDialog from '@/components/dialogs/Listing'
+import EventDialog from '@/components/dialogs/Event'
 
 export default {
   name: 'app',
@@ -71,6 +72,7 @@ export default {
     SetLocationDialog,
     ConfirmDialog,
     ListingDialog,
+    EventDialog,
   },
   data () {
     return {

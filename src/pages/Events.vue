@@ -9,6 +9,26 @@
         Events
       </span>
 
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show queued items'}"
+        v-if="!showQueue"
+        @click.native="showQueue = !showQueue"
+      >
+        <v-icon>flag</v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
+        flat
+        v-tooltip:right="{ html: 'Show flagged items'}"
+        v-if="showQueue"
+        @click.native="showQueue = !showQueue"
+      >
+        <v-icon>format_list_bulleted</v-icon>
+      </v-btn>
+
       <v-spacer></v-spacer>
 
       <v-text-field
@@ -28,18 +48,10 @@
       v-bind:search="search"
     >
       <template slot="items" scope="props">
-        <td>{{ props.item.title }}</td>
-        <td class="text-xs-right">{{ props.item.location }}</td>
-        <td class="text-xs-right">
+        <td @click.stop="viewEvent(props.item)">{{ props.item.title }}</td>
+        <td class="text-xs-right" @click.stop="viewEvent(props.item)">{{ props.item.location }}</td>
+        <td class="text-xs-right" @click.stop="viewEvent(props.item)">
           {{ new Date(props.item.created_at).toDateString() }}
-        </td>
-        <td class="text-xs-right">
-          <v-btn flat icon @click.native.stop="approve(props.item.id)">
-            <v-icon>check_circle</v-icon>
-          </v-btn>
-          <v-btn flat icon @click.native.stop="deny(props.item.id)">
-            <v-icon>cancel</v-icon>
-          </v-btn>
         </td>
       </template>
       <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -56,7 +68,7 @@ export default {
     return {
       search: '',
       pagination: {},
-      isLoading: false,
+      showQueue: false,
       headers: [
         {
           text: 'Title',
@@ -70,7 +82,13 @@ export default {
   },
   computed: {
     events () {
-      return this.$store.state.events.filter(event => !event.is_approved)
+      return this.showQueue
+        ? this.$store.state.events.filter(event => !event.is_approved)
+        : this.$store.state.events
+    },
+
+    isLoading () {
+      return this.$store.state.isTableLoading
     }
   },
   methods: {
@@ -83,12 +101,9 @@ export default {
       })
     },
 
-    approve (id) {
-      this.$store.dispatch('POST_APPROVE_EVENT', id)
-    },
-
-    deny (id) {
-      this.$store.dispatch('POST_DENY_EVENT', id)
+    viewEvent (event) {
+      this.$store.commit('SET_SELECTED_EVENT', event)
+      this.$store.commit('OPEN_EVENT_DIALOG')
     }
   },
   mounted () {
@@ -97,6 +112,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus" scoped>
+td
+  cursor: pointer
 </style>

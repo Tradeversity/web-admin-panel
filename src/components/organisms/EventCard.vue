@@ -116,6 +116,8 @@
 </template>
 
 <script>
+import setTime from '@/services/setTime'
+
 export default {
   name: 'EventCard',
   props: ['item'],
@@ -126,8 +128,8 @@ export default {
   computed: {
     formatted () {
       return {
-        startTime: this.getTime(this.item.start_time),
-        endTime: this.getTime(this.item.end_time),
+        startTime: setTime(this.item.start_time),
+        endTime: setTime(this.item.end_time),
       }
     },
 
@@ -148,18 +150,6 @@ export default {
     deleteItem () {
       this.$store.dispatch('DELETE_EVENT', this.item.id)
       this.deleteDialog = false
-    },
-
-    getTime (epoch) {
-      const exp = `/Date(${epoch})/`
-      const date = new Date(parseFloat(exp.substr(6)))
-      const minutes = date.getMinutes()
-      const hours = date.getHours()
-      const day = date.getDate()
-      const month = date.getMonth() + 1
-      const mid = hours > 12 ? 'pm' : 'am'
-
-      return `${day}/${month} ${hours}:${minutes}${mid}`
     },
   }
 }

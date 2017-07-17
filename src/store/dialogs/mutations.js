@@ -62,7 +62,13 @@ export default {
   OPEN_CONFIRM_DIALOG (state) {
     state.isConfirmDialogOpen = true
   },
+  OPEN_EVENT_DIALOG (state) {
+    state.isEventDialogOpen = true
+  },
+  CLOSE_EVENT_DIALOG (state) {
+    state.isEventDialogOpen = false
+  },
   SET_CONFIRMATION_ACTION (state, action) {
     state.confirmationAction = action
-  }
+  },
 }
