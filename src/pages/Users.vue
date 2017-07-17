@@ -94,7 +94,7 @@ export default {
     users () {
       return (this.showFlagged
       ? this.$store.state.flaggedUsers
-      : this.$store.state.users) || []
+      : this.$store.getters.users) || []
     }
   },
   methods: {

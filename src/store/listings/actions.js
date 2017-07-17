@@ -99,12 +99,16 @@ const PUT_WORD_FILTER = ({ getters, commit }, filters) => {
 }
 
 const POST_IMAGE = ({ getters, commit }, imageFile) => {
-  console.log('here', imageFile)
-  api.request('post', `/media/upload_image`, {
-    image: imageFile
+  const data = new FormData()
+  data.append('image', imageFile, imageFile.name)
+
+  return api.request('post', `/media/upload_image`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
   })
     .then(response => {
-      console.log('IMAGERESPONSE', response)
+      return response.data.media
     })
     .catch(errorHandler)
 }

@@ -31,7 +31,7 @@
       </v-card-media>
 
       <v-card-text v-if="editMode">
-        <v-card class="primary pt-5 pb-5">
+        <v-card class="primary pt-3 pb-3">
           <v-card-title class="white--text">
             <span class="title">
               Drag photos into here to upload or
@@ -172,7 +172,7 @@
             <v-card-text>
               Are you sure you would like to delete <b>{{ listing.title }}</b>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions class="actions">
               <v-spacer></v-spacer>
               <v-btn
                 flat
@@ -192,7 +192,8 @@
 </template>
 
 <script>
-import { has } from 'lodash'
+import { forEach, isArray, has } from 'lodash'
+
 export default {
   name: 'ListingDialog',
   data: () => ({
@@ -236,6 +237,16 @@ export default {
       const isPromoted = this.listing.is_promoted || this.$route.path.indexOf('sponsors') !== -1
 
       console.log('isPromoted', isPromoted)
+    },
+
+    newImages: {
+      get () {
+        return []
+      },
+
+      set (value) {
+        console.log('new value', value)
+      }
     },
 
     listingImage () {
@@ -299,26 +310,26 @@ export default {
 
     window.addEventListener('drop', (event) => {
       event.preventDefault()
+
       const images = Array.from(event.dataTransfer.files)
         .filter(file => file.type.startsWith('image/'))
 
       const done = Promise.all(images.map(imageFile => {
-        console.log('okay', imageFile)
-        this.$store.dispatch('POST_IMAGE', imageFile)
+        return imageFile
       }))
 
       done.then(response => {
-        console.log('Response', response)
+        isArray(response) && forEach(response, file => {
+          this.$store.dispatch('POST_IMAGE', file)
+            .then(media => {
+              this.newImages.push(media)
+            })
+        })
       })
     })
   }
 }
 </script>
-
-<style lang="stylus">
-.dialog
-  overflow: visible
-</style>
 
 <style lang="stylus" scoped>
 .drop

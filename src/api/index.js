@@ -23,7 +23,7 @@ if (token && token !== null) {
 }
 
 export default {
-  request (method, uri, data = null) {
+  request (method, uri, data = null, options) {
     if (!method) {
       console.error('API function call requires method argument')
       return
@@ -35,7 +35,7 @@ export default {
     }
 
     const url = config.serverURI + uri
-    const instance = axios({ method, url, data })
+    const instance = axios({ method, url, data, ...options })
 
     // if (token !== null) {
     //   axios.defaults.headers.common['Authorization'] = token

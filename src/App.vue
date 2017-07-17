@@ -24,17 +24,19 @@
       </v-container>
     </main>
 
-    <set-location-dialog></set-location-dialog>
-    <user-dialog></user-dialog>
-    <flagged-dialog></flagged-dialog>
-    <add-listing-dialog></add-listing-dialog>
-    <add-admin-dialog></add-admin-dialog>
-    <add-school-dialog></add-school-dialog>
-    <add-event-dialog></add-event-dialog>
-    <add-organization-dialog></add-organization-dialog>
-    <confirm-dialog></confirm-dialog>
-    <event-dialog></event-dialog>
-    <listing-dialog></listing-dialog>
+    <div v-if="navbar.isActive">
+      <set-location-dialog></set-location-dialog>
+      <user-dialog></user-dialog>
+      <flagged-dialog></flagged-dialog>
+      <add-listing-dialog></add-listing-dialog>
+      <add-admin-dialog></add-admin-dialog>
+      <add-school-dialog></add-school-dialog>
+      <add-event-dialog></add-event-dialog>
+      <add-organization-dialog></add-organization-dialog>
+      <confirm-dialog></confirm-dialog>
+      <event-dialog></event-dialog>
+      <listing-dialog></listing-dialog>
+    </div>
   </v-app>
 </template>
 

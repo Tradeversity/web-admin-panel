@@ -28,5 +28,8 @@ export default {
     if (index > -1) {
       state.filters.splice(index, 1)
     }
-  }
+  },
+  SET_NEW_LISTING (state, listing) {
+    state.newListing = listing
+  },
 }

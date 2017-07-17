@@ -6,6 +6,7 @@
   >
     <v-toolbar-side-icon
       light
+      class="white--text"
       @click.native.stop="toggleDrawer"
     ></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down white--text">

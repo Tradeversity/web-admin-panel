@@ -167,7 +167,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.dialog
-  overflow: visible
+// .dialog
+//  overflow: visible
 </style>
 
