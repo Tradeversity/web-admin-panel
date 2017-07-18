@@ -7,5 +7,8 @@ export default {
   },
   SET_SELECTED_USER (state, user) {
     state.selectedUser = user
+  },
+  TOGGLE_SHOW_FLAGGED (state) {
+    state.showFlagged = !state.showFlagged
   }
 }

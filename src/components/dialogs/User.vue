@@ -39,22 +39,29 @@
 </template>
 
 <script>
-// import validateEmail from '@/services/validateEmail'
+import { has } from 'lodash'
 
 export default {
   name: 'UserDialog',
-  data () {
-    return {
-      snackbar: false,
-      confirm: '',
-      isLoading: false,
-      fieldNames: [
-        'name',
-        'email',
-      ],
-    }
-  },
+  data: () => ({
+    confirm: '',
+    fieldNames: [
+      'name',
+      'email',
+    ],
+  }),
   computed: {
+    isOpen: {
+      get () {
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
+      },
+
+      set (value) {
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
+      }
+    },
+
     formState () {
       let state = {}
 
@@ -87,18 +94,6 @@ export default {
     isFlagged () {
       return this.$store.state.selectedUser.isFlagged || false
     },
-
-    isOpen: {
-      get () {
-        return this.$store.state.isUserDialogOpen
-      },
-
-      set (value) {
-        if (!value) {
-          this.$store.commit('CLOSE_USER_DIALOG')
-        }
-      }
-    }
   },
   methods: {
     warnUser () {

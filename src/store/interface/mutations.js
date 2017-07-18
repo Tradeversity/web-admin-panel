@@ -1,3 +1,5 @@
+import { has } from 'lodash'
+
 export default {
   CLOSE_DRAWER (state) {
     state.isDrawerOpen = false
@@ -12,9 +14,21 @@ export default {
     state.isTableLoading = !state.isTableLoading
   },
   OPEN_DIALOG (state, name) {
-    state.dialog[name].active = true
+    if (!has(state.dialogs, name)) {
+      state.dialogs[name] = {}
+    }
+
+    state.dialogs[name].active = true
+    state.dialogs[name].origin = state.route.fullPath
   },
   CLOSE_DIALOG (state, name) {
-    state.dialog[name].active = false
-  }
+    if (!has(state.dialogs, name)) {
+      state.dialogs[name] = {}
+    }
+
+    state.dialogs[name].active = false
+  },
+  // ADD_DIALOG (state, name) {
+  //   state.dialogs[name].active = false
+  // }
 }

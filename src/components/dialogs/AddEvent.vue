@@ -178,12 +178,11 @@
 </template>
 
 <script>
-// import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import { has } from 'lodash'
 import LocationSearch from '@/components/molecules/LocationSearch'
-// import validateEmail from '@/services/validateEmail'
 
 export default {
-  name: 'CreateEventDialog',
+  name: 'AddEventDialog',
   components: {
     // VueGoogleAutocomplete
     LocationSearch,
@@ -211,7 +210,8 @@ export default {
   computed: {
     isOpen: {
       get () {
-        return this.$store.state.dialog[this.$options.name].active
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
       },
 
       set (value) {
