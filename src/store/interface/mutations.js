@@ -28,7 +28,4 @@ export default {
 
     state.dialogs[name].active = false
   },
-  // ADD_DIALOG (state, name) {
-  //   state.dialogs[name].active = false
-  // }
 }

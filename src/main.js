@@ -10,6 +10,8 @@ import Vuetify from 'vuetify'
 import VueCookie from 'vue-cookie'
 import { sync } from 'vuex-router-sync'
 
+import { forOwn } from 'lodash'
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -19,6 +21,16 @@ Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.use(Vuetify)
 Vue.use(VueCookie)
+
+router.beforeEach((to, from, next) => {
+  forOwn(store.state.dialogs, (value, key) => {
+    if (value.active) {
+      store.commit('CLOSE_DIALOG', key)
+    }
+  })
+
+  next()
+})
 
 sync(store, router)
 
