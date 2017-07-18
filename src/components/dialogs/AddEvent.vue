@@ -183,7 +183,7 @@ import LocationSearch from '@/components/molecules/LocationSearch'
 // import validateEmail from '@/services/validateEmail'
 
 export default {
-  name: 'AddEventDialog',
+  name: 'CreateEventDialog',
   components: {
     // VueGoogleAutocomplete
     LocationSearch,
@@ -211,6 +211,16 @@ export default {
     }
   },
   computed: {
+    isOpen: {
+      get () {
+        return this.$store.state.dialog[this.$options.name].active
+      },
+
+      set (value) {
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
+      }
+    },
+
     schoolColor () {
       return this.$store.getters.schoolColor
     },
@@ -247,19 +257,6 @@ export default {
         console.log(this.$store.state.newEvent, value)
       }
     },
-
-    isOpen: {
-      get () {
-        return this.$store.state.isAddEventDialogOpen
-      },
-
-      set (value) {
-        if (!value) {
-          this.$store.commit('CLOSE_ADD_EVENT_DIALOG')
-          this.$store.commit('SET_NEW_EVENT', {})
-        }
-      }
-    }
   },
   methods: {
     getAddressData (addressData, placeResultData) {

@@ -55,6 +55,7 @@ const username = state => state.user.display_name || 'Admin'
 const schoolID = state => state.school.id
 const avatar = state => _.has(state.user, 'avatar_url') && state.user.avatar_url
 const organizationID = state => _.has(state.user, 'id') && state.user.id
+const activeDialog = state => state.dialog
 
 export default {
   listing,
@@ -63,5 +64,6 @@ export default {
   avatar,
   schoolID,
   schoolColor,
-  organizationID
+  organizationID,
+  activeDialog,
 }

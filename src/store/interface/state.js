@@ -1,4 +1,5 @@
 export default {
-  isDrawerOpen: true,
+  isDrawerOpen: false,
   isTableLoading: false,
+  dialog: {},
 }

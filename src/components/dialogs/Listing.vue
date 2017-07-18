@@ -204,7 +204,7 @@ export default {
   computed: {
     isOpen: {
       get () {
-        return this.$store.state.isViewListingDialogOpen
+        return this.$store.getters.activeDialog === this.name
       },
 
       set (value) {

@@ -158,7 +158,7 @@ export default {
       if (this.isFABActive) {
         switch (this.$route.path) {
           case `/school/${this.schoolName}/event-manager`:
-            this.$store.commit('OPEN_ADD_EVENT_DIALOG')
+            this.$store.commit('OPEN_DIALOG', 'CreateEventDialog')
             break
           case `/school/${this.schoolName}/sponsors`:
             this.$store.commit('OPEN_VIEW_LISTING_DIALOG')

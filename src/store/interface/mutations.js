@@ -10,5 +10,11 @@ export default {
   },
   TOGGLE_TABLE_LOADING (state) {
     state.isTableLoading = !state.isTableLoading
+  },
+  OPEN_DIALOG (state, name) {
+    state.dialog[name].active = true
+  },
+  CLOSE_DIALOG (state, name) {
+    state.dialog[name].active = false
   }
 }

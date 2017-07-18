@@ -95,7 +95,8 @@ export default {
   computed: {
     isOpen: {
       get () {
-        return this.$store.state.isEventDialogOpen
+        console.log('this', this.name)
+        return this.$store.getters.activeDialog === this.name
       },
 
       set () {
