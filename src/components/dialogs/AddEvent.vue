@@ -188,28 +188,26 @@ export default {
     // VueGoogleAutocomplete
     LocationSearch,
   },
-  data () {
-    return {
-      hasEndDate: false,
-      timePicker1: false,
-      timePicker2: false,
-      datePicker1: false,
-      datePicker2: false,
-      confirm: '',
-      isLoading: false,
-      fieldNames: [
-        'title',
-        'description',
-        'startDate',
-        'endDate',
-        'startTime',
-        'endTime',
-        'location',
-        'lat',
-        'long',
-      ],
-    }
-  },
+  data: () => ({
+    hasEndDate: false,
+    timePicker1: false,
+    timePicker2: false,
+    datePicker1: false,
+    datePicker2: false,
+    confirm: '',
+    isLoading: false,
+    fieldNames: [
+      'title',
+      'description',
+      'startDate',
+      'endDate',
+      'startTime',
+      'endTime',
+      'location',
+      'lat',
+      'long',
+    ],
+  }),
   computed: {
     isOpen: {
       get () {
