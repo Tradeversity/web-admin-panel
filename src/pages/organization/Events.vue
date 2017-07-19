@@ -12,7 +12,7 @@ import EventCard from '@/components/organisms/EventCard'
 export default {
   name: 'Events',
   components: {
-    EventCard
+    EventCard,
   },
   methods: {
     deleteEvent (eventItem) {

@@ -27,10 +27,10 @@
     >
 
       <template slot="items" scope="props" >
-        <td>
+        <td @click.stop="openOrganization(props.item)">
           {{ props.item.display_name }}
         </td>
-        <td class="text-xs-right">
+        <td class="text-xs-right" @click.stop="openOrganization(props.item)">
           {{ new Date(props.item.created_at).toDateString() }}
         </td>
       </template>
@@ -64,6 +64,10 @@ export default {
     }
   },
   methods: {
+    openOrganization (item) {
+      this.$store.commit('SET_NEW_ORGANIZATION', item)
+      this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
+    },
     refresh () {
       this.isLoading = true
       this.$store.dispatch('GET_ORGANIZATIONS').then(() => {
@@ -79,6 +83,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+td
+  cursor: pointer
 </style>

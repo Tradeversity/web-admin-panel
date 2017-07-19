@@ -14,13 +14,57 @@ const GET_ORGANIZATIONS = ({ getters, commit }) => {
     .catch(errorHandler)
 }
 
-const POST_ORGANIZATION = ({ getters, commit }, organization) => {
+const PUT_ORGANIZATION = ({ getters, commit }) => {
+  const {
+    id,
+    email,
+    firstName,
+    lastName,
+    password,
+  } = getters.organization
+
+  if (id === undefined || id === null) {
+    console.log('PUT_ORGANIZATION: An ID is required to send a put request...')
+    return false
+  }
+
+  const baseURL = `/admin/school/${getters.schoolID}/`
+
+  const formattedData = {
+    platform: window.navigator.userAgent,
+    type: 'Web',
+  }
+
+  if (email) {
+    formattedData.email = email
+  }
+
+  if (firstName) {
+    formattedData.first_name = firstName
+  }
+
+  if (lastName) {
+    formattedData.last_name = lastName
+  }
+
+  if (password) {
+    formattedData.password = password
+  }
+
+  api.request('post', `${baseURL}/organization`, formattedData)
+    .then(response => {
+      commit('ADD_ORGANIZATION', response.data)
+    })
+    .catch(errorHandler)
+}
+
+const POST_ORGANIZATION = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
   const formattedData = {
-    email: organization.email,
-    first_name: organization.firstName,
-    last_name: organization.lastName,
-    password: organization.password,
+    email: getters.organization.email,
+    first_name: getters.organization.firstName,
+    last_name: getters.organization.lastName,
+    password: getters.organization.password,
     platform: window.navigator.userAgent,
     type: 'Web',
   }
@@ -42,6 +86,7 @@ const POST_BLOCK_ORGANIZATION = ({ getters }, organization) => {
 
 export default {
   GET_ORGANIZATIONS,
+  PUT_ORGANIZATION,
   POST_ORGANIZATION,
   POST_BLOCK_ORGANIZATION,
 }

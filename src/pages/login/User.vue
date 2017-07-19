@@ -40,6 +40,7 @@
 <script>
 import api from '@/api'
 import validateEmail from '@/services/validateEmail'
+import { has } from 'lodash'
 
 export default {
   name: 'Login',
@@ -62,6 +63,18 @@ export default {
         }
       },
     }
+  },
+  computed: {
+    isOpen: {
+      get () {
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
+      },
+
+      set (value) {
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
+      }
+    },
   },
   watch: {
     email (value) {

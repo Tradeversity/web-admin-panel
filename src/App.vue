@@ -6,7 +6,7 @@
     <event-toolbar v-if="navbar.isActive ===  'event'"></event-toolbar>
 
     <main>
-      <v-container fluid>
+      <v-container>
         <router-view></router-view>
 
         <v-btn
@@ -158,16 +158,20 @@ export default {
       if (this.isFABActive) {
         switch (this.$route.path) {
           case `/school/${this.schoolName}/event-manager`:
+            this.$store.commit('SET_NEW_EVENT', {})
             this.$store.commit('OPEN_DIALOG', 'AddEventDialog')
             break
           case `/school/${this.schoolName}/sponsors`:
-            this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
+            this.$store.commit('SET_NEW_LISTING', {})
+            this.$store.commit('OPEN_DIALOG', 'AddListingDialog')
             break
           case `/school/${this.schoolName}/organizations`:
-            this.$store.commit('OPEN_ADD_ORGANIZATION_DIALOG')
+            this.$store.commit('SET_NEW_ORGANIZATION', {})
+            this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
             break
           case '/super':
-            this.$store.commit('OPEN_ADD_SCHOOL_DIALOG')
+            this.$store.commit('SET_NEW_SCHOOL', {})
+            this.$store.commit('OPEN_DIALOG', 'AddSchoolDialog')
             break
         }
       }
@@ -217,6 +221,8 @@ $theme := {
 
 body, html, #app
   background-color: #f6f6f6
+  overflow-x: hidden
+  overflow-y: auto
 
 #app
   font-family: 'Roboto', Helvetica, Arial, sans-serif
@@ -224,17 +230,11 @@ body, html, #app
   -moz-osx-font-smoothing: grayscale
   color: #2c3e50
 
-  // .fab-wrapper
-  //   right: 1rem !important
-  //   i
-  //     left: unset
-  //   .fab
-  //     bottom: 0
-  //     left: -.3rem
-  //     right: 0
+main
+  overflow-y: auto
 
 .container
-  max-width: 1200px;
+  max-width: 1000px;
 
 .dialog
   background-color: white

@@ -23,8 +23,7 @@
       :items="listings"
       :search="search"
     >
-
-      <template slot="items" scope="props" >
+      <template slot="items" scope="props">
         <td @click.stop="openListing(props.item)">
           <v-edit-dialog
             @open="props.item._title = props.item.title"
@@ -91,6 +90,11 @@ export default {
     }
   },
   methods: {
+    openListing (item) {
+      this.$store.commit('SET_SELECTED_LISTING', item)
+      this.$store.commit('OPEN_DIALOG', 'ListingDialog')
+    },
+
     refresh () {
       this.isLoading = true
       this.$store.dispatch('GET_SPONSORED_LISTINGS').then(() => {
@@ -98,11 +102,6 @@ export default {
           this.isLoading = false
         }, 1000)
       })
-    },
-
-    openListing (item) {
-      this.$store.commit('SET_SELECTED_LISTING', item)
-      this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
     },
   },
   mounted () {

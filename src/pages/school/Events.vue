@@ -103,7 +103,7 @@ export default {
 
     viewEvent (event) {
       this.$store.commit('SET_SELECTED_EVENT', event)
-      this.$store.commit('OPEN_EVENT_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'EventDialog')
     }
   },
   mounted () {

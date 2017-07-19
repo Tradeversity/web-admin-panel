@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { has } from 'lodash'
 import setTime from '@/services/setTime'
 
 export default {
@@ -95,12 +96,12 @@ export default {
   computed: {
     isOpen: {
       get () {
-        console.log('this', this.name)
-        return this.$store.getters.activeDialog === this.name
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
       },
 
-      set () {
-        this.$store.commit('CLOSE_EVENT_DIALOG')
+      set (value) {
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
     },
 

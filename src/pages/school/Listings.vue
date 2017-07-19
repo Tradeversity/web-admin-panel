@@ -97,7 +97,7 @@ export default {
     openListing (item) {
       item.isFlagged = this.showFlagged
       this.$store.commit('SET_SELECTED_LISTING', item)
-      this.$store.commit('OPEN_VIEW_LISTING_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'ListingDialog')
     },
 
     loadListings () {

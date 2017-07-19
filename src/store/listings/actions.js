@@ -113,6 +113,10 @@ const POST_IMAGE = ({ getters, commit }, imageFile) => {
     .catch(errorHandler)
 }
 
+const POST_SPONSORED_LISTING = ({ getters, commit }) => {
+
+}
+
 export default {
   GET_LISTING,
   GET_LISTINGS,
@@ -125,4 +129,5 @@ export default {
   GET_WORD_FILTER,
   PUT_WORD_FILTER,
   POST_IMAGE,
+  POST_SPONSORED_LISTING,
 }

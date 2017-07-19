@@ -52,6 +52,7 @@
         <v-btn
           class="accent--text"
           flat
+          v-if="!isEdit"
           @click.native="reset"
         >Reset</v-btn>
         <v-btn
@@ -77,7 +78,17 @@
 </template>
 
 <script>
+import { has } from 'lodash'
 import validateEmail from '@/services/validateEmail'
+
+const isLength = (
+  value,
+  minLength = 0,
+  maxLength = 0,
+  ) => {
+  const isBelow = maxLength === 0 ? true : value.length <= maxLength
+  return value !== undefined && value.length >= minLength && isBelow
+}
 
 export default {
   name: 'AddOrganizationDialog',
@@ -112,32 +123,44 @@ export default {
       },
     }
   },
+  created () {
+
+  },
   computed: {
+    isOpen: {
+      get () {
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
+      },
+
+      set (value) {
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
+      }
+    },
+
     formData: {
       get () {
-        return this.$store.state.newOrganization
+        console.log(this.$store.getters.organization)
+        return this.$store.getters.organization
       },
 
       set (value) {
         this.$store.commit('SET_NEW_ORGANIZATION', this.formData)
-        // console.log(this.$store.state.newOrganization, value)
       }
     },
 
-    isOpen: {
-      get () {
-        return this.$store.state.isAddOrganizationDialogOpen
-      },
-
-      set (value) {
-        if (!value) {
-          this.$store.commit('CLOSE_ADD_ORGANIZATION_DIALOG')
-        }
-      }
+    isEdit () {
+      return has(this.formData, 'id') &&
+        this.formData.id !== null &&
+        this.formData.id.length > 4
     }
   },
   methods: {
     reset () {
+      if (this.isEdit) {
+        return false
+      }
+
       this.$store.commit('SET_NEW_ORGANIZATION', {
         firstName: '',
         lastName: '',
@@ -149,10 +172,16 @@ export default {
     },
 
     submit () {
-      const isFirstNameVaild = this.formData.firstName.length > 1
-      const isLastNameVaild = this.formData.lastName.length > 1
+      if (this.isEdit) {
+        this.$store.dispatch('PUT_ORGANIZATION')
+
+        return
+      }
+
+      const isFirstNameVaild = isLength(this.formData.firstName, 1)
+      const isLastNameVaild = isLength(this.formData.lastName, 1)
       const isEmailValid = validateEmail(this.formData.email)
-      const isPasswordLong = this.formData.password.length > 7
+      const isPasswordLong = isLength(this.formData.password, 7)
       const isPasswordSame = this.formData.password === this.confirm
       const isPasswordValid = isPasswordLong && isPasswordSame
 
@@ -183,12 +212,12 @@ export default {
       }
 
       if (
-          isFirstNameVaild &&
-          isLastNameVaild &&
-          isEmailValid &&
-          isPasswordValid
-        ) {
-        this.$store.dispatch('POST_ORGANIZATION', this.formData)
+        isFirstNameVaild &&
+        isLastNameVaild &&
+        isEmailValid &&
+        isPasswordValid
+      ) {
+        this.$store.dispatch('POST_ORGANIZATION')
         this.$store.commit('SET_NEW_ORGANIZATION', {
           firstName: '',
           lastName: '',
@@ -196,20 +225,14 @@ export default {
           password: '',
         })
 
-        this.$store.commit('CLOSE_ADD_ORGANIZATION_DIALOG')
+        this.confirm = ''
+
+        this.$store.commit('CLOSE_DIALOG', this.$options.name)
         this.formState.snackMessage = 'Success!'
         this.formState.form = 'success'
       } else {
         this.formState.snackMessage = 'Error!'
         this.formState.form = 'error'
-
-        // setTimeout(() => {
-        //   this.formState.firstName.error = false
-        //   this.formState.lastName.error = false
-        //   this.formState.email.error = false
-        //   this.formState.password.error = false
-        //   this.formState.passwordConfirm.error = false
-        // }, 2000)
       }
 
       this.formState.snackbar = true

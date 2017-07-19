@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" width="400" content-class="dialog">
+  <v-dialog v-model="isOpen" width="400">
     <v-card>
       <v-card-media
         v-if="listing.carousel && !editMode"
@@ -204,18 +204,12 @@ export default {
   computed: {
     isOpen: {
       get () {
-        return this.$store.getters.activeDialog === this.name
+        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
+        return hasDialog && this.$store.state.dialogs[this.$options.name].active
       },
 
       set (value) {
-        if (!value) {
-          if (this.editMode) {
-            this.editMode = false
-          }
-
-          this.$store.commit('SET_SELECTED_LISTING', {})
-          this.$store.commit('CLOSE_VIEW_LISTING_DIALOG')
-        }
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
     },
 
