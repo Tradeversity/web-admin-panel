@@ -13,10 +13,23 @@ export default {
   TOGGLE_TABLE_LOADING (state) {
     state.isTableLoading = !state.isTableLoading
   },
+  TOGGLE_DIALOG (state, name) {
+    if (!has(state.dialogs, name)) {
+      state.dialogs[name] = {}
+      state.dialogs[name].active = false
+    }
+
+    console.log(state.dialogs)
+
+    state.dialogs[name].active = !state.dialogs[name].active
+    state.dialogs[name].origin = state.route.fullPath
+  },
   OPEN_DIALOG (state, name) {
     if (!has(state.dialogs, name)) {
       state.dialogs[name] = {}
     }
+
+    console.log(state.dialogs)
 
     state.dialogs[name].active = true
     state.dialogs[name].origin = state.route.fullPath
@@ -28,4 +41,13 @@ export default {
 
     state.dialogs[name].active = false
   },
+  ADD_DIALOG (state, name) {
+    if (!has(state.dialogs, name)) {
+      state.dialogs[name] = {}
+    }
+
+    state.dialogs[name].active = false
+    state.dialogs[name].origin = state.route.fullPath
+  },
+
 }

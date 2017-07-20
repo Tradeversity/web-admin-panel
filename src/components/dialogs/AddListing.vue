@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" width="400">
+  <v-dialog v-model="isOpen">
     <v-card>
       <form @submit.prevent="submit">
         <v-card-title>
@@ -21,7 +21,13 @@
 
         <v-card-text class="text-xs-left">
           <v-text-field label="Title"></v-text-field>
-          <v-text-field label="Amount"></v-text-field>
+          <input type="text" v-digits-only>
+          <v-text-field
+
+            label="Amount"
+            placeholder="0.00"
+            prefix="$"
+          ></v-text-field>
           <v-text-field label="Description"></v-text-field>
           <v-select
             :items="[
@@ -63,9 +69,18 @@
 
 <script>
 import { has } from 'lodash'
+import { digitsOnly } from '@/services/filters'
 
 export default {
   name: 'AddListingDialog',
+  data: () => ({
+    rules: {
+
+    }
+  }),
+  components: {
+    digitsOnly
+  },
   computed: {
     isOpen: {
       get () {
@@ -79,6 +94,16 @@ export default {
     },
   },
   methods: {
+    numberOnly (event = window.event) {
+      const charCode = event.which || event.keyCode
+      console.log(event)
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        event.preventDefault()
+      } else {
+        return true
+      }
+    },
+
     reset () {
 
     },

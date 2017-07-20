@@ -58,7 +58,7 @@
 import _ from 'lodash'
 
 const headers = [
-  { text: 'Title', value: 'title', left: true },
+  { text: 'Title', value: 'title', align: 'left' },
   { text: 'Category', value: 'category' },
   { text: 'Created', value: 'created_at' },
 ]

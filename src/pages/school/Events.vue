@@ -62,6 +62,16 @@
 </template>
 
 <script>
+const headers = [
+  {
+    text: 'Title',
+    value: 'title',
+    align: 'left',
+  },
+  { text: 'Location', value: 'location' },
+  { text: 'Created', value: 'created_at' },
+]
+
 export default {
   name: 'Event',
   data () {
@@ -69,15 +79,7 @@ export default {
       search: '',
       pagination: {},
       showQueue: false,
-      headers: [
-        {
-          text: 'Title',
-          value: 'title',
-          left: true,
-        },
-        { text: 'Location', value: 'location' },
-        { text: 'Created', value: 'created_at' },
-      ],
+      headers: headers,
     }
   },
   computed: {

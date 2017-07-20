@@ -88,7 +88,6 @@
 </template>
 
 <script>
-import { has } from 'lodash'
 import setTime from '@/services/setTime'
 
 export default {
@@ -96,8 +95,7 @@ export default {
   computed: {
     isOpen: {
       get () {
-        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
-        return hasDialog && this.$store.state.dialogs[this.$options.name].active
+        return this.$store.getters.isDialogActive(this.$options.name)
       },
 
       set (value) {
