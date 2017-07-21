@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import EventManagerContainer from '@/containers/EventManager'
+import CreateEvent from '@/pages/organization/CreateEvent'
+
 import Super from '@/pages/global/Schools'
 import CreateSchool from '@/pages/global/CreateSchool'
 
@@ -80,11 +83,22 @@ export default new Router({
     }, {
       path: '/school/:schoolName/event-manager',
       name: 'EventManager',
-      component: EventManager,
+      component: EventManagerContainer,
       meta: {
         requiredAuth: true,
         noNavbar: true,
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'Events',
+          component: EventManager
+        }, {
+          path: 'create',
+          name: 'CreateEvent',
+          component: CreateEvent,
+        }
+      ]
     }, {
       path: '/school/:schoolName/events',
       name: 'Events',

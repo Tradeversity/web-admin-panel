@@ -1,13 +1,25 @@
 <template>
   <v-toolbar
-    primary
+    class="primary white--text elevation-0"
     fixed
-    light
-    dense
-    dark
+    extended
   >
+    <v-toolbar-side-icon class="white--text"></v-toolbar-side-icon>
+    <v-fab-transition>
+      <v-btn
+        v-show="hasFab"
+        class="accent"
+        absolute
+        bottom
+        left
+        fab
+        @click.native.stop="goToEvent"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <v-toolbar-title class="hidden-sm-and-down">
-      Organization event manager
+      Event Manager
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-model="isMenuOpen">
@@ -36,7 +48,19 @@ export default {
   name: 'EventToolbar',
   data: () => ({
     isMenuOpen: false,
-  })
+    hasFab: false,
+  }),
+  mounted () {
+    setTimeout(() => {
+      this.hasFab = true
+    }, 500)
+  },
+  methods: {
+    goToEvent () {
+      const schoolShortName = this.$store.getters.schoolShortName
+      this.$router.push({path: `/school/${schoolShortName}/event-manager/create`})
+    }
+  }
 }
 </script>
 
