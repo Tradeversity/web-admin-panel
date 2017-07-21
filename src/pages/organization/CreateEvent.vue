@@ -1,5 +1,7 @@
 <template>
-  <add-event-card class="card"></add-event-card>
+  <add-event-card
+    class="card"
+  ></add-event-card>
 </template>
 
 <script>
@@ -17,5 +19,6 @@ export default {
 .card
   max-width: 500px
   margin: 0 auto
+  margin-top: -80px
 </style>
 

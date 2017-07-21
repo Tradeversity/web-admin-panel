@@ -1,6 +1,6 @@
 <template>
-  <v-layout column align-center>
-    <v-flex xs7 class="mt-5 mb-4 card-wrap" v-for="eventItem in events" :key="eventItem.id">
+  <v-layout column align-center class="wrap">
+    <v-flex xs7 class="mt-2 mb-2 card-wrap" v-for="eventItem in events" :key="eventItem.id">
       <event-card :item="eventItem"></event-card>
     </v-flex>
   </v-layout>
@@ -42,4 +42,8 @@ export default {
 <style lang="stylus" scoped>
 .card-wrap
   width: 500px
+
+.wrap
+  margin-top: 68px
+  padding-bottom: 50px
 </style>

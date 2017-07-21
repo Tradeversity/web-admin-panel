@@ -98,24 +98,24 @@ export default {
   methods: {
     openAdminDialog (school) {
       this.$store.commit('SET_SCHOOL', school)
-      this.$store.commit('OPEN_ADD_ADMIN_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'AddAdminDialog')
     },
 
     openEditAdminDialog (admin) {
       this.$store.commit('SET_NEW_ADMIN', admin)
-      this.$store.commit('OPEN_ADD_ADMIN_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'AddAdminDialog')
     },
 
     openSchoolDialog (school) {
       this.$store.commit('SET_SCHOOL', school)
-      this.$store.commit('OPEN_ADD_SCHOOL_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'AddSchoolDialog')
     },
 
     gotoAdmin (school) {
       this.$cookie.set('TV_ADMIN_SCHOOLID', school.id)
       this.$store.commit('SET_SCHOOL', school)
       this.$router.push({
-        path: `school/${school.short_name}/dashboard`
+        path: `/school/${school.short_name}/dashboard`
       })
     }
   },

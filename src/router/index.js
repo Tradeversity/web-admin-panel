@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import GlobalContainer from '@/containers/Global'
+import SchoolAdminContainer from '@/containers/SchoolAdmin'
 import EventManagerContainer from '@/containers/EventManager'
 import CreateEvent from '@/pages/organization/CreateEvent'
 
-import Super from '@/pages/global/Schools'
+import Schools from '@/pages/global/Schools'
 import CreateSchool from '@/pages/global/CreateSchool'
 
 import EventManager from '@/pages/organization/Events'
@@ -69,17 +71,23 @@ export default new Router({
       name: 'Logout',
       component: Logout,
     }, {
-      path: '/super',
-      name: 'Super',
-      component: Super,
+      path: '/global',
+      name: 'Global Admin',
+      component: GlobalContainer,
       meta: {
         requiredAuth: true,
-        noNavbar: true,
-      }
-    }, {
-      path: '/super/create-school',
-      name: 'Create School',
-      component: CreateSchool,
+      },
+      children: [
+        {
+          path: 'schools',
+          name: 'School Dashboard',
+          component: Schools,
+        }, {
+          path: 'schools/create',
+          name: 'Create school',
+          component: CreateSchool,
+        }
+      ]
     }, {
       path: '/school/:schoolName/event-manager',
       name: 'EventManager',
@@ -100,63 +108,44 @@ export default new Router({
         }
       ]
     }, {
-      path: '/school/:schoolName/events',
-      name: 'Events',
-      component: Events,
+      path: '/school/:schoolName',
+      name: 'University',
+      component: SchoolAdminContainer,
       meta: {
         requiredAuth: true,
-      }
-    }, {
-      path: '/school/:schoolName/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
-      meta: {
-        requiredAuth: true,
-      }
-    }, {
-      path: '/school/:schoolName/users',
-      name: 'Users',
-      component: Users,
-      meta: {
-        requiredAuth: true,
-      }
-    }, {
-      path: '/school/:schoolName/listings',
-      name: 'Listings',
-      component: Listings,
-      meta: {
-        requiredAuth: true,
-      }
-    }, {
-      path: '/school/:schoolName/filters',
-      name: 'Filters',
-      component: Filters,
-      meta: {
-        requiredAuth: true,
-      }
-    },
-    // }, {
-    //   path: '/school/:schoolName/flagged',
-    //   name: 'Flagged',
-    //   component: Flagged,
-    //   meta: {
-    //     requiredAuth: true,
-    //   }
-    // }, {
-    {
-      path: '/school/:schoolName/organizations',
-      name: 'Organizations',
-      component: Organizations,
-      meta: {
-        requiredAuth: true,
-      }
-    }, {
-      path: '/school/:schoolName/sponsors',
-      name: 'Sponsors',
-      component: Sponsors,
-      meta: {
-        requiredAuth: true,
-      }
+        noNavbar: true,
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'Dashboard',
+          component: Dashboard,
+        }, {
+          path: 'events',
+          name: 'Events',
+          component: Events,
+        }, {
+          path: 'users',
+          name: 'Users',
+          component: Users,
+        }, {
+          path: 'listings',
+          name: 'Listings',
+          component: Listings,
+        }, {
+          path: 'filters',
+          name: 'Filters',
+          component: Filters,
+        }, {
+          path: 'organizations',
+          name: 'Organizations',
+          component: Organizations,
+        }, {
+          path: 'sponsors',
+          name: 'Sponsors',
+          component: Sponsors,
+        }
+      ],
     }
   ],
 })

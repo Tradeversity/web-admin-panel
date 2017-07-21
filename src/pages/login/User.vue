@@ -126,7 +126,7 @@ export default {
           if (response.data.user.account_role === 'global_admin') {
             console.log('Sending to super...')
             this.$router.push({
-              path: '/super',
+              path: '/global/schools',
             })
           } else if (response.data.user.account_role === 'admin') {
             this.$router.push({
