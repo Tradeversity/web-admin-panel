@@ -31,7 +31,7 @@
         bottom
         left
         fab
-        class="accent back"
+        class="accent back white--text"
         to="/global/schools"
       >
         <v-icon>arrow_back</v-icon>

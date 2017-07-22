@@ -40,7 +40,10 @@ export default {
     SetLocationDialog,
     UserDialog,
     ListingDialog,
-  }
+  },
+  created () {
+    this.$store.commit('OPEN_DRAWER')
+  },
 }
 </script>
 

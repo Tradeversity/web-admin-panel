@@ -103,6 +103,7 @@ export default new Router({
           component: EventManager
         }, {
           path: 'create',
+          alias: 'edit',
           name: 'CreateEvent',
           component: CreateEvent,
         }

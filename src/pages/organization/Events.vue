@@ -1,6 +1,11 @@
 <template>
   <v-layout column align-center class="wrap">
-    <v-flex xs7 class="mt-2 mb-2 card-wrap" v-for="eventItem in events" :key="eventItem.id">
+    <v-flex
+      xs7
+      class="mt-2 mb-2 card-wrap"
+      v-for="eventItem in events"
+      :key="eventItem.id"
+    >
       <event-card :item="eventItem"></event-card>
     </v-flex>
   </v-layout>

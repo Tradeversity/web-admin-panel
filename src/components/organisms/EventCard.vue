@@ -133,6 +133,10 @@ export default {
       }
     },
 
+    shortName () {
+      return this.$store.state.school.short_name
+    },
+
     schoolColor () {
       return this.$store.getters.schoolColor
     },
@@ -144,7 +148,7 @@ export default {
   methods: {
     editItem () {
       this.$store.commit('SET_NEW_EVENT', this.item)
-      this.$store.commit('OPEN_ADD_EVENT_DIALOG')
+      this.$router.push({ path: `/school/${this.shortName}/event-manager/edit` })
     },
 
     deleteItem () {

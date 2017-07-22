@@ -1,5 +1,5 @@
 <template>
-  <v-card class="grey lighten-5" flat>
+  <v-card class="grey lighten-5 background" flat>
     <v-navigation-drawer
       v-model="isOpen"
       temporary
@@ -84,6 +84,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.background
+  background-color: #f6f6f6 !important
 </style>
 
