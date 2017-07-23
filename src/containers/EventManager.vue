@@ -57,7 +57,10 @@ export default {
   },
   computed: {
     isDashboard () {
-      return this.$route.fullPath.indexOf('create') === -1
+      return (
+        this.$route.fullPath.indexOf('create') === -1 &&
+        this.$route.fullPath.indexOf('edit') === -1
+      )
     },
 
     dashboardLink () {

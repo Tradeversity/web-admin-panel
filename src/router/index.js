@@ -72,7 +72,7 @@ export default new Router({
       component: Logout,
     }, {
       path: '/global',
-      name: 'Global Admin',
+      name: 'GlobalAdmin',
       component: GlobalContainer,
       meta: {
         requiredAuth: true,
@@ -80,17 +80,16 @@ export default new Router({
       children: [
         {
           path: 'schools',
-          name: 'School Dashboard',
+          name: 'SchoolDashboard',
           component: Schools,
         }, {
           path: 'schools/create',
-          name: 'Create school',
+          name: 'CreateSchool',
           component: CreateSchool,
         }
       ]
     }, {
       path: '/school/:schoolName/event-manager',
-      name: 'EventManager',
       component: EventManagerContainer,
       meta: {
         requiredAuth: true,
@@ -99,7 +98,7 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'Events',
+          name: 'EventsDashboard',
           component: EventManager
         }, {
           path: 'create',

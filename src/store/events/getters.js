@@ -66,12 +66,16 @@ const eventFormData = (state) => {
     data.endTime = currentEpoch + 8.64e+7 // One day
   }
 
+  if (!_.has(data, 'locationData.placeResultData.place_id')) {
+    return false
+  }
+
   return {
     title: data.title,
     description: data.description,
     start_time: data.startTime,
     end_time: data.endTime,
-    location: data.locationData.addressData.locality,
+    location: data.location,
     lat: data.lat,
     long: data.long,
     places_id: data.locationData.placeResultData.place_id,
@@ -80,4 +84,5 @@ const eventFormData = (state) => {
 
 export default {
   eventFormData,
+  startDate: state => _.has(state.formData, 'startDate') && state.formData.startDate
 }

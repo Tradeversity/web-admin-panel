@@ -6092,15 +6092,13 @@ vue2-leaflet@^0.0.51:
     leaflet "^1.0.1"
     vue "^2.0.0-rc.8"
 
-vue@^2.0.0-rc.8, vue@^2.2.1, vue@^2.3.3, vue@^2.3.4:
+vue@^2.0.0-rc.8, vue@^2.2.1, vue@^2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.4.tgz#5ec3b87a191da8090bbef56b7cfabd4158038171"
 
-vuetify@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.13.1.tgz#12f016053bed932dbf20fae43267636c3871fa2b"
-  dependencies:
-    vue "^2.3.3"
+vuetify@^0.14.5:
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.14.5.tgz#2e6a8cf823601d37af4a95379452b31b13bd04ae"
 
 vuex-persistedstate@^1.4.1:
   version "1.4.1"
