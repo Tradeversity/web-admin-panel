@@ -9,6 +9,13 @@
 
     <form @submit.prevent="submit">
       <v-card-text class="text-xs-left">
+        <v-card-media
+          v-show="hasStaticMap"
+          class="mb-5"
+          :src="staticMapURL"
+          height="200"
+        ></v-card-media>
+
         <v-text-field
           label="Title"
           max="80"
@@ -18,6 +25,13 @@
           :persistent-hint="formState.title.error"
           v-model="formData.title"
         ></v-text-field>
+
+        <location-search
+          id="LocationSearch"
+          prependIcon="my_location"
+          placeholder="Search location..."
+          @placechanged="getAddressData"
+        ></location-search>
 
         <v-text-field
           label="Location name"
@@ -39,20 +53,6 @@
           :persistent-hint="formState.description.error"
           v-model="formData.description"
         ></v-text-field>
-
-        <location-search
-          id="LocationSearch"
-          prependIcon="my_location"
-          placeholder="Search location..."
-          v-on:placechanged="getAddressData"
-        ></location-search>
-
-        <v-card-media
-          v-show="hasStaticMap"
-          class="mb-5"
-          :src="staticMapURL"
-          height="200"
-        ></v-card-media>
 
         <v-layout row wrap>
           <v-flex xs6>
@@ -215,9 +215,10 @@
 
 <script>
 import { has } from 'lodash'
+import moment from 'moment'
 import LocationSearch from '@/components/molecules/LocationSearch'
 
-const hasFields = (data, fields) => fields.filter(field => has(data, field)) === fields
+// const hasFields = (data, fields) => fields.filter(field => has(data, field)) === fields
 
 export default {
   name: 'AddEventCard',
@@ -279,8 +280,6 @@ export default {
       state.form = 'info'
       state.snackMessage = 'Add event'
 
-      // console.log('state', state)
-
       return state
     },
 
@@ -306,12 +305,22 @@ export default {
         placeResultData: placeResultData,
       }
 
+      if (
+        !has(this.formData, 'location') ||
+        this.formData.location === undefined ||
+        this.formData.location === null ||
+        this.formData.location.length < 2
+      ) {
+        this.formData.location = addressData.locality
+      }
+
       this.$store.commit('SET_NEW_EVENT', this.formData)
       this.setEventStaticMap(this.formData.locationData)
     },
 
     setEventStaticMap (data) {
       this.hasStaticMap = true
+      console.log(data)
       this.staticMapURL = `https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${data.addressData.latitude},${data.addressData.longitude}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`
     },
 
@@ -334,19 +343,27 @@ export default {
     },
 
     submit () {
-      const hasAllFields = hasFields(this.formData, [
-        'title',
-        'description',
-        'startTime',
-        'endTime',
-        'location',
-        'long',
-        'lat',
-      ])
+      console.log('submit', this.startDate, this.startTime)
+      // const offset = new Date().getTimezoneOffset()
+      const format = 'YYYY-MM-DD HH:mmA'
+      const startTime = moment(`${this.startDate} ${this.startTime}`, format).unix()
+      const endTime = moment(`${this.endDate} ${this.endTime}`, format).unix()
+      console.log(startTime, endTime)
+      // this.$store.dispatch('POST_EVENT')
 
-      if (hasAllFields) {
-        this.$store.dispatch('POST_EVENT')
-      }
+      // const hasAllFields = hasFields(this.formData, [
+      //   'title',
+      //   'description',
+      //   'startTime',
+      //   'endTime',
+      //   'location',
+      //   'long',
+      //   'lat',
+      // ])
+
+      // if (hasAllFields) {
+      //   this.$store.dispatch('POST_EVENT')
+      // }
     }
   }
 }

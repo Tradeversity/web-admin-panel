@@ -55,13 +55,14 @@ const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
 }
 
 const POST_EVENT = ({ getters, dispatch }) => {
-  const baseURL = `/admin/school/${getters.schoolID}`
+  // const baseURL = `/admin/school/${getters.schoolID}`
+  console.log(getters.eventFormData)
 
-  api.request('post', `${baseURL}/event`, getters.eventFormData)
-    .then(response => {
-      dispatch('GET_EVENTS')
-    })
-    .catch(errorHandler)
+  // api.request('post', `${baseURL}/event`, getters.eventFormData)
+  //   .then(response => {
+  //     dispatch('GET_EVENTS')
+  //   })
+  //   .catch(errorHandler)
 }
 
 export default {

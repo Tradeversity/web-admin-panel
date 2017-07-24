@@ -72,6 +72,7 @@ const eventFormData = (state) => {
 
   return {
     title: data.title,
+    address: data.address,
     description: data.description,
     start_time: data.startTime,
     end_time: data.endTime,
