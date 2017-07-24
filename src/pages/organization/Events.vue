@@ -1,10 +1,16 @@
 <template>
   <v-layout column align-center class="wrap">
+    <v-flex v-if="isEmpty" xs7>
+      <span class="headline">
+        There doesn't seem to be any events listed.
+      </span>
+    </v-flex>
     <v-flex
       xs7
       class="mt-2 mb-2 card-wrap"
       v-for="eventItem in events"
       :key="eventItem.id"
+      v-else
     >
       <event-card :item="eventItem"></event-card>
     </v-flex>
@@ -12,6 +18,7 @@
 </template>
 
 <script>
+import { isEmpty } from 'lodash'
 import EventCard from '@/components/organisms/EventCard'
 
 export default {
@@ -26,6 +33,10 @@ export default {
     }
   },
   computed: {
+    isEmpty () {
+      return isEmpty(this.$store.state.events)
+    },
+
     events () {
       return this.$store.state.events
     },

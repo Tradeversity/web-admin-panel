@@ -146,6 +146,7 @@
                 scrollable
                 :date-format="date => new Date(date).toDateString()"
                 :formatted-value.sync="endFormattedDate"
+                :allowed-dates="allowedEndDate"
               >
                 <template scope="{ save, cancel }">
                   <v-card-actions>
@@ -227,6 +228,9 @@ export default {
   },
   data: () => ({
     allowedStartDate: null,
+    allowedEndDate: null,
+    allowedStartTime: null,
+    allowedEndTime: null,
     staticMapURL: '',
     startDate: '',
     startTime: '',
@@ -260,10 +264,43 @@ export default {
     }
   },
   mounted () {
-    const today = new Date()
+    const today = new Date().toISOString().split('T')[0]
 
     this.allowedStartDate = (date) => {
-      return date >= today && date
+      const formattedDate = date.toISOString().split('T')[0]
+
+      if (today <= formattedDate) {
+        return date
+      }
+    }
+
+    this.allowedEndDate = (date) => {
+      const formattedDate = date.toISOString().split('T')[0]
+
+      if (today <= formattedDate) {
+        if (this.startDate !== '' && this.startDate <= formattedDate) {
+          return date
+        } else if (this.startDate === '') {
+          return date
+        }
+      }
+    }
+
+    this.allowedStartTime = (time) => {
+      console.log(time)
+      if (this.endTime === '') {
+        return time
+      } else if (time < this.endTime) {
+        return time
+      }
+    }
+
+    this.allowedEndTime = (time) => {
+      if (this.startTime === '') {
+        return time
+      } else if (time < this.startTime) {
+        return time
+      }
     }
   },
   computed: {
@@ -343,13 +380,46 @@ export default {
     },
 
     submit () {
-      console.log('submit', this.startDate, this.startTime)
-      // const offset = new Date().getTimezoneOffset()
+      if (this.startDate.length < 2) {
+        this.formState.startDate.hint = 'Please enter a valid date'
+        this.formState.startDate.error = true
+        return
+      }
+
+      if (this.startTime.length < 2) {
+        this.formState.startTime.hint = 'Please enter a valid time'
+        this.formState.startTime.error = true
+        return
+      }
+
+      if (this.endDate.length < 2) {
+        this.formState.endDate.hint = 'Please enter a valid date'
+        this.formState.endDate.error = true
+        return
+      }
+
+      if (this.endTime.length < 2) {
+        this.formState.endTime.hint = 'Please enter a valid time'
+        this.formState.endTime.error = true
+        return
+      }
+
+      const offset = new Date().getTimezoneOffset()
       const format = 'YYYY-MM-DD HH:mmA'
-      const startTime = moment(`${this.startDate} ${this.startTime}`, format).unix()
-      const endTime = moment(`${this.endDate} ${this.endTime}`, format).unix()
-      console.log(startTime, endTime)
-      // this.$store.dispatch('POST_EVENT')
+      const startTime = moment(`${this.startDate} ${this.startTime}`, format).utcOffset(offset).unix()
+      const endTime = moment(`${this.endDate} ${this.endTime}`, format).utcOffset(offset).unix()
+
+      this.formData.start_time = startTime
+      this.formData.end_time = endTime
+      this.$store.commit('SET_NEW_EVENT', this.formData)
+      this.$store.dispatch('POST_EVENT')
+        .then(response => {
+          if (response.status === 200) {
+            this.$router.push({
+              path: `/school/${this.$store.state.school.short_name}/event-manager/`
+            })
+          }
+        })
 
       // const hasAllFields = hasFields(this.formData, [
       //   'title',
