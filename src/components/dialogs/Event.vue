@@ -127,7 +127,7 @@ export default {
       this.$store.dispatch('POST_APPROVE_EVENT', this.item.id)
         .then(() => {
           this.$store.commit('TOGGLE_TABLE_LOADING')
-          this.$store.commit('CLOSE_EVENT_DIALOG')
+          this.$store.commit('CLOSE_DIALOG', 'EventDialog')
           this.$store.dispatch('GET_EVENTS')
             .then(() => {
               this.$store.commit('TOGGLE_TABLE_LOADING')
@@ -140,7 +140,7 @@ export default {
         this.$store.dispatch('POST_DENY_EVENT', this.item.id)
           .then(() => {
             this.$store.commit('TOGGLE_TABLE_LOADING')
-            this.$store.commit('CLOSE_EVENT_DIALOG')
+            this.$store.commit('CLOSE_DIALOG', 'EventDialog')
             this.$store.dispatch('GET_EVENTS')
               .then(() => {
                 this.$store.commit('TOGGLE_TABLE_LOADING')
@@ -155,7 +155,7 @@ export default {
       this.$store.dispatch('DELETE_EVENT', this.item.id)
         .then(() => {
           this.$store.commit('TOGGLE_TABLE_LOADING')
-          this.$store.commit('CLOSE_EVENT_DIALOG')
+          this.$store.commit('CLOSE_DIALOG', 'EventDialog')
           this.$store.dispatch('GET_EVENTS')
             .then(() => {
               this.$store.commit('TOGGLE_TABLE_LOADING')

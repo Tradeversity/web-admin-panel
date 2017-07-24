@@ -50,15 +50,14 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          class="accent--text"
           flat
           v-if="!isEdit"
           @click.native="reset"
         >Reset</v-btn>
         <v-btn
-          class="secondary--text darken-1"
           type="submit"
           flat
+          primary
           :loading="isLoading"
         >Submit</v-btn>
       </v-card-actions>

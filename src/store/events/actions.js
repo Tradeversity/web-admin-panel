@@ -10,6 +10,8 @@ const POST_APPROVE_EVENT = ({ getters, dispatch }, eventID) => {
   api.request('post', `${baseURL}/event/${eventID}/approve`)
     .then(response => {
       dispatch('GET_EVENTS')
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -17,9 +19,11 @@ const POST_APPROVE_EVENT = ({ getters, dispatch }, eventID) => {
 const POST_DENY_EVENT = ({ getters, dispatch }, eventID) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('post', `${baseURL}/event/${eventID}/deny`)
+  return api.request('post', `${baseURL}/event/${eventID}/deny`)
     .then(response => {
       dispatch('GET_EVENTS')
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -27,9 +31,11 @@ const POST_DENY_EVENT = ({ getters, dispatch }, eventID) => {
 const GET_EVENTS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/events`)
+  return api.request('get', `${baseURL}/events`)
     .then(response => {
       commit('SET_EVENTS', response.data)
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -37,9 +43,11 @@ const GET_EVENTS = ({ getters, commit }) => {
 const GET_ORGANIZATION_EVENTS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/organization/${getters.organizationID}/events`)
+  return api.request('get', `${baseURL}/organization/${getters.organizationID}/events`)
     .then(response => {
       commit('SET_ORGANIZATION_EVENTS', response.data)
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -47,9 +55,11 @@ const GET_ORGANIZATION_EVENTS = ({ getters, commit }) => {
 const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('post', `${baseURL}/event/${eventID}/delete`)
+  return api.request('post', `${baseURL}/event/${eventID}/delete`)
     .then(response => {
       dispatch('GET_EVENTS')
+
+      return response
     })
     .catch(errorHandler)
 }

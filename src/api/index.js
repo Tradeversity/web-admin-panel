@@ -1,10 +1,16 @@
+
+import { has } from 'lodash'
+
 import axios from 'axios'
 import router from '@/router'
-import config from '../config'
+import store from '@/store'
+import config from '@/config'
 
 const statusHandler = status => {
   switch (status) {
+    case 400:
     case 401:
+    case 403:
     case 500:
     case 503:
       router.push({ path: '/login' })
@@ -13,7 +19,8 @@ const statusHandler = status => {
   }
 }
 
-const token = window.localStorage.getItem('TV_ADMIN_TOKEN')
+const token = has(store.state, 'user.access_token') &&
+  store.state.user.access_token
 
 if (token && token !== null) {
   axios.defaults.headers.common['Authorization'] = token

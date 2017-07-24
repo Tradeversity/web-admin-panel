@@ -57,6 +57,12 @@ const schoolShortName = state => state.school.short_name
 const avatar = state => _.has(state.user, 'avatar_url') && state.user.avatar_url
 const organizationID = state => _.has(state.user, 'id') && state.user.id
 
+const isFabActive = state => {
+  const route = state.route.fullPath
+
+  return route.indexOf('organization') !== -1 || route.indexOf('sponsors') !== -1
+}
+
 const isDialogActive = state => name => {
   return _.has(state.dialogs, `[${name}].active`) && state.dialogs[name].active
 }
@@ -71,4 +77,5 @@ export default {
   schoolColor,
   organizationID,
   isDialogActive,
+  isFabActive,
 }

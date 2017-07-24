@@ -19,8 +19,6 @@ export default {
       state.dialogs[name].active = false
     }
 
-    console.log(state.dialogs)
-
     state.dialogs[name].active = !state.dialogs[name].active
     state.dialogs[name].origin = state.route.fullPath
   },
@@ -28,8 +26,6 @@ export default {
     if (!has(state.dialogs, name)) {
       state.dialogs[name] = {}
     }
-
-    console.log(state.dialogs)
 
     state.dialogs[name].active = true
     state.dialogs[name].origin = state.route.fullPath
@@ -49,5 +45,4 @@ export default {
     state.dialogs[name].active = false
     state.dialogs[name].origin = state.route.fullPath
   },
-
 }

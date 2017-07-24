@@ -9,9 +9,22 @@
       </v-container>
     </main>
 
+    <v-btn
+      fab
+      dark
+      large
+      fixed
+      bottom
+      right
+      :style="{ backgroundColor: schoolColor }"
+      @click.native.stop="fabAction"
+      v-show="isFabActive"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
+
     <user-dialog></user-dialog>
     <add-listing-dialog></add-listing-dialog>
-    <add-event-dialog></add-event-dialog>
     <add-organization-dialog></add-organization-dialog>
     <event-dialog></event-dialog>
     <listing-dialog></listing-dialog>
@@ -44,6 +57,20 @@ export default {
   created () {
     this.$store.commit('OPEN_DRAWER')
   },
+  computed: {
+    schoolColor () {
+      return this.$store.getters.schoolColor
+    },
+
+    isFabActive () {
+      return this.$store.getters.isFabActive
+    }
+  },
+  methods: {
+    fabAction () {
+      this.$store.dispatch('TRIGGER_FAB_ACTION')
+    }
+  }
 }
 </script>
 

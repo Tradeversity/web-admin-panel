@@ -21,9 +21,8 @@
 
         <v-card-text class="text-xs-left">
           <v-text-field label="Title"></v-text-field>
-          <input type="text" v-digits-only>
+          <input type="text">
           <v-text-field
-
             label="Amount"
             placeholder="0.00"
             prefix="$"
@@ -69,7 +68,7 @@
 
 <script>
 import { has } from 'lodash'
-import { digitsOnly } from '@/services/filters'
+// import { digitsOnly } from '@/services/filters'
 
 export default {
   name: 'AddListingDialog',
@@ -79,7 +78,7 @@ export default {
     }
   }),
   components: {
-    digitsOnly
+
   },
   computed: {
     isOpen: {

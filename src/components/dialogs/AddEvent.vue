@@ -237,8 +237,6 @@ export default {
       state.form = 'info'
       state.snackMessage = 'Add event'
 
-      // console.log('state', state)
-
       return state
     },
 
@@ -253,7 +251,6 @@ export default {
 
       set (value) {
         this.$store.commit('SET_NEW_EVENT', this.formData)
-        console.log(this.$store.state.newEvent, value)
       }
     },
   },
@@ -265,7 +262,6 @@ export default {
       }
 
       this.$store.commit('SET_NEW_EVENT', this.formData)
-      console.log('yes', this.$store.state.newEvent)
     },
 
     openSetLocation () {
