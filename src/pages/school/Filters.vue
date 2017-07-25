@@ -119,7 +119,7 @@
           return false
         }
 
-        if (this.filter.length > 2) {
+        if (this.keywords.length > 2) {
           this.$store.commit('ADD_FILTER_KEYWORD', this.filter)
           this.$store.dispatch('PUT_WORD_FILTER', this.$store.state.filters)
           this.filter = ''

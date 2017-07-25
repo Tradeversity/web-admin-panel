@@ -4,6 +4,17 @@ const errorHandler = error => {
   console.log(error)
 }
 
+const GET_ORGANIZATION = ({ getters }, organization) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
+
+  return api.request('get', `${baseURL}/organization/${organization.id}`)
+    .then(response => {
+      this.$store.commit('SET_NEW_ORGANIZATION', response.data)
+      return response
+    })
+    .catch(errorHandler)
+}
+
 const GET_ORGANIZATIONS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
@@ -85,6 +96,7 @@ const POST_BLOCK_ORGANIZATION = ({ getters }, organization) => {
 }
 
 export default {
+  GET_ORGANIZATION,
   GET_ORGANIZATIONS,
   PUT_ORGANIZATION,
   POST_ORGANIZATION,
