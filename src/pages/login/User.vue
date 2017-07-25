@@ -134,6 +134,7 @@ export default {
           }
 
           this.$store.commit('SET_USER', response.data)
+          this.$store.commit('SET_SCHOOL', response.data.user.school)
           const schoolName = this.$store.state.school.short_name
 
           if (response.data.user.account_role === 'global_admin') {

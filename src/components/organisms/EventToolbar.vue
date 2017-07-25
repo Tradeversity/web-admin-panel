@@ -1,18 +1,24 @@
 <template>
   <v-toolbar
-    class="primary white--text elevation-0"
+    class="elevation-0"
+    :style="{
+      backgroundColor: $store.getters.schoolColor,
+      color: $store.getters.primaryTextColor
+    }"
     extended
     :fixed="fixed"
   >
     <v-toolbar-side-icon
-      class="white--text"
+      :style="{
+        color: $store.getters.primaryTextColor
+      }"
       @click.native.stop="openDrawer"
     ></v-toolbar-side-icon>
 
     <v-fab-transition>
       <v-btn
         v-show="hasFab"
-        class="accent white--text"
+        class="white"
         absolute
         bottom
         left
@@ -29,7 +35,7 @@
         bottom
         left
         fab
-        class="accent back white--text"
+        class="white"
         :to="dashboardLink"
       >
         <v-icon>arrow_back</v-icon>
@@ -52,6 +58,9 @@ export default {
     isMenuOpen: false,
     hasFab: false,
   }),
+  created () {
+    console.log(this.$store.getters.primaryTextColor)
+  },
   mounted () {
     setTimeout(() => {
       this.hasFab = true

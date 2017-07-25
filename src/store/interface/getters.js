@@ -31,6 +31,27 @@ const schoolColor = state => {
   return formattedColor
 }
 
+const primaryTextColor = state => {
+  if (!_.has(state, 'school.color')) {
+    return '#0f0f0f'
+  }
+
+  const color = state.school.color
+  const red = color[0]
+  const green = color[1]
+  const blue = color[2]
+
+  const contrastColor = (
+    (red * 0.299) +
+    (green * 0.587) +
+    (blue * 0.114)
+  ) > 187
+  ? '#0f0f0f'
+  : '#f6f6f6'
+
+  return contrastColor
+}
+
 const listing = (state) => {
   const data = state.selectedListing || {}
 
@@ -75,6 +96,7 @@ export default {
   schoolID,
   schoolShortName,
   schoolColor,
+  primaryTextColor,
   organizationID,
   isDialogActive,
   isFabActive,
