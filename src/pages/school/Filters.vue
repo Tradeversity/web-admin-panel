@@ -4,7 +4,9 @@
       <v-card>
 
         <v-card-title>
-          Set filter
+          <span class="headline">
+            Set filter
+          </span>
         </v-card-title>
 
         <v-card-text>
@@ -33,9 +35,12 @@
         </v-card-title>
 
 
-          <v-card-text v-if="keywords.length > 0" class="pt-3 pb-4">
+          <v-card-text
+            v-if="keywords.additional_filters.length > 0"
+            class="pt-3 pb-4"
+          >
             <v-chip
-              v-for="keyword in keywords"
+              v-for="keyword in keywords.additional_filters"
               @click.native.stop="removeFilter(keyword)"
               :key="keyword"
               close
@@ -47,6 +52,46 @@
 
       </v-card>
     </v-flex>
+    <v-flex xs12 class="text-xs-center mt-5">
+      <v-btn
+        primary
+        v-if="hideDefaults"
+        @click.native.stop="hideDefaults = false"
+      >
+        Hide default filters
+      </v-btn>
+
+      <v-btn
+        primary
+        v-else
+        @click.native.stop="hideDefaults = true"
+      >
+        Show default filters
+      </v-btn>
+    </v-flex>
+    <v-flex xs12 v-if="hideDefaults">
+      <v-card class="default-card">
+        <v-card-title>
+          <span class="headline">
+            Default filters
+          </span>
+        </v-card-title>
+        <v-list>
+          <v-list-tile
+            v-for="keyword in keywords.disabled_filters"
+            @click.native.stop="removeFilter(keyword)"
+            :key="keyword"
+          >
+            <v-list-tile-content>
+              {{ keyword }}
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon>remove_circle</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -55,6 +100,7 @@
     name: 'Filters',
     data () {
       return {
+        hideDefaults: false,
         filter: '',
         addFilterError: false,
         filterHint: 'Flags any listings that matches this keyword',
@@ -107,4 +153,9 @@
 <style lang="stylus" scoped>
 .container
   position: relative
+
+.default-card
+  max-width: 400px
+  margin: 0 auto
+  margin-top: 30px
 </style>

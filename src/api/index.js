@@ -82,14 +82,12 @@ export default {
     })
 
     axios.interceptors.request.use(config => {
-      console.log('Requesting...')
       return config
     }, (error) => {
       return Promise.reject(error)
     })
 
     axios.interceptors.response.use(response => {
-      console.log('Response...')
       return response
     }, (error) => {
       if (

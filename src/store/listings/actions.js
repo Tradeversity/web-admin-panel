@@ -81,7 +81,7 @@ const GET_WORD_FILTER = ({ getters, commit }) => {
 
   api.request('get', `${baseURL}/word_filter`)
     .then(response => {
-      commit('SET_WORD_FILTERS', response.data.word_filter)
+      commit('SET_WORD_FILTERS', response.data)
     })
     .catch(errorHandler)
 }
@@ -93,7 +93,7 @@ const PUT_WORD_FILTER = ({ getters, commit }, filters) => {
     words: filters.toString(),
   })
     .then(response => {
-      commit('SET_WORD_FILTERS', response.data.word_filter)
+      commit('SET_WORD_FILTERS', response.data)
     })
     .catch(errorHandler)
 }

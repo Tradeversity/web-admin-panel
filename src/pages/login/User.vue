@@ -137,7 +137,6 @@ export default {
           const schoolName = this.$store.state.school.short_name
 
           if (response.data.user.account_role === 'global_admin') {
-            console.log('Sending to super...')
             this.$router.push({
               path: '/global/schools',
             })

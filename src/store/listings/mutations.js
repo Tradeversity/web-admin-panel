@@ -15,18 +15,15 @@ export default {
   SET_SPONSORED_LISTINGS (state, data) {
     state.sponsoredListings = data.listings
   },
-  SET_WORD_FILTERS (state, filters) {
-    state.filters = filters.split(',')
+  SET_WORD_FILTERS (state, filters = []) {
+    state.filters = filters
   },
   ADD_FILTER_KEYWORD (state, filter) {
-    // state.dispatch('POST_FILTER_KEYWORD', this.filter)
     state.filters.push(filter)
   },
-  REMOVE_FILTER_KEYWORD (state, filter) {
-    const index = state.filters.indexOf(filter)
-
-    if (index > -1) {
-      state.filters.splice(index, 1)
+  REMOVE_FILTER_KEYWORD (state, filters) {
+    if (state.filters.indexOf(filters) > -1) {
+      state.filters.splice(state.filters.indexOf(filters), 1)
     }
   },
   SET_NEW_LISTING (state, listing) {

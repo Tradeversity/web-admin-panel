@@ -141,7 +141,6 @@ export default {
 
     formData: {
       get () {
-        console.log(this.$store.getters.organization)
         return this.$store.getters.organization
       },
 

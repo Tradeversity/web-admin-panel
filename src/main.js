@@ -7,6 +7,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
+import '../node_modules/vuetify/dist/vuetify.min.css'
+import '../node_modules/animate.css/animate.min.css'
 import VueCookie from 'vue-cookie'
 import { sync } from 'vuex-router-sync'
 
