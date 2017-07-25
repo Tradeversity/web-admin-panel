@@ -106,9 +106,17 @@ export default {
     },
 
     toggleIsOwned () {
+      this.$store.commit('TOGGLE_IS_EVENT_LOADING')
+
       this.isOwned
         ? this.$store.dispatch('GET_EVENTS')
+          .then(() => {
+            this.$store.commit('TOGGLE_IS_EVENT_LOADING')
+          })
         : this.$store.dispatch('GET_ORGANIZATION_EVENTS')
+          .then(() => {
+            this.$store.commit('TOGGLE_IS_EVENT_LOADING')
+          })
 
       this.$store.commit('TOGGLE_IS_EVENTS_OWNED')
     }

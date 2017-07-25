@@ -1,4 +1,5 @@
 export default {
+  isEventLoading: true,
   isEventsOwned: false,
   isDrawerOpen: false,
   isTableLoading: false,

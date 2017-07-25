@@ -56,8 +56,8 @@ if (store.state.version !== VERSION) {
   store.commit('SET_SCHOOLS', [])
   store.commit('SET_SCHOOL', {})
   store.commit('SET_USER', {})
-  store.commit('SET_USERS', [])
-  store.commit('SET_FLAGGED_USERS', [])
+
+  store.commit('SET_VERSION', VERSION)
 }
 
 sync(store, router)

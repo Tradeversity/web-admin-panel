@@ -56,5 +56,11 @@ export default {
   },
   TOGGLE_IS_EVENTS_OWNED (state) {
     state.isEventsOwned = !state.isEventsOwned
+  },
+  TOGGLE_IS_EVENT_LOADING (state) {
+    state.isEventLoading = !state.isEventLoading
+  },
+  SET_VERSION (state, version) {
+    state.version = version
   }
 }
