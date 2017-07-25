@@ -16,6 +16,7 @@
             :persistent-hint="formState.firstName.error"
             v-model="formData.firstName"
           ></v-text-field>
+
           <v-text-field
             label="Last name"
             :hint="formState.lastName.hint"
@@ -23,6 +24,7 @@
             :persistent-hint="formState.lastName.error"
             v-model="formData.lastName"
           ></v-text-field>
+
           <v-text-field
             label="Email"
             type="email"
@@ -31,6 +33,7 @@
             :persistent-hint="formState.email.error"
             v-model="formData.email"
           ></v-text-field>
+
           <v-text-field
             label="Password"
             type="password"
@@ -39,6 +42,7 @@
             :persistent-hint="formState.password.error"
             v-model="formData.password"
           ></v-text-field>
+
           <v-text-field
             label="Confirm password"
             type="password"
@@ -65,16 +69,6 @@
         </v-card-actions>
       </form>
     </v-card>
-
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="2000"
-      :success="formState.form === 'success'"
-      :error="formState.form === 'error'"
-    >
-      {{ formState.form.snackMessage }}
-      <v-btn flat light @click.native="snackbar = false">Close</v-btn>
-    </v-snackbar>
   </v-dialog>
 </template>
 
@@ -85,7 +79,6 @@ export default {
   name: 'AddAdminDialog',
   data () {
     return {
-      snackbar: false,
       confirm: '',
       isLoading: false,
       formState: {
@@ -142,22 +135,13 @@ export default {
 
     isOpen: {
       get () {
-        return this.$store.state.isAddAdminDialogOpen
+        return this.$store.getters.isDialogActive(this.$options.name)
       },
 
       set (value) {
-        if (!value) {
-          // console.log('Hi!')
-          this.$store.commit('SET_NEW_ADMIN', {
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-          })
-          this.$store.commit('CLOSE_ADD_ADMIN_DIALOG')
-        }
+        !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
-    }
+    },
   },
   methods: {
     reset () {

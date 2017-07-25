@@ -42,8 +42,14 @@ const GET_EVENTS = ({ getters, commit }) => {
 
 const GET_ORGANIZATION_EVENTS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
+  const ID = getters.organizationID
 
-  return api.request('get', `${baseURL}/organization/${getters.organizationID}/events`)
+  if (!ID) {
+    console.log(`Can't get organization ID...`)
+    return
+  }
+
+  return api.request('get', `${baseURL}/organization/${ID}/events`)
     .then(response => {
       commit('SET_ORGANIZATION_EVENTS', response.data)
 
@@ -67,6 +73,7 @@ const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
 const POST_EVENT = ({ getters, dispatch }) => {
   const data = getters.getEventFormData()
   const baseURL = `/admin/school/${getters.schoolID}`
+  console.log('posting', data)
 
   return api.request('post', `${baseURL}/event`, data)
     .then(response => {

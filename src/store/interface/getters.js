@@ -54,8 +54,8 @@ const activeUI = state => ''
 const username = state => state.user.display_name || 'Admin'
 const schoolID = state => state.school.id
 const schoolShortName = state => state.school.short_name
-const avatar = state => _.has(state.user, 'avatar_url') && state.user.avatar_url
-const organizationID = state => _.has(state.user, 'id') && state.user.id
+const avatar = state => _.has(state.user.user, 'avatar_url') && state.user.avatar_url
+const organizationID = state => _.has(state.user.user, 'id') && state.user.user.id
 
 const isFabActive = state => {
   const route = state.route.fullPath

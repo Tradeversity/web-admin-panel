@@ -10,6 +10,7 @@ const GET_ORGANIZATION = ({ getters }, organization) => {
   return api.request('get', `${baseURL}/organization/${organization.id}`)
     .then(response => {
       this.$store.commit('SET_NEW_ORGANIZATION', response.data)
+
       return response
     })
     .catch(errorHandler)
@@ -18,9 +19,11 @@ const GET_ORGANIZATION = ({ getters }, organization) => {
 const GET_ORGANIZATIONS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/organizations`)
+  return api.request('get', `${baseURL}/organizations`)
     .then(response => {
       commit('SET_ORGANIZATIONS', response.data)
+
+      return response
     })
     .catch(errorHandler)
 }

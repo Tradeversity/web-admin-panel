@@ -9,10 +9,12 @@ const errorHandler = error => {
  */
 
 const GET_ALL_SCHOOLS = ({ state, commit }) => {
-  api.request('get', `/admin/school/all`)
+  return api.request('get', `/admin/school/all`)
     .then(response => {
       commit('SET_SCHOOL', response.data.schools[0])
       commit('SET_SCHOOLS', response.data.schools)
+
+      return response
     })
     .catch(errorHandler)
 }

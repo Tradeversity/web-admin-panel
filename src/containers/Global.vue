@@ -29,6 +29,8 @@
         <router-view></router-view>
       </v-container>
     </main>
+
+    <add-admin-dialog></add-admin-dialog>
   </div>
 </template>
 

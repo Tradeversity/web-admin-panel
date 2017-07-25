@@ -44,6 +44,15 @@
         ></v-text-field>
 
         <v-text-field
+          label="Event link"
+          placeholder="http://"
+          :hint="formState.link.hint"
+          :error="formState.link.error"
+          :persistent-hint="formState.link.error"
+          v-model="formData.link"
+        ></v-text-field>
+
+        <v-text-field
           label="Description"
           max="150"
           counter
@@ -254,6 +263,7 @@ export default {
       'startTime',
       'endTime',
       'location',
+      'link',
       'lat',
       'long',
     ],

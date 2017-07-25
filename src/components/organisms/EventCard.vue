@@ -111,6 +111,20 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile
+        v-if="item.event_url"
+        :href="item.event_url"
+        target="_blank"
+      >
+        <v-list-tile-content>
+          <v-list-tile-title>
+            URL
+          </v-list-tile-title>
+          <v-list-tile-sub-title>
+            {{ item.event_url }}
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-card>
 </template>

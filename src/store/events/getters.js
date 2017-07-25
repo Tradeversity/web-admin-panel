@@ -9,9 +9,10 @@ const getEventFormData = state => (data = state.newEvent) => {
     data.long = data.locationData.addressData.longitude
   }
 
-  return {
+  const formattedData = {
     title: data.title,
     address: data.address,
+    event_url: data.link,
     description: data.description,
     start_time: data.start_time,
     end_time: data.end_time,
@@ -20,6 +21,8 @@ const getEventFormData = state => (data = state.newEvent) => {
     long: data.long,
     places_id: data.locationData.placeResultData.place_id,
   }
+
+  return formattedData
 }
 
 export default {

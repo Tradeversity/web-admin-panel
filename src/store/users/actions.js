@@ -7,9 +7,11 @@ const errorHandler = error => {
 const GET_USERS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/users`)
+  return api.request('get', `${baseURL}/users`)
     .then(response => {
       commit('SET_USERS', response.data)
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -17,9 +19,11 @@ const GET_USERS = ({ getters, commit }) => {
 const GET_FLAGGED_USERS = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/flagged_users`)
+  return api.request('get', `${baseURL}/flagged_users`)
     .then(response => {
       commit('SET_FLAGGED_USERS', response.data)
+
+      return response
     })
     .catch(errorHandler)
 }

@@ -9,7 +9,6 @@ export default {
     state.events = data.events
   },
   SET_NEW_EVENT (state, data) {
-    console.log(data)
     state.newEvent = data
   }
 }

@@ -98,6 +98,7 @@ export default {
   methods: {
     openAdminDialog (school) {
       this.$store.commit('SET_SCHOOL', school)
+      this.$store.commit('SET_NEW_ADMIN', {})
       this.$store.commit('OPEN_DIALOG', 'AddAdminDialog')
     },
 
