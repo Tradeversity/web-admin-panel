@@ -55,8 +55,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
 const headers = [
   { text: 'Title', value: 'title', align: 'left' },
   { text: 'Category', value: 'category' },
@@ -75,18 +73,7 @@ export default {
   },
   computed: {
     listings () {
-      console.log(this.$store.state.sponsoredListings)
-      return _.isObject(this.$store.state.sponsoredListings) ? [
-        {
-          title: 'grass',
-          category: 'earth',
-          created_at: 15645645635,
-        }, {
-          title: 'house',
-          category: 'pizza',
-          created_at: 15645645635,
-        },
-      ] : this.$store.state.sponsoredListings
+      return this.$store.state.sponsoredListings
     }
   },
   methods: {
@@ -110,6 +97,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+td
+  cursor: pointer
 </style>

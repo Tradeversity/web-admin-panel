@@ -95,12 +95,14 @@ const GET_SCHOOL = ({ state, commit }, schoolID) => {
     .catch(errorHandler)
 }
 
-const GET_KEEN = ({ state, commit }, schoolID) => {
-  const baseURL = `/admin/school/${schoolID}`
+const GET_KEEN = ({ getters, commit }) => {
+  const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('get', `${baseURL}/keen`)
+  return api.request('get', `${baseURL}/keen`)
     .then(response => {
-      commit('SET_KEEN', response.data)
+      commit('SET_KEEN', response.data.keen_access_key)
+
+      return response
     })
     .catch(errorHandler)
 }

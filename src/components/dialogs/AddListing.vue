@@ -20,14 +20,31 @@
         </v-card-text>
 
         <v-card-text class="text-xs-left">
-          <v-text-field label="Title"></v-text-field>
-          <input type="text">
+          <v-text-field
+            label="Title"
+          ></v-text-field>
+
           <v-text-field
             label="Amount"
             placeholder="0.00"
             prefix="$"
           ></v-text-field>
-          <v-text-field label="Description"></v-text-field>
+
+          <v-text-field
+            label="Description"
+          ></v-text-field>
+
+          <v-select
+            :items="[
+              { text: 'item' },
+              { text: 'service' },
+              { text: 'event' },
+            ]"
+            label="Type"
+            single-line
+            auto
+          ></v-select>
+
           <v-select
             :items="[
               { text: 'category 1' },
@@ -37,6 +54,7 @@
             single-line
             auto
           ></v-select>
+
           <v-select
             :items="[
               { text: 'condition 1' },
@@ -51,12 +69,12 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            class="accent--text"
+            secondary
             flat
             @click.native="reset"
           >Reset</v-btn>
           <v-btn
-            class="secondary--text darken-1"
+            primary
             flat
             @click.native="submit"
           >Submit</v-btn>
@@ -67,9 +85,6 @@
 </template>
 
 <script>
-import { has } from 'lodash'
-// import { digitsOnly } from '@/services/filters'
-
 export default {
   name: 'AddListingDialog',
   data: () => ({
@@ -83,8 +98,7 @@ export default {
   computed: {
     isOpen: {
       get () {
-        const hasDialog = has(this.$store.state, `dialogs[${this.$options.name}].active`)
-        return hasDialog && this.$store.state.dialogs[this.$options.name].active
+        return this.$store.getters.isDialogActive(this.$options.name)
       },
 
       set (value) {

@@ -136,10 +136,14 @@ export default {
     PageviewsChart,
     ListingsChart,
   },
-  data () {
-    return {
-      isRefreshing: false,
-    }
+  data: () => ({
+    isRefreshing: false,
+  }),
+  created () {
+    this.$store.dispatch('GET_KEEN')
+      .then(response => {
+        console.log(response)
+      })
   },
   computed: {
     // schoolID () {

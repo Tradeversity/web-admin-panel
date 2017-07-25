@@ -12,7 +12,6 @@
     <v-btn
       fab
       dark
-      large
       fixed
       bottom
       right
