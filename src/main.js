@@ -33,6 +33,33 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
+/* eslint-disable no-undef */
+console.log(store.state.version, VERSION)
+if (store.state.version !== VERSION) {
+  console.log('clearing state...')
+
+  router.push({ path: '/login' })
+  store.commit('OPEN_LOGIN_ALERT', {
+    type: 'info',
+    message: 'New app version, now refreshing...'
+  })
+
+  store.commit('SET_NEW_SCHOOL', {})
+  store.commit('SET_NEW_ADMIN', {})
+  store.commit('SET_NEW_EVENT', {})
+  store.commit('SET_NEW_ORGANIZATION', {})
+  store.commit('SET_SELECTED_EVENT', {})
+  store.commit('SET_NEW_LISTING', {})
+  store.commit('SET_EVENTS', [])
+  store.commit('SET_ORGANIZATION_EVENTS', [])
+  store.commit('SET_SPONSORED_LISTINGS', [])
+  store.commit('SET_SCHOOLS', [])
+  store.commit('SET_SCHOOL', {})
+  store.commit('SET_USER', {})
+  store.commit('SET_USERS', [])
+  store.commit('SET_FLAGGED_USERS', [])
+}
+
 sync(store, router)
 
 /* eslint-disable no-new */

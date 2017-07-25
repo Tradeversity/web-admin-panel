@@ -62,11 +62,7 @@ const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
   return api.request('post', `${baseURL}/event/${eventID}/delete`)
-    .then(response => {
-      dispatch('GET_EVENTS')
-
-      return response
-    })
+    .then(response => response)
     .catch(errorHandler)
 }
 
@@ -76,11 +72,7 @@ const POST_EVENT = ({ getters, dispatch }) => {
   console.log('posting', data)
 
   return api.request('post', `${baseURL}/event`, data)
-    .then(response => {
-      dispatch('GET_EVENTS')
-
-      return response
-    })
+    .then(response => response)
     .catch(errorHandler)
 }
 

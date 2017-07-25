@@ -24,6 +24,8 @@
 
     <event-toolbar :fixed="isDashboard"></event-toolbar>
 
+
+
     <main v-if="isDashboard">
       <v-container>
         <router-view></router-view>

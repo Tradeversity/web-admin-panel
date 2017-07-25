@@ -54,4 +54,7 @@ export default {
       state.activeAlert.active = false
     }
   },
+  TOGGLE_IS_EVENTS_OWNED (state) {
+    state.isEventsOwned = !state.isEventsOwned
+  }
 }

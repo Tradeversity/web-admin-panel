@@ -1,6 +1,6 @@
 <template>
   <v-layout column align-center>
-    <v-flex xs12 class="mt-3">
+    <v-flex xs12 class="mt-5">
       <img
         :src="brandLogo"
         alt="brand"
@@ -56,5 +56,5 @@ export default {
   min-width: 300px
 
 .logo
-  width: 150px
+  width: 100px
 </style>

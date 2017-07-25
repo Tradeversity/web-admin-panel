@@ -133,15 +133,15 @@ const GET_SPONSORED_LISTINGS = ({ getters, commit }, organizationsID) => {
     .catch(errorHandler)
 }
 
-const GET_ORGANIZATION_EVENTS = ({ getters, commit }, organizationsID) => {
-  const baseURL = `/admin/school/${getters.schooldID}`
+// const GET_ORGANIZATION_EVENTS = ({ getters, commit }, organizationsID) => {
+//   const baseURL = `/admin/school/${getters.schooldID}`
 
-  api.request('get', `${baseURL}/organization/${organizationsID}/events`)
-    .then(response => {
-      commit('SET_ORGANIZATION_EVENTS', response.data)
-    })
-    .catch(errorHandler)
-}
+//   api.request('get', `${baseURL}/organization/${organizationsID}/events`)
+//     .then(response => {
+//       commit('SET_ORGANIZATION_EVENTS', response.data)
+//     })
+//     .catch(errorHandler)
+// }
 
 const POST_EVENT = ({ getters }, eventItem) => {
   const baseURL = `/admin/school/${getters.schooldID}`
@@ -178,6 +178,6 @@ export default {
   // Organizations Admin Endpoints
   GET_EVENTS,
   GET_SPONSORED_LISTINGS,
-  GET_ORGANIZATION_EVENTS,
+  // GET_ORGANIZATION_EVENTS,
   POST_EVENT,
 }

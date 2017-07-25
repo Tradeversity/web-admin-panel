@@ -74,7 +74,7 @@ const listing = (state) => {
 const activeUI = state => ''
 const username = state => state.user.display_name || 'Admin'
 const schoolID = state => state.school.id
-const schoolShortName = state => state.school.short_name
+const schoolShortName = state => state.school.short_name.split(' ').join('').toLowerCase()
 const avatar = state => _.has(state.user.user, 'avatar_url') && state.user.avatar_url
 const organizationID = state => _.has(state.user.user, 'id') && state.user.user.id
 

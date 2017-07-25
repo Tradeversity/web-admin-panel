@@ -4,12 +4,12 @@ const errorHandler = error => {
   console.log(error)
 }
 
-const GET_ORGANIZATION = ({ getters }, organization) => {
+const GET_ORGANIZATION = ({ commit, getters }, organization) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
   return api.request('get', `${baseURL}/organization/${organization.id}`)
     .then(response => {
-      this.$store.commit('SET_NEW_ORGANIZATION', response.data)
+      commit('SET_NEW_ORGANIZATION', response.data)
 
       return response
     })

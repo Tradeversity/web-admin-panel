@@ -28,12 +28,13 @@
         flat
         icon
         v-tooltip:top="{ html: 'Edit event' }"
+        v-if="isOwned"
         @click.native.stop="editItem"
       >
         <v-icon>edit</v-icon>
       </v-btn>
 
-      <v-dialog v-model="deleteDialog" lazy absolute>
+      <v-dialog v-model="deleteDialog" v-if="isOwned" lazy absolute>
         <v-btn
           flat
           icon
@@ -147,6 +148,10 @@ export default {
       }
     },
 
+    isOwned () {
+      return this.item.user_id === this.$store.state.user.user.id
+    },
+
     shortName () {
       return this.$store.state.school.short_name
     },
@@ -167,7 +172,15 @@ export default {
 
     deleteItem () {
       this.$store.dispatch('DELETE_EVENT', this.item.id)
-      this.deleteDialog = false
+        .then(response => {
+          if (!this.$store.state.isEventsOwned) {
+            this.$store.dispatch('GET_EVENTS')
+          } else {
+            this.$store.dispatch('GET_ORGANIZATION_EVENTS')
+          }
+
+          this.deleteDialog = false
+        })
     },
   }
 }

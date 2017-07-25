@@ -33,12 +33,19 @@ export default {
     }
   },
   computed: {
+    isOwned () {
+      return this.$store.state.isEventsOwned
+    },
+
     isEmpty () {
-      return isEmpty(this.$store.state.events)
+      return this.isOwned ? isEmpty(this.$store.state.organizationEvents) : isEmpty(this.$store.state.events)
     },
 
     events () {
-      return this.$store.state.events
+      return this.isOwned ? this.$store.state.organizationEvents.map(event => {
+        event.isOwned = true
+        return event
+      }) || [] : this.$store.state.events || []
     },
 
     school () {

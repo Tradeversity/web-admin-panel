@@ -1,4 +1,5 @@
 export default {
+  isEventsOwned: false,
   isDrawerOpen: false,
   isTableLoading: false,
   activeAlert: {
@@ -7,4 +8,7 @@ export default {
     type: 'info',
   },
   dialogs: {},
+
+  /* eslint-disable no-undef */
+  version: VERSION
 }

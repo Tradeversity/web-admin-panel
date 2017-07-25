@@ -47,6 +47,18 @@
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
+
+    <v-btn
+      icon
+      flat
+      :style="{
+        color: $store.getters.primaryTextColor
+      }"
+      v-tooltip:left="{ html: filterText}"
+      @click.native.stop="toggleIsOwned"
+    >
+      <v-icon>filter_list</v-icon>
+    </v-btn>
   </v-toolbar>
 </template>
 
@@ -67,6 +79,14 @@ export default {
     }, 500)
   },
   computed: {
+    isOwned () {
+      return this.$store.state.isEventsOwned
+    },
+
+    filterText () {
+      return this.isOwned ? 'Show all events' : 'Show your events'
+    },
+
     shortName () {
       return this.$store.state.school.short_name
     },
@@ -83,6 +103,14 @@ export default {
     openDrawer () {
       console.log('yes')
       this.$store.commit('TOGGLE_DRAWER')
+    },
+
+    toggleIsOwned () {
+      this.isOwned
+        ? this.$store.dispatch('GET_EVENTS')
+        : this.$store.dispatch('GET_ORGANIZATION_EVENTS')
+
+      this.$store.commit('TOGGLE_IS_EVENTS_OWNED')
     }
   }
 }
