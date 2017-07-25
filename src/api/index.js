@@ -1,4 +1,3 @@
-
 import { has } from 'lodash'
 
 import axios from 'axios'
@@ -9,25 +8,53 @@ import config from '@/config'
 const statusHandler = status => {
   switch (status) {
     case 400:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '400: Bad request',
+      })
+      router.push({ path: '/login' })
+      break
     case 401:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '401: User unauthorized',
+      })
+      router.push({ path: '/login' })
+      break
     case 403:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '403: User forbidden',
+      })
+      router.push({ path: '/login' })
+      break
     case 500:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '500: Internal server error',
+      })
+      router.push({ path: '/login' })
+      break
+    case 502:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '500: Bad gateway',
+      })
+      router.push({ path: '/login' })
+      break
     case 503:
+      store.commit('OPEN_LOGIN_ALERT', {
+        type: 'error',
+        message: '503: Service unavailable',
+      })
       router.push({ path: '/login' })
       break
     default:
   }
 }
 
-const token = has(store.state, 'user.access_token') &&
-  store.state.user.access_token
-
-if (token && token !== null) {
-  axios.defaults.headers.common['Authorization'] = token
-}
-
 export default {
-  request (method, uri, data = null, options) {
+  request (method, uri, data = null, options = {}) {
     if (!method) {
       console.error('API function call requires method argument')
       return
@@ -39,19 +66,36 @@ export default {
     }
 
     const url = config.serverURI + uri
-    const instance = axios({ method, url, data, ...options })
+    const AUTH_TOKEN = has(store.state, 'user.access_token') &&
+      store.state.user.access_token
 
-    axios.interceptors.request.use((config) => {
+    if (AUTH_TOKEN && AUTH_TOKEN !== null) {
+      options.headers = {}
+      options.headers['Authorization'] = AUTH_TOKEN
+    }
+
+    const instance = axios({
+      method,
+      url,
+      data,
+      ...options
+    })
+
+    axios.interceptors.request.use(config => {
+      console.log('Requesting...')
       return config
     }, (error) => {
       return Promise.reject(error)
     })
 
-    axios.interceptors.response.use((response) => {
+    axios.interceptors.response.use(response => {
+      console.log('Response...')
       return response
     }, (error) => {
-      if (Object.prototype.hasOwnProperty.bind(error, 'response') &&
-          Object.prototype.hasOwnProperty.bind(error.response, 'status')) {
+      if (
+        Object.prototype.hasOwnProperty.bind(error, 'response') &&
+        Object.prototype.hasOwnProperty.bind(error.response, 'status')
+      ) {
         statusHandler(error.response.status)
       } else {
         console.log('There was no returned response object, redirecting to login...')

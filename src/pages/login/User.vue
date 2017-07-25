@@ -1,5 +1,15 @@
 <template>
-  <v-card class="card">
+  <v-card>
+    <v-alert
+      :success="alert.type === 'success'"
+      :info="alert.type === 'info'"
+      :warning="alert.type === 'warning'"
+      :error="alert.type === 'error'"
+      :value="alert.active"
+    >
+      {{ alert.message }}
+    </v-alert>
+
     <form @submit.prevent="login">
       <v-card-title>
         <span class="headline">Login</span>
@@ -24,6 +34,7 @@
           :persistent-hint="formState.password.error"
         ></v-text-field>
       </v-card-text>
+
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
@@ -75,6 +86,10 @@ export default {
         !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
     },
+
+    alert () {
+      return this.$store.state.activeAlert
+    }
   },
   watch: {
     email (value) {
@@ -110,17 +125,15 @@ export default {
         .then(response => {
           this.isLoading = false
 
+          if (this.$store.state.activeAlert.active) {
+            this.$store.commit('CLOSE_LOGIN_ALERT')
+          }
+
           if (!response.data) {
             return false
           }
 
-          this.$cookie.set('TV_ADMIN_USER', JSON.stringify(response.data))
-          // this.$cookie.set('TV_ADMIN_TOKEN', response.data.access_token)
-          window.localStorage.setItem('TV_ADMIN_TOKEN', response.data.access_token)
-
           this.$store.commit('SET_USER', response.data)
-          // this.$store.dispatch('GET_ALL_SCHOOLS')
-          //  .then(() => {
           const schoolName = this.$store.state.school.short_name
 
           if (response.data.user.account_role === 'global_admin') {
@@ -137,10 +150,6 @@ export default {
               path: `/school/${schoolName}/event-manager`,
             })
           }
-            // })
-            // .catch((error) => {
-            //   console.log('EOROROROR', error)
-            // })
         })
         .catch(error => {
           console.log(error)

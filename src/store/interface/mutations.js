@@ -45,4 +45,13 @@ export default {
     state.dialogs[name].active = false
     state.dialogs[name].origin = state.route.fullPath
   },
+  OPEN_LOGIN_ALERT (state, data) {
+    data.active = true
+    state.activeAlert = data
+  },
+  CLOSE_LOGIN_ALERT (state, data) {
+    if (has(state.activeAlert, 'active')) {
+      state.activeAlert.active = false
+    }
+  },
 }
