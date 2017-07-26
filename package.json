@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "chart.js": "^2.6.0",
+    "keen-js": "^3.4.1",
     "leaflet": "^1.1.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
@@ -26,6 +27,7 @@
     "vue-google-autocomplete": "^1.0.10",
     "vue-router": "^2.5.3",
     "vue2-leaflet": "^0.0.51",
+    "vuelidate": "^0.5.0",
     "vuex": "^2.3.1",
     "vuex-persistedstate": "^1.4.1",
     "vuex-router-sync": "^4.2.0"

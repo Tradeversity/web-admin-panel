@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import Keen from 'keen-js'
 import ActiveUsersChart from '@/components/charts/ActiveUsers'
 import ReportsChart from '@/components/charts/Reports'
 import PageviewsChart from '@/components/charts/Pageviews'
@@ -142,13 +143,34 @@ export default {
   created () {
     this.$store.dispatch('GET_KEEN')
       .then(response => {
-        console.log(response)
+        this.initKeen(response.data.keen_access_key)
       })
   },
   computed: {
     // schoolID () {
     //   return this.$store.state.schoolID
     // }
+  },
+  methods: {
+    initKeen (readKey) {
+      const client = new Keen({
+        readKey: readKey,
+      })
+
+      Keen.ready(() => {
+        const savedQueries = client.savedQueries()
+
+        savedQueries.all((error, response) => {
+          if (error) {
+            console.log('Keen savedQueries error:', error)
+          } else {
+            console.log('Keen savedQueries response:', response)
+          }
+        })
+      })
+
+      console.log('KEEN', client)
+    }
   },
   watch: {
     isRefreshing: () => {

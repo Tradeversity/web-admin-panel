@@ -4,7 +4,7 @@
       <form @submit.prevent="submit">
         <v-card-title>
           <span class="headline">
-             Add admin
+            Add admin
           </span>
         </v-card-title>
 
@@ -37,9 +37,9 @@
           <v-text-field
             label="Password"
             type="password"
-            :hint="formState.password.hint"
-            :error="formState.password.error"
-            :persistent-hint="formState.password.error"
+            hint="Please enter at least 8 characters"
+            :error="!$v.formData.password.minLength"
+            :persistent-hint="$v.formData.password.minLength"
             v-model="formData.password"
           ></v-text-field>
 
@@ -47,25 +47,16 @@
             label="Confirm password"
             type="password"
             :hint="formState.passwordConfirm.hint"
-            :error="formState.passwordConfirm.error"
-            :persistent-hint="formState.passwordConfirm.error"
+            :error="!$v.formData.passwordConfirm.sameAsPassword"
+            :persistent-hint="!$v.formData.passwordConfirm.sameAsPassword"
             v-model="confirm"
           ></v-text-field>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            class="secondary--text"
-            flat
-            @click.native="reset"
-          >Reset</v-btn>
-          <v-btn
-            class="primary--text darken-1"
-            type="submit"
-            flat
-            :loading="isLoading"
-          >Submit</v-btn>
+          <v-btn class="secondary--text" flat @click.native="reset">Reset</v-btn>
+          <v-btn class="primary--text darken-1" type="submit" flat :loading="isLoading">Submit</v-btn>
         </v-card-actions>
       </form>
     </v-card>
@@ -73,38 +64,64 @@
 </template>
 
 <script>
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 import validateEmail from '@/services/validateEmail'
 
 export default {
   name: 'AddAdminDialog',
-  data () {
+  data: () => ({
+    passwordMinLength: 8,
+    confirm: '',
+    isLoading: false,
+    formState: {
+      form: 'info',
+      snackMessage: 'Invite user to be a school admin',
+      firstName: {
+        hint: '',
+        error: false,
+      },
+      lastName: {
+        hint: '',
+        error: false,
+      },
+      email: {
+        hint: 'Invite will be sent to this address',
+        error: false,
+      },
+      password: {
+        hint: 'Please enter at least 8 characters',
+        error: false,
+      },
+      passwordConfirm: {
+        hint: '',
+        error: false,
+      }
+    },
+  }),
+  validations () {
     return {
-      confirm: '',
-      isLoading: false,
-      formState: {
-        form: 'info',
-        snackMessage: 'Invite user to be a school admin',
+      formData: {
         firstName: {
-          hint: '',
-          error: false,
+          required,
         },
         lastName: {
-          hint: '',
-          error: false,
+          required,
         },
         email: {
-          hint: 'Invite will be sent to this address',
-          error: false,
+          required,
+          email,
         },
         password: {
-          hint: 'Please enter at least 8 characters',
-          error: false,
+          required,
+          minLength: minLength(this.passwordMinLength),
+          // minLengthHint: 'Please enter at least 8 characters',
         },
         passwordConfirm: {
-          hint: '',
-          error: false,
-        }
-      },
+          required,
+          minLength: minLength(this.passwordMinLength),
+          sameAsPassword: sameAs('password'),
+        },
+      }
     }
   },
   computed: {
@@ -115,9 +132,9 @@ export default {
     formData: {
       get () {
         if (
-            this.$store.state.newAdmin.hasOwnProperty('id') &&
-            this.$store.state.newAdmin.id.length > 1
-          ) {
+          this.$store.state.newAdmin.hasOwnProperty('id') &&
+          this.$store.state.newAdmin.id.length > 1
+        ) {
           return {
             firstName: this.$store.state.newAdmin.first_name,
             lastName: this.$store.state.newAdmin.last_name,
@@ -190,11 +207,11 @@ export default {
       }
 
       if (
-          isFirstNameVaild &&
-          isLastNameVaild &&
-          isEmailValid &&
-          isPasswordValid
-        ) {
+        isFirstNameVaild &&
+        isLastNameVaild &&
+        isEmailValid &&
+        isPasswordValid
+      ) {
         const data = this.formData
         data.schoolId = this.school.id
         console.log(this.school, this.$store.state.newAdmin)

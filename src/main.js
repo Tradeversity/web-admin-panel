@@ -6,6 +6,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import '../node_modules/vuetify/dist/vuetify.min.css'
 import VueCookie from 'vue-cookie'
@@ -20,6 +21,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
+Vue.use(Vuelidate)
 Vue.use(Vuetify)
 Vue.use(VueCookie)
 
