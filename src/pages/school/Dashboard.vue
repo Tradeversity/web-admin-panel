@@ -196,31 +196,31 @@ export default {
         readKey: readKey
       });
 
-      Keen.ready(() => {
-        const activeUserCount = new Keen.Query('count', {
-          event_collection: 'new_user_session',
-          interval: 'daily',
-          timeframe: 'this_1_months'
-        })
+      // Keen.ready(() => {
+      //   const activeUserCount = new Keen.Query('count', {
+      //     event_collection: 'new_user_session',
+      //     interval: 'daily',
+      //     timeframe: 'this_1_months'
+      //   })
 
-        const activeUserChart = new Keen.Dataviz()
-          .el('#ActiveUserChart')
-          // .el(document.getElementById('ActiveUserChart'))
-          .height(280)
-          .title('Signups this week')
-          .type('line')
-          .prepare()
+      //   const activeUserChart = new Keen.Dataviz()
+      //     .el('#ActiveUserChart')
+      //     // .el(document.getElementById('ActiveUserChart'))
+      //     .height(280)
+      //     .title('Signups this week')
+      //     .type('line')
+      //     .prepare()
 
-        client.run(activeUserCount, (error, response) => {
-          if (error) {
-            console.log(error)
-          } else if (response) {
-            activeUserChart
-              .data(response)
-              .render()
-          }
-        })
-      })
+      //   client.run(activeUserCount, (error, response) => {
+      //     if (error) {
+      //       console.log(error)
+      //     } else if (response) {
+      //       activeUserChart
+      //         .data(response)
+      //         .render()
+      //     }
+      //   })
+      // })
 
       // const activeUserChart = new Keen.Dataviz()
       //   .el('#ActiveUserChart')
@@ -243,128 +243,128 @@ export default {
       //     activeUserChart.message(error.message)
       //   })
 
-      // Keen.ready(() => {
-      /* Total accounts, active users */
-      // const activeUserCount = new Keen.Query('count', {
-      //   event_collection: 'new_user_session',
-      //   interval: 'daily',
-      //   timeframe: 'this_1_months'
-      // });
+      Keen.ready(() => {
+        /* Total accounts, active users */
+        const activeUserCount = new Keen.Query('count', {
+          event_collection: 'new_user_session',
+          interval: 'daily',
+          timeframe: 'this_1_months'
+        });
 
-      //   function (error, response) {
-      //   if (error) {
-      //     activeUserChart.error(error.message)
-      //   } else if (response !== null) {
-      //     console.log(response)
-      //     activeUserChart
-      //       .data(response)
-      //       .render()
-      //   }
-      // });
-      // });
+          function (error, response) {
+          if (error) {
+            activeUserChart.error(error.message)
+          } else if (response !== null) {
+            console.log(response)
+            activeUserChart
+              .data(response)
+              .render()
+          }
+        })
+      })
 
-      // Keen.ready(() => {
-      //   /* Total accounts, active users */
-      //   const activeUserCount = new Keen.Query('count', {
-      //     event_collection: 'new_user_session',
-      //     interval: 'daily',
-      //     timeframe: 'this_1_months',
-      //   })
+      Keen.ready(() => {
+        /* Total accounts, active users */
+        const activeUserCount = new Keen.Query('count', {
+          event_collection: 'new_user_session',
+          interval: 'daily',
+          timeframe: 'this_1_months',
+        })
 
-      //   client.draw(activeUserCount, document.getElementById('ActiveUserChart'), {
-      //     library: 'chartjs',
-      //     chartType: 'line',
-      //   });
+        client.draw(activeUserCount, document.getElementById('ActiveUserChart'), {
+          library: 'chartjs',
+          chartType: 'line',
+        });
 
-      //   // via Keen.Dataviz()
-      //   const ActiveUserChart = new Keen.Dataviz()
-      //     .el(document.getElementById('ActiveUserChart'))
-      //     .library('chartjs')
-      //     .chartType('line')
-      //     .prepare();
+        // via Keen.Dataviz()
+        const ActiveUserChart = new Keen.Dataviz()
+          .el(document.getElementById('ActiveUserChart'))
+          .library('chartjs')
+          .chartType('line')
+          .prepare();
 
-      //   /* Number of active events, day to day */
-      //   const dailyEventCount = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Number of active events, day to day */
+        const dailyEventCount = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Total current GMV, split by category */
-      //   const grossMerchCategory = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Total current GMV, split by category */
+        const grossMerchCategory = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Total current GMV, day to day */
-      //   const totalMarketValue = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Total current GMV, day to day */
+        const totalMarketValue = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Number of users selling an item in each category */
-      //   const activeSellers = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Number of users selling an item in each category */
+        const activeSellers = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Number of listings by category */
-      //   const activeCategories = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Number of listings by category */
+        const activeCategories = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Count of active threads per category */
-      //   const studentInteractionCategory = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Count of active threads per category */
+        const studentInteractionCategory = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Number of active threads, day to day */
-      //   const studentInteraction = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Number of active threads, day to day */
+        const studentInteraction = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   /* Number of listing views, day to day */
-      //   const marketEngagment = new Keen.Query('count', {
-      //     event_collection: 'get_personal_profile',
-      //     group_by: 'user_details.id',
-      //     timeframe: 'this_1_years',
-      //   })
+        /* Number of listing views, day to day */
+        const marketEngagment = new Keen.Query('count', {
+          event_collection: 'get_personal_profile',
+          group_by: 'user_details.id',
+          timeframe: 'this_1_years',
+        })
 
-      //   client.run([
-      //     activeUserCount,
-      //     dailyEventCount,
-      //     grossMerchCategory,
-      //     totalMarketValue,
-      //     activeSellers,
-      //     activeCategories,
-      //     studentInteractionCategory,
-      //     studentInteraction,
-      //     marketEngagment,
-      //   ], function (error, response) {
-      //     if (error) {
-      //       console.log('Client run keen profile count error:', error)
-      //       ActiveUserChart.error(error.message)
-      //     } else if (response !== null && response !== undefined) {
-      //       console.log('Client run keen profile response:', response)
-      //       // this.marketUsersData = response[0].result
-      //       // const activeUserChartData = response[0]
-      //       ActiveUserChart
-      //         .parseRequest(this)
-      //         .labels(['step 1'])
-      //         .title('Marketplace active users')
-      //         .render();
-      //     }
-      //   });
-      // });
+        client.run([
+          activeUserCount,
+          dailyEventCount,
+          grossMerchCategory,
+          totalMarketValue,
+          activeSellers,
+          activeCategories,
+          studentInteractionCategory,
+          studentInteraction,
+          marketEngagment,
+        ], function (error, response) {
+          if (error) {
+            console.log('Client run keen profile count error:', error)
+            ActiveUserChart.error(error.message)
+          } else if (response !== null && response !== undefined) {
+            console.log('Client run keen profile response:', response)
+            // this.marketUsersData = response[0].result
+            // const activeUserChartData = response[0]
+            ActiveUserChart
+              .parseRequest(this)
+              .labels(['step 1'])
+              .title('Marketplace active users')
+              .render();
+          }
+        });
+      });
     }
   },
   watch: {
