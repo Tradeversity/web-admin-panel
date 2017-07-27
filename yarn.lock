@@ -945,7 +945,7 @@ bluebird@^2.10.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
-bluebird@^3.0.5, bluebird@^3.1.1, bluebird@^3.3.0, bluebird@^3.4.7:
+bluebird@^3.0.5, bluebird@^3.1.1, bluebird@^3.2.1, bluebird@^3.3.0, bluebird@^3.4.7:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
 
@@ -1106,6 +1106,12 @@ builtin-status-codes@^3.0.0:
 bytes@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.4.0.tgz#7d97196f9d5baf7f6935e25985549edd2a6c2339"
+
+c3@^0.4.10:
+  version "0.4.15"
+  resolved "https://registry.yarnpkg.com/c3/-/c3-0.4.15.tgz#747c47b33739d0f92bf4b5ddcce2bffff4fd4a31"
+  dependencies:
+    d3 "~3.5.0"
 
 caller-path@^0.1.0:
   version "0.1.0"
@@ -1412,7 +1418,7 @@ component-emitter@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.1.2.tgz#296594f2753daa63996d2af08d15a95116c9aec3"
 
-component-emitter@1.2.1, component-emitter@^1.1.3, component-emitter@~1.2.0:
+component-emitter@1.2.1, component-emitter@^1.1.3, component-emitter@^1.2.0, component-emitter@~1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
 
@@ -1705,6 +1711,10 @@ currently-unhandled@^0.4.1:
 custom-event@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/custom-event/-/custom-event-1.0.1.tgz#5d02a46850adf1b4a317946a3928fccb5bfd0425"
+
+d3@^3.5.0, d3@~3.5.0:
+  version "3.5.17"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-3.5.17.tgz#bc46748004378b21a360c9fc7cf5231790762fb8"
 
 d@1:
   version "1.0.0"
@@ -3532,6 +3542,26 @@ karma@^1.4.1:
     source-map "^0.5.3"
     tmp "0.0.31"
     useragent "^2.1.12"
+
+keen-analysis@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/keen-analysis/-/keen-analysis-1.2.2.tgz#ace86090953d6a0100f67908628df234ca9941b2"
+  dependencies:
+    bluebird "^3.2.1"
+    keen-core "0.1.2"
+
+keen-core@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/keen-core/-/keen-core-0.1.2.tgz#e8c107fdef227f56e6cf12eb59ef41ff38c37778"
+  dependencies:
+    component-emitter "^1.2.0"
+
+keen-dataviz@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/keen-dataviz/-/keen-dataviz-1.1.3.tgz#a3c760bdb262a2c82cd9e5ff5ad445d590d64d18"
+  dependencies:
+    c3 "^0.4.10"
+    d3 "^3.5.0"
 
 keen-js@^3.4.1:
   version "3.4.1"
