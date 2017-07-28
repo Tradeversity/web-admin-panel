@@ -100,27 +100,27 @@ export default {
       this.$store.dispatch('POST_WARN_USER', this.formData.id)
       this.$store.dispatch('GET_USERS')
       this.$store.dispatch('GET_FLAGGED_USERS')
-      this.$store.commit('CLOSE_USER_DIALOG')
+      this.$store.commit('CLOSE_DIALOG', 'UserDialog')
     },
 
     archiveUser () {
       this.$store.dispatch('POST_ARCHIVE_USER', this.formData.id)
       this.$store.dispatch('GET_USERS')
       this.$store.dispatch('GET_FLAGGED_USERS')
-      this.$store.commit('CLOSE_USER_DIALOG')
+      this.$store.commit('CLOSE_DIALOG', 'UserDialog')
     },
 
     banUser () {
       this.$store.dispatch('POST_BAN_USER', this.formData.id)
       this.$store.dispatch('GET_USERS')
       this.$store.dispatch('GET_FLAGGED_USERS')
-      this.$store.commit('CLOSE_USER_DIALOG')
+      this.$store.commit('CLOSE_DIALOG', 'UserDialog')
     },
 
     // deleteUser () {
     //   this.$store.dispatch('POST_DELETE_USER', this.formData.id)
 
-    //   this.$store.commit('CLOSE_USER_DIALOG')
+    //   this.$store.commit('CLOSE_DIALOG', 'UserDialog')
     // },
 
     flagUser () {
@@ -129,7 +129,7 @@ export default {
         this.$store.dispatch('GET_FLAGGED_USERS')
       }
 
-      this.$store.commit('CLOSE_USER_DIALOG')
+      this.$store.commit('CLOSE_DIALOG', 'UserDialog')
     }
   },
 }

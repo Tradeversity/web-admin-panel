@@ -63,8 +63,8 @@ const POST_REMOVE_LISTING = ({ getters }, listingID) => {
 const POST_UNFLAG_LISTING = ({ getters }, listingID) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
-  api.request('post', `${baseURL}/unflag_listing/${listingID}`)
-    .then(response => {})
+  return api.request('post', `${baseURL}/unflag_listing/${listingID}`)
+    .then(response => response)
     .catch(errorHandler)
 }
 

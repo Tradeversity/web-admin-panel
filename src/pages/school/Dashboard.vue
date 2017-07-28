@@ -13,20 +13,7 @@
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-flex xs12 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Daily Events
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="DailyEventsChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 class="mt-3">
+    <v-flex xs6 class="mt-3">
       <v-card>
         <v-card-title>
           <span class="headline">
@@ -39,59 +26,7 @@
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-flex xs12 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Total Market Value
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="TotalValueChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Active sellers
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="ActiveSellersChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Active Category Chart
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="ActiveCatChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Student Interaction By Category
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="StudentInteractionCatChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 class="mt-3">
+    <v-flex xs6 class="mt-3">
       <v-card>
         <v-card-title>
           <span class="headline">
@@ -108,12 +43,78 @@
       <v-card>
         <v-card-title>
           <span class="headline">
+            Total Market Value
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="TotalValueChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs7 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Active sellers
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="ActiveSellersChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs5 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Active Category Chart
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="ActiveCatChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs5 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Student Interaction By Category
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="StudentInteractionCatChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+
+    <v-flex xs7 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
             Market Engagement
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
           <div id="MarketEngagmentChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs12 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Daily Events
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="DailyEventsChart"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -161,8 +162,8 @@ export default {
 
         /* Number of active events, day to day */
         const dailyEventsCount = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'daily',
+          event_collection: 'show_events',
+          interval: 'daily',
           timeframe: 'this_1_months',
         })
 
@@ -172,22 +173,24 @@ export default {
           .prepare()
 
         /* Total current GMV, split by category */
-        const grossMerchCategory = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+        const grossMerchCategory = new Keen.Query('sum', {
+          event_collection: 'full_listing_view',
+          target_property: 'price',
+          timeframe: 'this_1_months',
+          group_by: 'category',
         })
 
         const grossMerchCatChart = new Keen.Dataviz()
           .el('#GrossMerchCatChart')
-          .type('line')
+          .type('pie')
           .prepare()
 
         /* Total current GMV, day to day */
-        const totalMarketValue = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+        const totalMarketValue = new Keen.Query('sum', {
+          event_collection: 'full_listing_view',
+          target_property: 'price',
+          timeframe: 'this_1_months',
+          interval: 'daily',
         })
 
         const totalValueChart = new Keen.Dataviz()
@@ -196,58 +199,60 @@ export default {
           .prepare()
 
         /* Number of users selling an item in each category */
-        const activeSellers = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+        const activeSellers = new Keen.Query('count_unique', {
+          event_collection: 'full_listing_view',
+          target_property: 'user_id',
+          group_by: 'category',
+          timeframe: 'this_1_months',
         })
 
         const activeSellersChart = new Keen.Dataviz()
           .el('#ActiveSellersChart')
-          .type('line')
+          .type('pie')
           .prepare()
 
         /* Number of listings by category */
         const activeCategories = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+          event_collection: 'full_listing_view',
+          group_by: 'category',
+          timeframe: 'this_1_months',
         })
 
         const activeCatChart = new Keen.Dataviz()
           .el('#ActiveCatChart')
-          .type('line')
+          .type('pie')
           .prepare()
 
         /* Count of active threads per category */
         const studentInteractionCategory = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+          event_collection: 'question_asked',
+          group_by: 'category',
+          timeframe: 'this_1_months',
         })
 
         const studentInteractionCatChart = new Keen.Dataviz()
           .el('#StudentInteractionCatChart')
-          .type('line')
+          .type('pie')
           .prepare()
 
         /* Number of active threads, day to day */
         const studentInteraction = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+          event_collection: 'question_asked',
+          group_by: 'category',
+          timeframe: 'this_1_months',
         })
 
         const studentInteractionChart = new Keen.Dataviz()
           .el('#StudentInteractionChart')
-          .type('line')
+          .type('bar')
           .prepare()
 
         /* Number of listing views, day to day */
-        const marketEngagment = new Keen.Query('count', {
-          event_collection: 'get_personal_profile',
-          group_by: 'user_details.id',
-          timeframe: 'this_1_years',
+        const marketEngagment = new Keen.Query('count_unique', {
+          event_collection: 'full_listing_view',
+          target_property: 'id',
+          interval: 'daily',
+          timeframe: 'this_1_months',
         })
 
         const marketEngagmentChart = new Keen.Dataviz()

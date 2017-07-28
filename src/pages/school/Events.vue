@@ -84,6 +84,10 @@ export default {
   },
   computed: {
     events () {
+      if (this.$store.state.events.length < 1) {
+        return []
+      }
+
       return this.showQueue
         ? this.$store.state.events.filter(event => !event.is_approved)
         : this.$store.state.events

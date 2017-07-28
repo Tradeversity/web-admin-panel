@@ -52,24 +52,6 @@
         This listing has been flagged
       </v-alert>
 
-      <!-- <v-card-text v-if="listing.isFlagged && !editMode">
-        <v-btn
-          block
-          primary
-          class="mb-3"
-          @click.native.stop="approve"
-        >
-          Approve
-        </v-btn>
-        <v-btn
-          block
-          error
-          @click.native.stop="deny"
-        >
-          Deny
-        </v-btn>
-      </v-card-text> -->
-
       <v-card-text v-if="!editMode">
         Description - {{ listing.description }}
       </v-card-text>
@@ -114,30 +96,10 @@
         ></v-text-field>
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider v-if="isPromoted || listing.isFlagged"></v-divider>
 
-      <v-card-actions>
-        <v-btn
-          flat
-          icon
-          @click.native.stop="approve"
-          v-tooltip:top="{ html: 'Approve event'}"
-          v-if="listing.isFlagged && !editMode"
-        >
-          <v-icon>check_circle</v-icon>
-        </v-btn>
-        <v-btn
-          flat
-          icon
-          @click.native.stop="deny"
-          v-tooltip:top="{ html: 'Deny event'}"
-          v-if="listing.isFlagged && !editMode"
-        >
-          <v-icon>cancel</v-icon>
-        </v-btn>
-
+      <v-card-actions v-if="isPromoted">
         <v-spacer></v-spacer>
-
         <v-btn
           flat
           icon
@@ -147,7 +109,11 @@
           <v-icon>edit</v-icon>
         </v-btn>
 
-        <v-dialog v-model="deleteDialog" lazy absolute>
+        <v-dialog
+          v-model="deleteDialog"
+          lazy
+          absolute
+        >
           <v-btn
             flat
             icon
@@ -186,6 +152,25 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-card-actions>
+
+      <v-card-actions v-else>
+        <v-spacer></v-spacer>
+        <v-btn
+          flat
+          @click.native.stop="deny"
+          v-if="listing.isFlagged && !editMode"
+        >
+          Deny
+        </v-btn>
+
+        <v-btn
+          flat
+          @click.native.stop="approve"
+          v-if="listing.isFlagged && !editMode"
+        >
+          Approve
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -233,9 +218,7 @@ export default {
     },
 
     isPromoted () {
-      const isPromoted = this.listing.is_promoted || this.$route.path.indexOf('sponsors') !== -1
-
-      console.log('isPromoted', isPromoted)
+      return this.listing.is_promoted || this.$route.path.indexOf('sponsors') !== -1
     },
 
     newImages: {
@@ -285,7 +268,7 @@ export default {
   methods: {
     editListing () {
       this.$store.commit('SET_NEW_LISTING', this.listing)
-      this.$store.commit('OPEN_ADD_LISTING_DIALOG')
+      this.$store.commit('OPEN_DIALOG', 'AddListingDialog')
     },
 
     deleteListing () {
@@ -295,11 +278,19 @@ export default {
     },
 
     approve () {
-      this.listing.isFlagged = false
+      this.$store.dispatch('POST_UNFLAG_LISTING', this.listing.id)
+        .then(response => {
+          this.listing.isFlagged = false
+          this.$store.commit('CLOSE_DIALOG', this.$options.name)
+        })
     },
 
     deny () {
-      this.listing.isFlagged = false
+      this.$store.dispatch('POST_REMOVE_LISTING', this.listing.id)
+        .then(response => {
+          this.listing.isFlagged = false
+          this.$store.commit('CLOSE_DIALOG', this.$options.name)
+        })
     }
   },
   mounted () {

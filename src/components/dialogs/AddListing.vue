@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen">
+  <v-dialog v-model="isOpen" width="400">
     <v-card>
       <form @submit.prevent="submit">
         <v-card-title>
@@ -11,7 +11,14 @@
             <v-card-title class="white--text">
               <span class="title">
                 Drag photos into here to upload or
-                <a href="#" class="white--text pt-3">
+
+                <input
+                  type="file"
+                  class="white--text pt-3 hide"
+                  value="Browse your computer"
+                />
+
+                <a href="" class="white--text pt-3" @click.stop="fileUpload">
                   Browse your computer
                 </a>
               </span>
@@ -117,6 +124,10 @@ export default {
       }
     },
 
+    fileUpload (event) {
+      event.preventDefault()
+    },
+
     reset () {
 
     },
@@ -129,5 +140,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.hide
+  display: none
 </style>

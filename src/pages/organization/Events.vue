@@ -1,6 +1,6 @@
 <template>
   <v-layout column align-center class="wrap">
-    <v-flex
+    <!-- <v-flex
       v-if="isLoading"
       xs7
     >
@@ -11,7 +11,7 @@
           color: $store.getters.primaryTextColor
         }"
       ></v-progress-circular>
-    </v-flex>
+    </v-flex> -->
     <v-flex v-if="isEmpty && !isLoading" xs7>
       <span class="headline">
         There doesn't seem to be any events listed.
