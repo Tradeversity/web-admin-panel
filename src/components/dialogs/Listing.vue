@@ -186,12 +186,6 @@ export default {
     editMode: false,
     isCreate: false,
   }),
-  created () {
-    this.$store.commit('ADD_DIALOG', this.$options.name)
-  },
-  watch: {
-
-  },
   computed: {
     isOpen: {
       get () {

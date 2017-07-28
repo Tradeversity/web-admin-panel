@@ -144,7 +144,7 @@ export default {
     initKeen (readKey) {
       const client = new Keen({
         projectId: config.keenProjectID,
-        readKey: readKey
+        readKey: readKey,
       })
 
       Keen.ready(() => {

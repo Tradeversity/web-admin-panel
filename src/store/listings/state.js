@@ -5,4 +5,5 @@ export default {
   selectedListing: {},
   filters: [],
   newListing: {},
+  newSponsoredListing: {},
 }

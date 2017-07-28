@@ -29,4 +29,7 @@ export default {
   SET_NEW_LISTING (state, listing) {
     state.newListing = listing
   },
+  SET_NEW_SPONSORED_LISTING (state, listing) {
+    state.newSponsoredListing = listing
+  }
 }

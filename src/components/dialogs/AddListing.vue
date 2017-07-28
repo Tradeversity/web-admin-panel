@@ -29,45 +29,42 @@
         <v-card-text class="text-xs-left">
           <v-text-field
             label="Title"
+            v-model="formData.title"
           ></v-text-field>
 
           <v-text-field
             label="Amount"
+            v-model="formData.price"
             placeholder="0.00"
             prefix="$"
+            @keypress.native="numberOnly"
           ></v-text-field>
 
           <v-text-field
             label="Description"
+            v-model="formData.description"
           ></v-text-field>
 
           <v-select
-            :items="[
-              { text: 'item' },
-              { text: 'service' },
-              { text: 'event' },
-            ]"
+            :items="typeItems"
             label="Type"
+            v-model="type"
             single-line
             auto
           ></v-select>
 
           <v-select
-            :items="[
-              { text: 'category 1' },
-              { text: 'category 2' },
-            ]"
+            :items="categoryItems"
             label="Category"
+            v-model="category"
             single-line
             auto
           ></v-select>
 
           <v-select
-            :items="[
-              { text: 'condition 1' },
-              { text: 'condition 2' },
-            ]"
+            v-bind:items="conditionItems"
             label="Condition"
+            v-model="condition"
             single-line
             auto
           ></v-select>
@@ -92,12 +89,23 @@
 </template>
 
 <script>
+// import { forEach, isArray, has } from 'lodash'
+
 export default {
   name: 'AddListingDialog',
   data: () => ({
-    rules: {
+    editMode: false,
+    typeItems: [
+      'item',
+      'service',
+      'event',
+    ],
+    categoryItems: [
 
-    }
+    ],
+    conditionItems: [
+
+    ],
   }),
   components: {
 
@@ -112,11 +120,52 @@ export default {
         !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
     },
+
+    formData: {
+      get () {
+        return this.$store.getters.newSponsoredListing
+      },
+
+      set (value) {
+        console.log('formdata', value)
+        value && this.$store.commit('SET_NEW_SPONSORED_LISTING', value)
+      }
+    },
+
+    type: {
+      get () {
+        return this.formData.type
+      },
+
+      set (value) {
+        console.log('type', value)
+      }
+    },
+
+    category: {
+      get () {
+        return this.formData.category
+      },
+
+      set (value) {
+
+      }
+    },
+
+    condition: {
+      get () {
+        return this.formData.condition
+      },
+
+      set (value) {
+
+      }
+    },
   },
   methods: {
     numberOnly (event = window.event) {
       const charCode = event.which || event.keyCode
-      console.log(event)
+
       if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
         event.preventDefault()
       } else {
@@ -129,7 +178,14 @@ export default {
     },
 
     reset () {
-
+      this.$store.commit('SET_NEW_SPONSORED_LISTING', {
+        title: '',
+        price: '',
+        description: '',
+        type: '',
+        category: '',
+        condition: '',
+      })
     },
 
     submit () {
