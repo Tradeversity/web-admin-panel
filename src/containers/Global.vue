@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card class="grey lighten-5 background" flat>
     <v-navigation-drawer
       v-model="isOpen"
       temporary
@@ -24,14 +24,18 @@
 
     <super-toolbar :fixed="isDashboard"></super-toolbar>
 
-    <main>
+    <main v-if="isDashboard">
       <v-container>
         <router-view></router-view>
       </v-container>
     </main>
 
+    <v-container v-else>
+      <router-view></router-view>
+    </v-container>
+
     <add-admin-dialog></add-admin-dialog>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -77,7 +81,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.container
-  margin-top: 40px
+// .container
+//   margin-top: 40px
 </style>
 

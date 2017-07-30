@@ -1,4 +1,5 @@
 import api from '@/api'
+import { has } from 'lodash'
 
 const errorHandler = error => {
   console.log(error)
@@ -20,6 +21,13 @@ const GET_ALL_SCHOOLS = ({ state, commit }) => {
 }
 
 const POST_SCHOOL = ({ state }, school) => {
+  const defaultCategories = [
+    'everything-else',
+    'free',
+  ]
+
+  school.categories.push(defaultCategories)
+
   api.request('post', `/admin/school/`, school)
     .then(response => {})
     .catch(errorHandler)
@@ -76,10 +84,13 @@ const UPDATE_ADMIN = ({ state, commit }, admin) => {
 }
 
 const DELETE_ADMIN = ({ state, commit }, admin) => {
-  api.request('delete', `/admin/school/${admin.schoolID}`, admin)
-    .then(response => {
+  if (!has(admin, 'id')) {
+    console.log('Your request is missing an admin ID.')
+    return false
+  }
 
-    })
+  api.request('delete', `/admin/${admin.id}/delete`)
+    .then(response => response)
     .catch(errorHandler)
 }
 

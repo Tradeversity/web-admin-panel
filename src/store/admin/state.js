@@ -8,4 +8,14 @@ export default {
   newSchool: {},
   organizationEvents: [],
   sponsoredListings: [],
+  availableCategories: [
+    'apparel',
+    'books',
+    'electronics',
+    'furniture',
+    'housing',
+    'recreation',
+    'services',
+    'subleases',
+  ],
 }

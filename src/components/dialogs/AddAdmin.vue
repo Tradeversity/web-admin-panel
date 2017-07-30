@@ -4,8 +4,18 @@
       <form @submit.prevent="submit">
         <v-card-title>
           <span class="headline">
-            Add admin
+            {{ title }}
           </span>
+
+          <v-spacer></v-spacer>
+
+          <v-btn
+            flat
+            icon
+            @click.native.stop="close"
+          >
+            <v-icon>close</v-icon>
+          </v-btn>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -53,10 +63,36 @@
           ></v-text-field>
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions v-if="isEdit">
+          <v-btn
+            icon
+            flat
+            v-tooltip:right="{ html: 'Delete admin user' }"
+          >
+            <v-icon>delete</v-icon>
+          </v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="secondary--text" flat @click.native="reset">Reset</v-btn>
-          <v-btn class="primary--text darken-1" type="submit" flat :loading="isLoading">Submit</v-btn>
+          <v-btn
+            class="primary--text darken-1"
+            type="submit"
+            flat
+            :loading="isLoading"
+          >Update</v-btn>
+        </v-card-actions>
+
+        <v-card-actions v-else>
+          <v-spacer></v-spacer>
+          <v-btn
+            class="secondary--text"
+            flat
+            @click.native="reset"
+          >Reset</v-btn>
+          <v-btn
+            class="primary--text darken-1"
+            type="submit"
+            flat
+            :loading="isLoading"
+          >Submit</v-btn>
         </v-card-actions>
       </form>
     </v-card>
@@ -64,6 +100,7 @@
 </template>
 
 <script>
+import { has } from 'lodash'
 import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 import validateEmail from '@/services/validateEmail'
 
@@ -125,31 +162,6 @@ export default {
     }
   },
   computed: {
-    school () {
-      return this.$store.state.school
-    },
-
-    formData: {
-      get () {
-        if (
-          this.$store.state.newAdmin.hasOwnProperty('id') &&
-          this.$store.state.newAdmin.id.length > 1
-        ) {
-          return {
-            firstName: this.$store.state.newAdmin.first_name,
-            lastName: this.$store.state.newAdmin.last_name,
-          }
-        }
-
-        return this.$store.state.newAdmin
-      },
-
-      set (value) {
-        this.$store.commit('SET_NEW_ADMIN', this.formData)
-        // console.log(this.$store.state.newAdmin, value)
-      }
-    },
-
     isOpen: {
       get () {
         return this.$store.getters.isDialogActive(this.$options.name)
@@ -159,8 +171,46 @@ export default {
         !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
     },
+
+    formData: {
+      get () {
+        return this.$store.getters.adminFormData
+      },
+
+      set (value) {
+        this.$store.commit('SET_NEW_ADMIN', this.formData)
+      }
+    },
+
+    isEdit () {
+      return has(this.formData, 'id')
+    },
+
+    school () {
+      return this.$store.state.school
+    },
+
+    title () {
+      return this.isEdit ? 'Edit admin' : 'Add admin'
+    }
   },
   methods: {
+    close () {
+      this.$store.commit('CLOSE_DIALOG', this.$options.name)
+    },
+
+    deleteAdmin () {
+      if (this.isEdit) {
+        console.log('This is not edit mode, please select a proper user.')
+        return false
+      }
+
+      this.$store.dispatch('DELETE_ADMIN', this.formData)
+        .then(response => {
+          this.$store.commit('CLOSE_DIALOG', this.$options.name)
+        })
+    },
+
     reset () {
       this.$store.commit('SET_NEW_ADMIN', {
         firstName: '',

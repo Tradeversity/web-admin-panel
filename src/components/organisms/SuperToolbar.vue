@@ -1,10 +1,9 @@
 <template>
   <v-toolbar
     class="primary white--text elevation-0"
-    extended
-    fixed
+    :fixed="fixed"
     light
-    dense
+    extended
   >
     <v-toolbar-side-icon
       class="white--text"
@@ -20,7 +19,7 @@
         left
         fab
         v-if="fixed"
-        to="/global/schools/create"
+        @click.native.stop="goToSchool"
       >
         <v-icon>add</v-icon>
       </v-btn>
@@ -62,7 +61,11 @@ export default {
   methods: {
     openDrawer () {
       this.$store.commit('TOGGLE_DRAWER')
-    }
+    },
+
+    goToSchool () {
+      this.$router.push({path: `/global/schools/create`})
+    },
   }
 }
 </script>

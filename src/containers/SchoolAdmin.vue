@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card class="grey lighten-5 background" flat>
     <drawer></drawer>
     <toolbar></toolbar>
 
@@ -27,7 +27,7 @@
     <add-organization-dialog></add-organization-dialog>
     <event-dialog></event-dialog>
     <listing-dialog></listing-dialog>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -54,6 +54,7 @@ export default {
     ListingDialog,
   },
   created () {
+    console.log(this.$route.fullPath)
     this.$store.commit('OPEN_DRAWER')
   },
   computed: {

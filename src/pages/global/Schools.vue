@@ -2,7 +2,7 @@
   <v-layout column align-center>
     <v-flex
       xs12
-      class="mb-4 card-wrap"
+      class="mt-5 mb-4 card-wrap"
       v-for="school in schools"
       :key="school.id"
     >
@@ -16,9 +16,9 @@
         </v-card-text>
 
         <v-list two-line v-else class="list">
-          <template v-for="(admin, index) in school.admins">
-            <v-divider v-if="index !== 0"></v-divider>
-            <v-list-tile @click.native.stop="openEditAdminDialog(admin)">
+          <template v-for="(admin, index) in school.admins" >
+            <v-divider v-if="index !== 0" :key="index"></v-divider>
+            <v-list-tile @click.native.stop="openEditAdminDialog(admin)" :key="admin + index">
               <v-list-tile-content>
                 <v-list-tile-title
                   v-html="admin.display_name"
