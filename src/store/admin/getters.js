@@ -1,4 +1,4 @@
-import { has, isNil } from 'lodash'
+import { has, isNil, isUndefined } from 'lodash'
 
 const adminFormData = state => {
   const {
@@ -15,6 +15,10 @@ const adminFormData = state => {
 const schoolFormData = state => {
   const data = state.newSchool
   data.availableCategories = state.availableCategories
+
+  if (isUndefined(data.registration) || isNil(data.registration)) {
+    data.registration = true
+  }
 
   return data
 }

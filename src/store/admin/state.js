@@ -5,7 +5,11 @@ export default {
   schoolID: null,
   schools: [],
   newAdmin: {},
-  newSchool: {},
+  newSchool: {
+    colorRed: 0,
+    colorGreen: 0,
+    colorBlue: 0,
+  },
   organizationEvents: [],
   sponsoredListings: [],
   availableCategories: [
