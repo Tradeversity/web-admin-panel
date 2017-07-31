@@ -123,8 +123,30 @@ const POST_IMAGE = ({ getters, commit }, imageFile) => {
     .catch(errorHandler)
 }
 
-const POST_SPONSORED_LISTING = ({ getters, commit }) => {
+const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
+  const data = {
+    title: listingFormData.title,
+    description: listingFormData.description,
+    price: listingFormData.price,
+    listing_type: 'item',
+    primary_media_id: listingFormData.assets[0].id,
+    category: listingFormData.category,
+    additional_properties: {
+      condition: 'meh' // listingFormData.condition,
+    },
+  }
 
+  if (listingFormData.length > 1) {
+    data.media = listingFormData.assets.forEach((value, index) => {
+      if (index !== 0) {
+        return value
+      }
+    })
+  }
+
+  return api.request('post', '/listings', data)
+    .then(response => response)
+    .catch(errorHandler)
 }
 
 export default {

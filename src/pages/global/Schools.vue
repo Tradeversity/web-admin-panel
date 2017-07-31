@@ -1,8 +1,8 @@
 <template>
-  <v-layout column align-center class="mt-5">
+  <v-layout column align-center class="layout-padding">
     <v-flex
       xs12
-      class="mt-2 mb-2 card-wrap"
+      class="mt-3 mb-3 card-wrap"
       v-for="school in schools"
       :key="school.id"
     >
@@ -190,4 +190,6 @@ export default {
   max-height: 300px
   overflow-y: auto
 
+.layout-padding
+  margin-top: 75px
 </style>

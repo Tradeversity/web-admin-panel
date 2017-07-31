@@ -212,7 +212,7 @@ export default {
     },
 
     isPromoted () {
-      return this.listing.is_promoted || this.$route.path.indexOf('sponsors') !== -1
+      return this.listing.is_promoted && this.$route.path.indexOf('sponsors') !== -1
     },
 
     newImages: {

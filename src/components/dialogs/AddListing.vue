@@ -14,13 +14,10 @@
 
                 <input
                   type="file"
-                  class="white--text pt-3 hide"
+                  class="white--text pt-3"
                   value="Browse your computer"
+                  @change="fileUpload"
                 />
-
-                <a href="" class="white--text pt-3" @click.stop="fileUpload">
-                  Browse your computer
-                </a>
               </span>
             </v-card-title>
           </v-card>
@@ -45,13 +42,13 @@
             v-model="formData.description"
           ></v-text-field>
 
-          <v-select
+          <!-- <v-select
             :items="typeItems"
             label="Type"
             v-model="type"
             single-line
             auto
-          ></v-select>
+          ></v-select> -->
 
           <v-select
             :items="categoryItems"
@@ -89,26 +86,52 @@
 </template>
 
 <script>
-// import { forEach, isArray, has } from 'lodash'
+import { forEach, isArray, has } from 'lodash'
 
 export default {
   name: 'AddListingDialog',
   data: () => ({
     editMode: false,
-    typeItems: [
-      'item',
-      'service',
-      'event',
-    ],
-    categoryItems: [
-
-    ],
+    hasStaticMap: false,
+    staticMapURL: '',
+    newImages: [],
     conditionItems: [
-
+      'New',
+      'Slighty used',
+      'Okay',
+      'Used',
+      'Poor',
     ],
   }),
-  components: {
+  mounted () {
+    window.addEventListener('dragover', (event) => {
+      event.preventDefault()
+    })
 
+    window.addEventListener('drop', (event) => {
+      event.preventDefault()
+
+      const images = Array.from(event.dataTransfer.files)
+        .filter(file => file.type.startsWith('image/'))
+
+      const done = Promise.all(images.map(imageFile => {
+        return imageFile
+      }))
+
+      done.then(response => {
+        isArray(response) && forEach(response, file => {
+          this.$store.dispatch('POST_IMAGE', file)
+            .then(media => {
+              const data = this.formData
+              this.newImages.push(media)
+              data.assets = this.newImages
+              this.$store.commit(this.formData, data)
+            })
+        })
+      })
+    })
+  },
+  components: {
   },
   computed: {
     isOpen: {
@@ -132,6 +155,10 @@ export default {
       }
     },
 
+    categoryItems () {
+      return this.$store.state.school.categories
+    },
+
     type: {
       get () {
         return this.formData.type
@@ -148,7 +175,9 @@ export default {
       },
 
       set (value) {
-
+        const data = this.formData
+        data.category = value
+        this.$store.commit('SET_NEW_SPONSORED_LISTING', data)
       }
     },
 
@@ -158,7 +187,9 @@ export default {
       },
 
       set (value) {
-
+        const data = this.formData
+        data.condition = value
+        this.$store.commit('SET_NEW_SPONSORED_LISTING', data)
       }
     },
   },
@@ -175,6 +206,25 @@ export default {
 
     fileUpload (event) {
       event.preventDefault()
+
+      const images = Array.from(event.target.files)
+        .filter(file => file.type.startsWith('image/'))
+
+      const done = Promise.all(images.map(imageFile => {
+        return imageFile
+      }))
+
+      done.then(response => {
+        isArray(response) && forEach(response, file => {
+          this.$store.dispatch('POST_IMAGE', file)
+            .then(media => {
+              const data = this.formData
+              this.newImages.push(media)
+              data.assets = this.newImages
+              this.$store.commit(this.formData, data)
+            })
+        })
+      })
     },
 
     reset () {
@@ -189,7 +239,23 @@ export default {
     },
 
     submit () {
-
+      console.log(this.formData)
+      if (
+        has(this.formData, 'title') &&
+        has(this.formData, 'price') &&
+        has(this.formData, 'description') &&
+        has(this.formData, 'category') &&
+        has(this.formData, 'condition') &&
+        has(this.formData, 'assets')
+      ) {
+        this.$store.dispatch('POST_SPONSORED_LISTING', this.formData)
+          .then(response => {
+            console.log('POSTED! Good job!')
+            this.$store.commit('CLOSE_DIALOG', 'AddListing')
+          })
+      } else {
+        console.log('Please fill out all fields...')
+      }
     }
   }
 }
@@ -198,4 +264,7 @@ export default {
 <style lang="stylus" scoped>
 .hide
   display: none
+
+.card
+  overflow: hidden
 </style>
