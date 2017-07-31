@@ -1,5 +1,5 @@
 import api from '@/api'
-import { has } from 'lodash'
+import { has, isArray } from 'lodash'
 
 const errorHandler = error => {
   console.log(error)
@@ -26,9 +26,31 @@ const POST_SCHOOL = ({ state }, school) => {
     'free',
   ]
 
-  school.categories.push(defaultCategories)
+  defaultCategories.forEach(value => {
+    school.selectedCategories.push(value)
+  })
 
-  api.request('post', `/admin/school/`, school)
+  const assetID = isArray(school.asset) ? school.asset[0].id : school.asset.id
+
+  const data = {
+    name: school.name,
+    short_name: school.shortName,
+    domain_name: school.domainName,
+    registration_allowed: school.registration,
+    sendy_list_id: school.sendyID,
+    long: school.longitude,
+    lat: school.latitude,
+    allowable_radius: parseInt(school.radius),
+    color: [
+      parseInt(school.colorRed),
+      parseInt(school.colorGreen),
+      parseInt(school.colorBlue),
+    ],
+    categories: school.selectedCategories,
+    default_asset: assetID,
+  }
+
+  api.request('post', `/admin/school/`, data)
     .then(response => {})
     .catch(errorHandler)
 }
