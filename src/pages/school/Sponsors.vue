@@ -25,19 +25,7 @@
     >
       <template slot="items" scope="props">
         <td @click.stop="openListing(props.item)">
-          <v-edit-dialog
-            @open="props.item._title = props.item.title"
-            @cancel="props.item.title = props.item._title || props.item.title"
-            lazy
-          > {{ props.item.title }}
-            <v-text-field
-              slot="input"
-              label="Edit"
-              v-bind:value="props.item.title"
-              v-on:change="val => props.item.title = val"
-              single-line counter="counter"
-            ></v-text-field>
-          </v-edit-dialog>
+          {{ props.item.title }}
         </td>
         <td class="text-xs-right" @click.stop="openListing(props.item)">
           {{ props.item.category }}

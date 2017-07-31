@@ -1,6 +1,6 @@
 {
   "name": "web-admin-panel",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "52inc admin panel based on Material design and built with Vue",
   "author": "Zach Barnes <zach@52inc.com>",
   "private": true,
@@ -98,7 +98,7 @@
     "vue-loader": "^12.1.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.4",
-    "vuetify": "^0.13.0",
+    "vuetify": "^0.14.7",
     "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",

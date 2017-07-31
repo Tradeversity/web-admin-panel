@@ -215,9 +215,6 @@ export default {
     staticMapURL: '',
     newImages: [],
   }),
-  created () {
-
-  },
   mounted () {
     window.addEventListener('dragover', (event) => {
       event.preventDefault()
@@ -240,7 +237,6 @@ export default {
               const data = this.formData
               this.newImages.push(media)
               data.asset = this.newImages
-              this.$store.commit(this.formData, data)
             })
         })
       })
@@ -328,7 +324,6 @@ export default {
               const data = this.formData
               this.newImages.push(media)
               data.asset = this.newImages
-              this.$store.commit(this.formData, data)
             })
         })
       })

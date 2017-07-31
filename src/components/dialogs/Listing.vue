@@ -102,11 +102,9 @@
         <v-spacer></v-spacer>
         <v-btn
           flat
-          icon
-          v-tooltip:top="{ html: 'Edit listing' }"
-          @click.native.stop="editMode = !editMode"
+          @click.native.stop="openEditDialog"
         >
-          <v-icon>edit</v-icon>
+          Edit
         </v-btn>
 
         <v-dialog
@@ -116,11 +114,9 @@
         >
           <v-btn
             flat
-            icon
             slot="activator"
-            v-tooltip:top="{ html: 'Delete listing' }"
           >
-            <v-icon>delete</v-icon>
+            Delete
           </v-btn>
 
           <v-card>
@@ -260,6 +256,12 @@ export default {
     }
   },
   methods: {
+    openEditDialog () {
+      this.$store.commit('SET_NEW_SPONSORED_LISTING', this.listing)
+      this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
+      this.$store.commit('OPEN_DIALOG', 'AddListingDialog')
+    },
+
     editListing () {
       this.$store.commit('SET_NEW_LISTING', this.listing)
       this.$store.commit('OPEN_DIALOG', 'AddListingDialog')
@@ -267,8 +269,11 @@ export default {
 
     deleteListing () {
       this.$store.dispatch('DELETE_LISTING', this.listing.id)
-      this.$store.dispatch('GET_LISTING')
-      this.deleteDialog = false
+        .then(response => {
+          this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
+          this.$store.dispatch('GET_LISTINGS')
+          this.deleteDialog = false
+        })
     },
 
     approve () {

@@ -1,4 +1,5 @@
 import api from '@/api'
+import { has } from 'lodash'
 
 const errorHandler = error => {
   console.log(error)
@@ -145,7 +146,7 @@ const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
     },
   }
 
-  if (listingFormData.length > 1) {
+  if (listingFormData.assets.length > 1) {
     data.media = listingFormData.assets.forEach((value, index) => {
       if (index !== 0) {
         return value
@@ -153,7 +154,66 @@ const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
     })
   }
 
-  return api.request('post', '/listings', data)
+  return api.request('post', '/listings/', data)
+    .then(response => response)
+    .catch(errorHandler)
+}
+
+const PUT_SPONSORED_LISTING = (state, listingFormData) => {
+  if (listingFormData.id === null || listingFormData.id === undefined) {
+    console.log('An ID needs to be specified.')
+    return
+  }
+
+  const data = {
+    listing_type: 'item',
+  }
+
+  if (listingFormData.title) {
+    data.title = listingFormData.title
+  }
+
+  if (listingFormData.description) {
+    data.description = listingFormData.description
+  }
+
+  if (listingFormData.price) {
+    data.price = listingFormData.price
+  }
+
+  if (listingFormData.price) {
+    data.price = listingFormData.price
+  }
+
+  if (has(listingFormData, 'assets') && listingFormData.assets.length > 0) {
+    data.primary_media_id = listingFormData.assets[0].id
+  }
+
+  if (listingFormData.category) {
+    data.category = listingFormData.category
+  }
+
+  if (listingFormData.condition) {
+    data.additional_properties = {
+      condition: 'meh'
+    }
+  }
+
+  if (has(listingFormData, 'assets') && listingFormData.assets.length > 1) {
+    data.media = listingFormData.assets.forEach((value, index) => {
+      if (index !== 0) {
+        return value
+      }
+    })
+  }
+
+  return api.request('put', `/listings/${listingFormData.id}`, data)
+    .then(response => response)
+    .catch(errorHandler)
+}
+
+const DELETE_LISTING = ({ getters, commit }, listingID) => {
+  return api.request('post', `/listings/${listingID}/archive`)
     .then(response => response)
     .catch(errorHandler)
 }
@@ -172,4 +232,6 @@ export default {
   PUT_WORD_FILTER,
   POST_IMAGE,
   POST_SPONSORED_LISTING,
+  PUT_SPONSORED_LISTING,
+  DELETE_LISTING,
 }

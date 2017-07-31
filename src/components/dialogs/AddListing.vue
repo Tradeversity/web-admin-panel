@@ -6,6 +6,33 @@
           <span class="headline">Add Listing</span>
         </v-card-title>
 
+        <v-card-media
+          v-if="isUploading || newImages.length > 0"
+          v-bind:src="primaryImageSrc"
+          class="white--text"
+          height="300"
+        >
+          <v-container v-if="isUploading" fill-height fluid>
+            <v-layout fill-height>
+              <v-flex xs12 align-center justify-center flexbox>
+                <v-progress-circular
+                  indeterminate
+                  :size="100"
+                  class="primary--text"
+                ></v-progress-circular>
+              </v-flex>
+            </v-layout>
+          </v-container>
+
+          <v-carousel v-if="newImages.length > 1">
+            <v-carousel-item
+              v-for="(image, index) in newImages"
+              v-bind:src="image.media_url"
+              v-bind:key="index"
+            ></v-carousel-item>
+          </v-carousel>
+        </v-card-media>
+
         <v-card-text>
           <v-card class="primary pt-3 pb-3">
             <v-card-title class="white--text">
@@ -51,7 +78,7 @@
           ></v-select> -->
 
           <v-select
-            :items="categoryItems"
+            v-bind:items="categoryItems"
             label="Category"
             v-model="category"
             single-line
@@ -91,6 +118,7 @@ import { forEach, isArray, has } from 'lodash'
 export default {
   name: 'AddListingDialog',
   data: () => ({
+    isUploading: false,
     editMode: false,
     hasStaticMap: false,
     staticMapURL: '',
@@ -111,6 +139,8 @@ export default {
     window.addEventListener('drop', (event) => {
       event.preventDefault()
 
+      this.isUploading = true
+
       const images = Array.from(event.dataTransfer.files)
         .filter(file => file.type.startsWith('image/'))
 
@@ -125,13 +155,19 @@ export default {
               const data = this.formData
               this.newImages.push(media)
               data.assets = this.newImages
-              this.$store.commit(this.formData, data)
+              this.isUploading = false
             })
         })
+      })
+      .catch(error => {
+        if (error) {
+          this.isUploading = false
+        }
       })
     })
   },
   components: {
+
   },
   computed: {
     isOpen: {
@@ -159,6 +195,12 @@ export default {
       return this.$store.state.school.categories
     },
 
+    primaryImageSrc () {
+      return isArray(this.newImages) && has(this.newImages[0], 'media_url')
+      ? this.newImages[0].media_url
+      : ''
+    },
+
     type: {
       get () {
         return this.formData.type
@@ -171,6 +213,10 @@ export default {
 
     category: {
       get () {
+        if (this.categoryItems.indexOf(this.formData.category) === -1) {
+          this.categoryItems.push(this.formData.category)
+        }
+
         return this.formData.category
       },
 
@@ -183,6 +229,10 @@ export default {
 
     condition: {
       get () {
+        if (this.conditionItems.indexOf(this.formData.condition) === -1) {
+          this.conditionItems.push(this.formData.condition)
+        }
+
         return this.formData.condition
       },
 
@@ -206,6 +256,7 @@ export default {
 
     fileUpload (event) {
       event.preventDefault()
+      this.isUploading = true
 
       const images = Array.from(event.target.files)
         .filter(file => file.type.startsWith('image/'))
@@ -219,11 +270,16 @@ export default {
           this.$store.dispatch('POST_IMAGE', file)
             .then(media => {
               const data = this.formData
+              this.isUploading = false
               this.newImages.push(media)
               data.assets = this.newImages
-              this.$store.commit(this.formData, data)
             })
         })
+      })
+      .catch(error => {
+        if (error) {
+          this.isUploading = false
+        }
       })
     },
 
@@ -239,7 +295,17 @@ export default {
     },
 
     submit () {
-      console.log(this.formData)
+      if (has(this.formData, 'id')) {
+        this.$store.dispatch('PUT_SPONSORED_LISTING', this.formData)
+          .then(response => {
+            this.reset()
+            this.$store.commit('CLOSE_DIALOG', 'AddListingDialog')
+            this.$store.dispatch('GET_SPONSORED_LISTINGS')
+          })
+
+        return
+      }
+
       if (
         has(this.formData, 'title') &&
         has(this.formData, 'price') &&
@@ -250,8 +316,9 @@ export default {
       ) {
         this.$store.dispatch('POST_SPONSORED_LISTING', this.formData)
           .then(response => {
-            console.log('POSTED! Good job!')
-            this.$store.commit('CLOSE_DIALOG', 'AddListing')
+            this.reset()
+            this.$store.commit('CLOSE_DIALOG', 'AddListingDialog')
+            this.$store.dispatch('GET_SPONSORED_LISTINGS')
           })
       } else {
         console.log('Please fill out all fields...')
