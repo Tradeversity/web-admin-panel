@@ -1,8 +1,8 @@
 <template>
-  <v-layout column align-center>
+  <v-layout column align-center class="mt-5">
     <v-flex
       xs12
-      class="mt-5 mb-4 card-wrap"
+      class="mt-2 mb-2 card-wrap"
       v-for="school in schools"
       :key="school.id"
     >
