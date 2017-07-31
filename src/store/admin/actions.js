@@ -116,6 +116,14 @@ const DELETE_ADMIN = ({ state, commit }, admin) => {
     .catch(errorHandler)
 }
 
+const DELETE_SCHOOL = ({ state, commit }, schoolID) => {
+  return api.request('delete', `/admin/school/${schoolID}/delete`)
+    .then(response => {
+      return response
+    })
+    .catch(errorHandler)
+}
+
 /*
  *  University Admin Endpoints
  */
@@ -202,6 +210,7 @@ export default {
   POST_ADMIN,
   PUT_ADMIN,
   DELETE_ADMIN,
+  DELETE_SCHOOL,
   UPDATE_ADMIN,
 
   // University Admin Endpoints
