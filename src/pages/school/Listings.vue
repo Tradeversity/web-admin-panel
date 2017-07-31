@@ -82,7 +82,7 @@ export default {
       pagination: {},
       isListingDialogOpen: false,
       isLoading: false,
-      showFlagged: false,
+      showFlagged: true,
       headers: headers,
     }
   },

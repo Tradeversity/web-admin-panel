@@ -15,6 +15,9 @@ export default {
   SET_SPONSORED_LISTINGS (state, data) {
     state.sponsoredListings = data.listings
   },
+  SET_DEFAULT_FILTERS (state, filters = []) {
+    state.defaultFilters = filters.default_naughty_words
+  },
   SET_WORD_FILTERS (state, filters = []) {
     state.filters = filters
   },
@@ -22,7 +25,7 @@ export default {
     state.filters.push(filter)
   },
   REMOVE_FILTER_KEYWORD (state, filters) {
-    if (state.filters.indexOf(filters) > -1) {
+    if (state.filters && state.filters.indexOf(filters) > -1) {
       state.filters.splice(state.filters.indexOf(filters), 1)
     }
   },

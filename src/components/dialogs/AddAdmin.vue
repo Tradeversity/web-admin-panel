@@ -68,6 +68,7 @@
             icon
             flat
             v-tooltip:right="{ html: 'Delete admin user' }"
+            @click.native="deleteAdmin"
           >
             <v-icon>delete</v-icon>
           </v-btn>
@@ -183,7 +184,7 @@ export default {
     },
 
     isEdit () {
-      return has(this.formData, 'id')
+      return has(this.formData, 'id') && this.formData.id.length > 1
     },
 
     school () {
@@ -200,13 +201,14 @@ export default {
     },
 
     deleteAdmin () {
-      if (this.isEdit) {
+      if (!this.isEdit) {
         console.log('This is not edit mode, please select a proper user.')
         return false
       }
 
       this.$store.dispatch('DELETE_ADMIN', this.formData)
         .then(response => {
+          this.$store.dispatch('GET_ALL_SCHOOLS')
           this.$store.commit('CLOSE_DIALOG', this.$options.name)
         })
     },
@@ -223,6 +225,18 @@ export default {
     },
 
     submit () {
+      if (this.isEdit) {
+        this.$store.dispatch('PUT_ADMIN', this.formData)
+          .then(response => {
+            this.$store.commit('CLOSE_DIALOG', 'AddAdminDialog')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+        return
+      }
+
       const isFirstNameVaild = this.formData.firstName.length > 1
       const isLastNameVaild = this.formData.lastName.length > 1
       const isEmailValid = validateEmail(this.formData.email)
@@ -264,41 +278,21 @@ export default {
       ) {
         const data = this.formData
         data.schoolId = this.school.id
-        console.log(this.school, this.$store.state.newAdmin)
+
         data.isEdit = (
           this.$store.state.newAdmin.hasOwnProperty('id') && this.$store.state.newAdmin.id.length > 1
         )
 
         this.$store.dispatch('POST_ADMIN', data)
           .then(response => {
-            if (response.error) {
-              return response.error
-            }
-
-            this.$store.commit('CLOSE_ADD_ADMIN_DIALOG')
-            this.formState.snackMessage = 'Success!'
-            this.formState.form = 'success'
+            this.$store.commit('CLOSE_DIALOG', 'AddAdminDialog')
           })
           .catch(error => {
-            this.formState.snackMessage = 'Error!'
             console.log(error)
           })
-      } else {
-        this.formState.snackMessage = 'Error!'
-        this.formState.form = 'error'
-
-        // setTimeout(() => {
-        //   this.formState.firstName.error = false
-        //   this.formState.lastName.error = false
-        //   this.formState.email.error = false
-        //   this.formState.password.error = false
-        //   this.formState.passwordConfirm.error = false
-        // }, 2000)
       }
-
-      this.formState.snackbar = true
     }
-  },
+  }
 }
 </script>
 

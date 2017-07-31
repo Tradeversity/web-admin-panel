@@ -1,5 +1,5 @@
 import api from '@/api'
-import { has, isArray } from 'lodash'
+import { has } from 'lodash'
 
 const errorHandler = error => {
   console.log(error)
@@ -8,6 +8,12 @@ const errorHandler = error => {
 /*
  *  Global Admin Endpoints
  */
+
+const GET_ADMIN = ({ state, commit }, adminID) => {
+  return api.request('get', `/admin/${adminID}`)
+    .then(response => response.data)
+    .catch(errorHandler)
+}
 
 const GET_ALL_SCHOOLS = ({ state, commit }) => {
   return api.request('get', `/admin/school/all`)
@@ -30,8 +36,6 @@ const POST_SCHOOL = ({ state }, school) => {
     school.selectedCategories.push(value)
   })
 
-  const assetID = isArray(school.asset) ? school.asset[0].id : school.asset.id
-
   const data = {
     name: school.name,
     short_name: school.shortName,
@@ -47,7 +51,7 @@ const POST_SCHOOL = ({ state }, school) => {
       parseInt(school.colorBlue),
     ],
     categories: school.selectedCategories,
-    default_asset: assetID,
+    default_asset: school.defaultAsset,
   }
 
   api.request('post', `/admin/school/`, data)
@@ -72,27 +76,45 @@ const POST_ADMIN = ({ state, commit }, admin) => {
     type: 'Web',
   }
 
-  api.request(admin.isEdit ? 'put' : 'post', `/admin/`, formattedData)
+  console.log('Posting', admin)
+
+  return api.request(admin.isEdit ? 'put' : 'post', `/admin/`, formattedData)
     .then(response => {
       commit('SET_SCHOOL_ADMIN', admin)
+
+      return response
     })
     .catch(errorHandler)
 }
 
 const PUT_ADMIN = ({ state, commit }, admin) => {
   const formattedData = {
-    email: admin.email,
-    first_name: admin.firstName,
-    last_name: admin.lastName,
-    password: admin.password,
     school_id: admin.schoolId,
     platform: window.navigator.userAgent,
     type: 'Web',
   }
 
-  api.request('put', '/admin/', formattedData)
+  if (admin.email) {
+    formattedData.email = admin.email
+  }
+
+  if (admin.firstName) {
+    formattedData.first_name = admin.firstName
+  }
+
+  if (admin.lastName) {
+    formattedData.last_name = admin.lastName
+  }
+
+  if (admin.password) {
+    formattedData.password = admin.password
+  }
+
+  return api.request('put', `/admin/${admin.id}`, formattedData)
     .then(response => {
       commit('SET_SCHOOL_ADMIN', admin)
+
+      return response
     })
     .catch(errorHandler)
 }
@@ -111,7 +133,7 @@ const DELETE_ADMIN = ({ state, commit }, admin) => {
     return false
   }
 
-  api.request('delete', `/admin/${admin.id}/delete`)
+  api.request('post', `/admin/${admin.id}/delete`)
     .then(response => response)
     .catch(errorHandler)
 }
@@ -204,6 +226,7 @@ const POST_EVENT = ({ getters }, eventItem) => {
 
 export default {
   // Global Admin Endpoints
+  GET_ADMIN,
   GET_ALL_SCHOOLS,
   POST_SCHOOL,
   POST_UPDATE,

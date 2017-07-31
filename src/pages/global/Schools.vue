@@ -32,43 +32,6 @@
         </v-list>
 
         <v-card-actions>
-          <v-dialog v-model="deleteDialog" lazy absolute>
-            <v-btn
-              flat
-              icon
-              v-tooltip:top="{ html: 'Delete event' }"
-              @click.native.stop="deleteDialog = !deleteDialog"
-              slot="activator"
-            >
-              <v-icon>delete</v-icon>
-            </v-btn>
-
-            <v-card>
-              <v-card-title>
-                <span class="headline">Delete</span>
-                <v-spacer></v-spacer>
-                <v-btn icon flat @click.native="deleteDialog = false">
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-card-text>
-                Are you sure you would like to delete <b>{{ school.name }}</b>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  flat
-                  @click.native="deleteDialog = false"
-                >Cancel</v-btn>
-                <v-btn
-                  flat
-                  primary
-                  @click.native.stop="deleteItem(school.id)"
-                >Confirm</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
           <v-spacer></v-spacer>
           <v-btn
             flat

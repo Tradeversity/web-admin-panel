@@ -101,6 +101,13 @@
             v-model="formData.radius"
           ></v-text-field>
         </v-flex>
+        <v-flex xs12 sm6>
+          <v-text-field
+            label="Default asset"
+            hint="Name for default school assets"
+            v-model="formData.defaultAsset"
+          ></v-text-field>
+        </v-flex>
       </v-layout>
     </v-card-text>
 
@@ -154,7 +161,7 @@
       </v-layout>
     </v-card-text>
 
-    <v-card-media
+    <!-- <v-card-media
       v-if="newImages.length > 0"
       :src="newImages[0].media_url"
       :height="150"
@@ -176,7 +183,7 @@
           </span>
         </v-card-title>
       </v-card>
-    </v-card-text>
+    </v-card-text> -->
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -372,7 +379,7 @@ export default {
         has(this.formData, 'colorBlue') &&
         has(this.formData, 'colorGreen') &&
         has(this.formData, 'colorRed') &&
-        has(this.formData, 'asset') &&
+        has(this.formData, 'defaultAsset') &&
         minLength(this.formData.name, 2) &&
         minLength(this.formData.address, 2) &&
         minLength(this.formData.selectedCategories, 2) &&
@@ -385,12 +392,14 @@ export default {
         minLength(this.formData.latitude, 1) &&
         minLength(this.formData.colorBlue, 1) &&
         minLength(this.formData.colorGreen, 1) &&
-        minLength(this.formData.colorRed, 1)
+        minLength(this.formData.colorRed, 1) &&
+        minLength(this.formData.defaultAsset, 1)
       ) {
         this.$store.dispatch('POST_SCHOOL', this.formData)
           .then(response => {
             this.$store.commit('SET_NEW_SCHOOL', {})
             this.$router.push({ path: '/global/schools' })
+            this.$store.commit('GET_ALL_SCHOOLS')
           })
           .catch(error => {
             if (error) {

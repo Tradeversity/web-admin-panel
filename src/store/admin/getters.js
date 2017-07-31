@@ -1,15 +1,16 @@
 import { has, isNil, isUndefined } from 'lodash'
 
 const adminFormData = state => {
-  const {
-    first_name,
-    last_name,
-  } = state.newAdmin
-
-  return {
-    firstName: first_name,
-    lastName: last_name,
+  const data = {
+    firstName: state.newAdmin.first_name,
+    lastName: state.newAdmin.last_name,
   }
+
+  if (has(state, 'newAdmin.id')) {
+    data.id = state.newAdmin.id
+  }
+
+  return data
 }
 
 const schoolFormData = state => {

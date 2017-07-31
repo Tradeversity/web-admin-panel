@@ -78,7 +78,7 @@ export default {
     return {
       search: '',
       pagination: {},
-      showQueue: false,
+      showQueue: true,
       headers: headers,
     }
   },

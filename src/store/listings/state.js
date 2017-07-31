@@ -1,9 +1,10 @@
 export default {
-  listings: [],
-  sponsoredListings: [],
-  flaggedListings: [],
   selectedListing: {},
-  filters: [],
   newListing: {},
   newSponsoredListing: {},
+  listings: [],
+  filters: [],
+  defaultFilters: [],
+  flaggedListings: [],
+  sponsoredListings: [],
 }

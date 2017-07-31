@@ -84,6 +84,15 @@ const POST_REMOVE_ANSWER = ({ getters }, answerID) => {
     .catch(errorHandler)
 }
 
+const GET_DEFAULT_FILTERS = ({ getters, commit }) => {
+  return api.request('get', `/admin/school/${getters.schoolID}/default_naughty_words`)
+    .then(response => {
+      commit('SET_DEFAULT_FILTERS', response.data)
+      return response
+    })
+    .catch(errorHandler)
+}
+
 const GET_WORD_FILTER = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
@@ -154,6 +163,7 @@ export default {
   GET_LISTINGS,
   GET_SPONSORED_LISTINGS,
   GET_FLAGGED_LISTINGS,
+  GET_DEFAULT_FILTERS,
   POST_REMOVE_LISTING,
   POST_UNFLAG_LISTING,
   POST_REMOVE_QUESTION,
