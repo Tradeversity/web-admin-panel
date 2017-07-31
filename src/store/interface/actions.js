@@ -5,7 +5,13 @@ const TRIGGER_FAB_ACTION = ({ commit, state }) => {
     commit('SET_NEW_ORGANIZATION', {})
     commit('OPEN_DIALOG', 'AddOrganizationDialog')
   } else if (route.indexOf('sponsors') !== -1) {
-    commit('SET_NEW_LISTING', {})
+    commit('SET_NEW_SPONSORED_LISTING', {
+      // title: '',
+      // price: '',
+      // description: '',
+      // category: '',
+      // condition: '',
+    })
     commit('OPEN_DIALOG', 'AddListingDialog')
   }
 }

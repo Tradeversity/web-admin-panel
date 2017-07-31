@@ -123,13 +123,6 @@ export default {
     hasStaticMap: false,
     staticMapURL: '',
     newImages: [],
-    conditionItems: [
-      'New',
-      'Slighty used',
-      'Okay',
-      'Used',
-      'Poor',
-    ],
   }),
   mounted () {
     window.addEventListener('dragover', (event) => {
@@ -191,10 +184,6 @@ export default {
       }
     },
 
-    categoryItems () {
-      return this.$store.state.school.categories
-    },
-
     primaryImageSrc () {
       return isArray(this.newImages) && has(this.newImages[0], 'media_url')
       ? this.newImages[0].media_url
@@ -213,9 +202,9 @@ export default {
 
     category: {
       get () {
-        if (this.categoryItems.indexOf(this.formData.category) === -1) {
-          this.categoryItems.push(this.formData.category)
-        }
+        // if (this.categoryItems.indexOf(this.formData.category) === -1) {
+        //   this.categoryItems.push(this.formData.category)
+        // }
 
         return this.formData.category
       },
@@ -229,9 +218,9 @@ export default {
 
     condition: {
       get () {
-        if (this.conditionItems.indexOf(this.formData.condition) === -1) {
-          this.conditionItems.push(this.formData.condition)
-        }
+        // if (this.conditionItems.indexOf(this.formData.condition) === -1) {
+        //   this.conditionItems.push(this.formData.condition)
+        // }
 
         return this.formData.condition
       },
@@ -241,6 +230,20 @@ export default {
         data.condition = value
         this.$store.commit('SET_NEW_SPONSORED_LISTING', data)
       }
+    },
+
+    conditionItems () {
+      return [
+        'New',
+        'Slighty used',
+        'Okay',
+        'Used',
+        'Poor',
+      ]
+    },
+
+    categoryItems () {
+      return this.$store.state.school.categories
     },
   },
   methods: {

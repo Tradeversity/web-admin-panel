@@ -104,31 +104,31 @@ export default {
       return [
         {
           title: 'Dashboard',
-          path: `/school/${this.schoolName}/dashboard`,
+          path: `school/${this.schoolName}/dashboard`,
           icon: 'dashboard',
         }, {
           title: 'Users',
-          path: `/school/${this.schoolName}/users`,
+          path: `school/${this.schoolName}/users`,
           icon: 'people',
         }, {
           title: 'Listings',
-          path: `/school/${this.schoolName}/listings`,
+          path: `school/${this.schoolName}/listings`,
           icon: 'view_list',
         }, {
           title: 'Sponsors',
-          path: `/school/${this.schoolName}/sponsors`,
+          path: `school/${this.schoolName}/sponsors`,
           icon: 'store',
         }, {
           title: 'Organizations',
-          path: `/school/${this.schoolName}/organizations`,
+          path: `school/${this.schoolName}/organizations`,
           icon: 'folder_shared',
         }, {
           title: 'Events',
-          path: `/school/${this.schoolName}/events`,
+          path: `school/${this.schoolName}/events`,
           icon: 'event',
         }, {
           title: 'Filters',
-          path: `/school/${this.schoolName}/filters`,
+          path: `school/${this.schoolName}/filters`,
           icon: 'note_add',
         },
       ]

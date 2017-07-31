@@ -132,8 +132,6 @@ export default {
     isLogged () {
       const isAuthed = this.$route.meta.requiredAuth || false
       const navbar = !this.$route.meta.noNavbar
-      const hasToken = this.$cookie.get('TV_ADMIN_TOKEN')
-      return isAuthed && hasToken !== null && navbar
     },
 
     isFABActive () {
