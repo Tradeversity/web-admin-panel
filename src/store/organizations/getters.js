@@ -6,4 +6,6 @@ const organization = state => ({
 
 export default {
   organization,
+  organizations: state => state.organizations
+    .filter(organization => !organization.is_locked)
 }

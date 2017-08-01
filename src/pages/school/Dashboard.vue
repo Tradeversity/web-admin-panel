@@ -152,7 +152,7 @@ export default {
         const activeUserCount = new Keen.Query('count', {
           event_collection: 'new_user_session',
           interval: 'daily',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const activeUserChart = new Keen.Dataviz()
@@ -164,7 +164,7 @@ export default {
         const dailyEventsCount = new Keen.Query('count', {
           event_collection: 'show_events',
           interval: 'daily',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const dailyEventsChart = new Keen.Dataviz()
@@ -176,7 +176,7 @@ export default {
         const grossMerchCategory = new Keen.Query('sum', {
           event_collection: 'full_listing_view',
           target_property: 'price',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
           group_by: 'category',
         })
 
@@ -189,7 +189,7 @@ export default {
         const totalMarketValue = new Keen.Query('sum', {
           event_collection: 'full_listing_view',
           target_property: 'price',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
           interval: 'daily',
         })
 
@@ -203,7 +203,7 @@ export default {
           event_collection: 'full_listing_view',
           target_property: 'user_id',
           group_by: 'category',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const activeSellersChart = new Keen.Dataviz()
@@ -215,7 +215,7 @@ export default {
         const activeCategories = new Keen.Query('count', {
           event_collection: 'full_listing_view',
           group_by: 'category',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const activeCatChart = new Keen.Dataviz()
@@ -227,7 +227,7 @@ export default {
         const studentInteractionCategory = new Keen.Query('count', {
           event_collection: 'question_asked',
           group_by: 'category',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const studentInteractionCatChart = new Keen.Dataviz()
@@ -239,7 +239,7 @@ export default {
         const studentInteraction = new Keen.Query('count', {
           event_collection: 'question_asked',
           group_by: 'category',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const studentInteractionChart = new Keen.Dataviz()
@@ -252,7 +252,7 @@ export default {
           event_collection: 'full_listing_view',
           target_property: 'id',
           interval: 'daily',
-          timeframe: 'this_1_months',
+          timeframe: 'this_3_months',
         })
 
         const marketEngagmentChart = new Keen.Dataviz()
@@ -274,6 +274,8 @@ export default {
           if (error) {
             console.log('Client run keen profile count error:', error)
           } else if (response !== null) {
+            console.log('Keen response', response)
+
             activeUserChart
               .data(response[0])
               .render()

@@ -31,7 +31,7 @@
           {{ props.item.display_name }}
         </td>
         <td class="text-xs-right" @click.stop="openOrganization(props.item)">
-          {{ new Date(props.item.created_at).toDateString() }}
+          {{ setTime(props.item.created_at) }}
         </td>
       </template>
 
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import setTime from '@/services/setTime'
+
 const headers = [
   { text: 'Name', value: 'display_name', align: 'left' },
   { text: 'Created at', value: 'created_at' },
@@ -56,19 +58,23 @@ export default {
       pagination: {},
       isLoading: false,
       headers: headers,
+      setTime: setTime,
     }
   },
   computed: {
     organizations () {
-      return this.$store.state.organizations
+      return this.$store.getters.organizations
     }
   },
   methods: {
     openOrganization (item) {
-      this.$store.dispatch('GET_ORGANIZATION', item)
-        .then(() => {
-          this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
-        })
+      this.$store.commit('SET_NEW_ORGANIZATION', item)
+      this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
+
+      // this.$store.dispatch('GET_ORGANIZATION', item)
+      //   .then(() => {
+      //     this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
+      //   })
     },
     refresh () {
       this.isLoading = true

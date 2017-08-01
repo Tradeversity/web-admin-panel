@@ -22,12 +22,18 @@ export default {
     state.filters = filters
   },
   ADD_FILTER_KEYWORD (state, filter) {
-    state.filters.push(filter)
+    state.filters.additional_filters.push(filter)
   },
-  REMOVE_FILTER_KEYWORD (state, filters) {
-    if (state.filters && state.filters.indexOf(filters) > -1) {
-      state.filters.splice(state.filters.indexOf(filters), 1)
-    }
+  REMOVE_FILTER_KEYWORD (state, filter) {
+    state.filters.additional_filters
+      .splice(state.filters.additional_filters.indexOf(filter), 1)
+  },
+  ADD_DISABLED_FILTER (state, filter) {
+    state.filters.disabled_filters.push(filter)
+  },
+  REMOVE_DISABLED_FILTER (state, filter) {
+    state.filters.disabled_filters
+      .splice(state.filters.disabled_filters.indexOf(filter), 1)
   },
   SET_NEW_LISTING (state, listing) {
     state.newListing = listing

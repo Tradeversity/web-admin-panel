@@ -110,7 +110,8 @@ const PUT_WORD_FILTER = ({ getters, commit }, filters) => {
   const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('put', `${baseURL}/word_filter`, {
-    words: filters.toString(),
+    additional_filters: getters.additionalFilters,
+    disabled_filters: getters.disabledFilters,
   })
     .then(response => {
       commit('SET_WORD_FILTERS', response.data)

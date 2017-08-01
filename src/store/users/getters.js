@@ -5,7 +5,8 @@ export default {
     if (state.showFlagged && has(state, 'flaggedUsers')) {
       return state.flaggedUsers
     } else if (has(state, 'users')) {
-      return state.users.filter(user => !user.is_locked)
+      // return state.users.filter(user => !user.is_locked)
+      return state.users
     }
 
     return []

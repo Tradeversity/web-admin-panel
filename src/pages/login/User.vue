@@ -91,9 +91,9 @@ export default {
       return this.$store.state.activeAlert
     }
   },
-  watch: {
-    email (value) {
-      this.$cookie.set('TV_ADMIN_EMAIL', value)
+  beforeDestroy () {
+    if (this.formData.email.length > 1) {
+      this.$cookie.set('TV_ADMIN_EMAIL', this.formData.email)
     }
   },
   methods: {

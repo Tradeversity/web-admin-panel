@@ -5,7 +5,7 @@
       :indeterminate="true"
     ></v-progress-linear>
     <v-card-title>
-      <span class="headline">Listings</span>
+      <span class="headline">{{ title }}</span>
 
       <v-btn
         icon
@@ -56,8 +56,15 @@
           class="text-xs-right"
           @click.stop="openListing(props.item)"
         >
-          {{ new Date(props.item.created_at).toDateString() }}
+          {{ setTime(props.item.created_at) }}
         </td>
+        <!-- <td
+          class="text-xs-right"
+          v-if="!showFlagged"
+          @click.stop="openListing(props.item)"
+        >
+          {{ props.item.}}
+        </td> -->
       </template>
 
       <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -68,25 +75,37 @@
 </template>
 
 <script>
-const headers = [
-  { text: 'Title', value: 'title', align: 'left' },
-  { text: 'Category', value: 'category' },
-  { text: 'Created', value: 'created_at' },
-]
+import setTime from '@/services/setTime'
 
 export default {
   name: 'Listing',
-  data () {
-    return {
-      search: '',
-      pagination: {},
-      isListingDialogOpen: false,
-      isLoading: false,
-      showFlagged: true,
-      headers: headers,
-    }
-  },
+  data: () => ({
+    search: '',
+    pagination: {},
+    isListingDialogOpen: false,
+    isLoading: false,
+    showFlagged: true,
+    setTime: setTime,
+  }),
   computed: {
+    title () {
+      return `${this.showFlagged ? 'Flagged' : 'All'} Listings`
+    },
+
+    headers () {
+      const headers = [
+        { text: 'Title', value: 'title', align: 'left' },
+        { text: 'Category', value: 'category' },
+        { text: 'Created', value: 'created_at' },
+      ]
+
+      // if (!this.showFlagged) {
+      //   headers.push({ text: 'Flagged', value: 'is_flagged' })
+      // }
+
+      return headers
+    },
+
     listings () {
       return (this.showFlagged
       ? this.$store.state.flaggedListings
@@ -145,6 +164,10 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_LISTINGS')
+
+    if (this.$store.state.flaggedListings.length < 1) {
+      this.showFlagged = false
+    }
   }
 }
 </script>

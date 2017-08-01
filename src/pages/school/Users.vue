@@ -6,7 +6,7 @@
     ></v-progress-linear>
 
     <v-card-title>
-      <span class="headline">Users</span>
+      <span class="headline">{{ title }}</span>
 
       <v-btn
         icon
@@ -64,9 +64,17 @@
         </td>
         <td
           class="text-xs-right"
+          v-if="!showFlagged"
           @click.stop="viewUser(props.item)"
         >
-          {{ new Date(props.item.created_at).toDateString() }}
+          {{ props.item.is_locked ? 'Yes' : 'No' }}
+        </td>
+
+        <td
+          class="text-xs-right"
+          @click.stop="viewUser(props.item)"
+        >
+          {{ setTime(props.item.created_at) }}
         </td>
       </template>
 
@@ -81,15 +89,7 @@
 </template>
 
 <script>
-const headers = [
-  {
-    text: 'Name',
-    value: 'name',
-    align: 'left',
-  },
-  { text: 'Role', value: 'account_role' },
-  { text: 'Created', value: 'created_at' },
-]
+import setTime from '@/services/setTime'
 
 export default {
   name: 'Users',
@@ -98,12 +98,41 @@ export default {
     isLoading: false,
     search: '',
     pagination: {},
-    headers: headers,
+    setTime: setTime,
   }),
   created () {
     this.$store.dispatch('GET_USERS')
+    console.log(this.users)
+  },
+  mounted () {
+    if (this.users.length < 1) {
+      this.$store.commit('TOGGLE_SHOW_FLAGGED')
+    }
   },
   computed: {
+    title () {
+      return `${this.showFlagged ? 'Flagged' : 'All'} Users`
+    },
+
+    headers () {
+      const headers = [
+        {
+          text: 'Name',
+          value: 'name',
+          align: 'left',
+        },
+        { text: 'Role', value: 'account_role' },
+        { text: 'Created', value: 'created_at' },
+      ]
+
+      if (!this.showFlagged) {
+        const lockedHeader = { text: 'Locked', value: 'is_locked' }
+        headers.splice(2, 0, lockedHeader)
+      }
+
+      return headers
+    },
+
     users () {
       return this.$store.getters.users
     },

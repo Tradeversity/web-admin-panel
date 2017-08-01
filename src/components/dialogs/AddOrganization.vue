@@ -3,7 +3,7 @@
     <v-card>
       <form @submit.prevent="submit">
         <v-card-title>
-          <span class="headline">Invite user</span>
+          <span class="headline">{{ title }}</span>
         </v-card-title>
 
         <v-card-text class="text-xs-left">
@@ -48,6 +48,15 @@
         </v-card-text>
 
       <v-card-actions>
+        <v-btn
+          icon
+          flat
+          v-if="isEdit"
+          v-tooltip:right="{ html: 'Archive organization' }"
+          @click.native.stop="archive"
+        >
+          <v-icon>delete</v-icon>
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           flat
@@ -129,6 +138,10 @@ export default {
 
   },
   computed: {
+    title () {
+      return `${this.isEdit ? 'Edit' : 'Invite'} Organization`
+    },
+
     isOpen: {
       get () {
         return this.$store.getters.isDialogActive(this.$options.name)
@@ -156,6 +169,14 @@ export default {
     }
   },
   methods: {
+    archive () {
+      this.$store.dispatch('POST_BAN_USER', this.formData.id)
+        .then(() => {
+          this.$store.commit('CLOSE_DIALOG', this.$options.name)
+          this.$store.dispatch('GET_ORGANIZATIONS')
+        })
+    },
+
     reset () {
       if (this.isEdit) {
         return false

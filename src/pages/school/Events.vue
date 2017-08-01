@@ -6,14 +6,14 @@
     ></v-progress-linear>
     <v-card-title>
       <span class="headline">
-        Events
+        {{ title }}
       </span>
 
       <v-btn
         icon
         flat
         v-tooltip:right="{ html: 'Show queued items'}"
-        v-if="!showQueue"
+        v-if="!hasFlagged && !showQueue"
         @click.native="showQueue = !showQueue"
       >
         <v-icon>flag</v-icon>
@@ -51,7 +51,10 @@
         <td @click.stop="viewEvent(props.item)">{{ props.item.title }}</td>
         <td class="text-xs-right" @click.stop="viewEvent(props.item)">{{ props.item.location }}</td>
         <td class="text-xs-right" @click.stop="viewEvent(props.item)">
-          {{ new Date(props.item.created_at).toDateString() }}
+          {{ setTime(props.item.created_at) }}
+        </td>
+        <td class="text-xs-right" v-if="!showQueue" @click.stop="viewEvent(props.item)">
+          {{ props.item.is_approved ? 'Yes' : 'No' }}
         </td>
       </template>
       <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -62,15 +65,7 @@
 </template>
 
 <script>
-const headers = [
-  {
-    text: 'Title',
-    value: 'title',
-    align: 'left',
-  },
-  { text: 'Location', value: 'location' },
-  { text: 'Created', value: 'created_at' },
-]
+import setTime from '@/services/setTime'
 
 export default {
   name: 'Event',
@@ -79,17 +74,45 @@ export default {
       search: '',
       pagination: {},
       showQueue: true,
-      headers: headers,
+      hasFlagged: true,
+      setTime: setTime,
     }
   },
   computed: {
+    title () {
+      return `${this.showQueue ? 'Flagged' : 'All'} Events`
+    },
+
+    headers () {
+      const headers = [
+        {
+          text: 'Title',
+          value: 'title',
+          align: 'left',
+        },
+        { text: 'Location', value: 'location' },
+        { text: 'Created', value: 'created_at' },
+      ]
+
+      if (!this.showQueue) {
+        headers.push({ text: 'Approved', value: 'approved' })
+      }
+
+      return headers
+    },
+
     events () {
-      if (this.$store.state.events.length < 1) {
-        return []
+      const flaggedEvents = this.$store.state.events
+        .filter(event => !event.is_approved)
+
+      if (flaggedEvents < 1) {
+        this.showQueue = false
+      } else {
+        this.hasFlagged = false
       }
 
       return this.showQueue
-        ? this.$store.state.events.filter(event => !event.is_approved)
+        ? flaggedEvents
         : this.$store.state.events
     },
 

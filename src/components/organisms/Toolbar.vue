@@ -1,8 +1,10 @@
 <template>
   <v-toolbar
     fixed
-    light
-    class="primary"
+    :style="{
+      backgroundColor: $store.getters.schoolColor,
+      color: $store.getters.primaryTextColor
+    }"
   >
     <v-toolbar-side-icon
       light

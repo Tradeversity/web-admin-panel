@@ -21,7 +21,7 @@ const GET_ORGANIZATIONS = ({ getters, commit }) => {
 
   return api.request('get', `${baseURL}/organizations`)
     .then(response => {
-      commit('SET_ORGANIZATIONS', response.data)
+      commit('SET_NEW_ORGANIZATION', response.data)
 
       return response
     })

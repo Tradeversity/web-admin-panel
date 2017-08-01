@@ -1,5 +1,5 @@
 <template>
-  <v-card class="grey lighten-5 background" flat>
+  <div>
     <drawer></drawer>
     <toolbar></toolbar>
 
@@ -27,7 +27,7 @@
     <add-organization-dialog></add-organization-dialog>
     <event-dialog></event-dialog>
     <listing-dialog></listing-dialog>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -75,6 +75,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.main
+  background-color: #f6f6f6
 </style>
 

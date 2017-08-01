@@ -31,7 +31,7 @@
           {{ props.item.category }}
         </td>
         <td class="text-xs-right" @click.stop="openListing(props.item)">
-          {{ new Date(props.item.created_at).toDateString() }}
+          {{ setTime(props.item.created_at) }}
         </td>
       </template>
 
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import setTime from '@/services/setTime'
+
 const headers = [
   { text: 'Title', value: 'title', align: 'left' },
   { text: 'Category', value: 'category' },
@@ -51,14 +53,13 @@ const headers = [
 
 export default {
   name: 'Sponsors',
-  data () {
-    return {
-      search: '',
-      pagination: {},
-      isLoading: false,
-      headers: headers,
-    }
-  },
+  data: () => ({
+    search: '',
+    pagination: {},
+    isLoading: false,
+    headers: headers,
+    setTime: setTime,
+  }),
   computed: {
     listings () {
       return this.$store.state.sponsoredListings
