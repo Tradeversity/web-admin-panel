@@ -240,13 +240,8 @@ export default {
     }
   },
   mounted () {
-    if (
-      this.$store.state.filters &&
-      this.$store.state.filters.length < 1
-    ) {
-      this.$store.dispatch('GET_WORD_FILTER')
-      this.$store.dispatch('GET_DEFAULT_FILTERS')
-    }
+    this.$store.dispatch('GET_WORD_FILTER')
+    this.$store.dispatch('GET_DEFAULT_FILTERS')
   }
 }
 </script>

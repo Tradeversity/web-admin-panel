@@ -1,6 +1,6 @@
 {
   "name": "web-admin-panel",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "52inc admin panel based on Material design and built with Vue",
   "author": "Zach Barnes <zach@52inc.com>",
   "private": true,
