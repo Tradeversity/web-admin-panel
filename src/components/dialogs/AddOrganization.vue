@@ -139,7 +139,7 @@ export default {
   },
   computed: {
     title () {
-      return `${this.isEdit ? 'Edit' : 'Invite'} Organization`
+      return `${this.isEdit ? 'Edit' : 'Add New'} Organization`
     },
 
     isOpen: {

@@ -94,7 +94,14 @@ export default {
         Object.prototype.hasOwnProperty.bind(error, 'response') &&
         Object.prototype.hasOwnProperty.bind(error.response, 'status')
       ) {
-        statusHandler(error.response.status)
+        if (error.config.url.indexOf('upload_image') === -1) {
+          statusHandler(error.response.status)
+        } else {
+          store.commit('OPEN_DIALOG_ALERT', {
+            type: 'error',
+            message: '403: Please verify your email.',
+          })
+        }
       } else {
         console.log('There was no returned response object, redirecting to login...')
         router.push({ path: '/' })

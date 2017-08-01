@@ -22,6 +22,7 @@
       :headers="headers"
       :items="listings"
       :search="search"
+      :no-data-text="noDataText"
     >
       <template slot="items" scope="props">
         <td @click.stop="openListing(props.item)">
@@ -63,7 +64,11 @@ export default {
   computed: {
     listings () {
       return this.$store.state.sponsoredListings
-    }
+    },
+
+    noDataText () {
+      return `There are currently no Sponsored Listings`
+    },
   },
   methods: {
     openListing (item) {

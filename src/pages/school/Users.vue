@@ -48,9 +48,10 @@
     </v-card-title>
 
     <v-data-table
-      v-bind:headers="headers"
-      v-bind:items="users"
-      v-bind:search="search"
+      :headers="headers"
+      :items="users"
+      :search="search"
+      :no-data-text="noDataText"
     >
       <template slot="items" scope="props">
         <td @click.stop="viewUser(props.item)">
@@ -102,7 +103,6 @@ export default {
   }),
   created () {
     this.$store.dispatch('GET_USERS')
-    console.log(this.users)
   },
   mounted () {
     if (this.users.length < 1) {
@@ -112,6 +112,10 @@ export default {
   computed: {
     title () {
       return `${this.showFlagged ? 'Flagged' : 'All'} Users`
+    },
+
+    noDataText () {
+      return `There are currently no ${this.showFlagged ? 'Flagged' : ''} Users`
     },
 
     headers () {

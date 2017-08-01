@@ -41,6 +41,7 @@
       :headers="headers"
       :items="listings"
       :search="search"
+      :no-data-text="noDataText"
     >
       <template slot="items" scope="props">
         <td @click.stop="openListing(props.item)">
@@ -104,6 +105,10 @@ export default {
       // }
 
       return headers
+    },
+
+    noDataText () {
+      return `There are currently no ${this.showFlagged ? 'Flagged' : ''} Listings`
     },
 
     listings () {

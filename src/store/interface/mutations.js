@@ -54,6 +54,15 @@ export default {
       state.activeAlert.active = false
     }
   },
+  OPEN_DIALOG_ALERT (state, data) {
+    data.active = true
+    state.activeDialogAlert = data
+  },
+  CLOSE_DIALOG_ALERT (state, data) {
+    if (has(state.activeDialogAlert, 'active')) {
+      state.activeDialogAlert.active = false
+    }
+  },
   TOGGLE_IS_EVENTS_OWNED (state) {
     state.isEventsOwned = !state.isEventsOwned
   },

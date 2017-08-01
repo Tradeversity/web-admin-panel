@@ -43,9 +43,10 @@
       </v-btn>
     </v-card-title>
     <v-data-table
-      v-bind:headers="headers"
-      v-bind:items="events"
-      v-bind:search="search"
+      :headers="headers"
+      :items="events"
+      :search="search"
+      :no-data-text="noDataText"
     >
       <template slot="items" scope="props">
         <td @click.stop="viewEvent(props.item)">{{ props.item.title }}</td>
@@ -99,6 +100,10 @@ export default {
       }
 
       return headers
+    },
+
+    noDataText () {
+      return `There are currently no ${this.hasFlagged ? 'Flagged' : ''} Events`
     },
 
     events () {

@@ -6,8 +6,18 @@
           <span class="headline">Add Listing</span>
         </v-card-title>
 
+        <v-alert
+          :success="alert.type === 'success'"
+          :info="alert.type === 'info'"
+          :warning="alert.type === 'warning'"
+          :error="alert.type === 'error'"
+          :value="alert.active"
+        >
+          {{ alert.message }}
+        </v-alert>
+
         <v-card-media
-          v-if="isUploading || newImages.length > 0"
+          v-if="!errorActive && (isUploading || newImages.length > 0)"
           v-bind:src="primaryImageSrc"
           class="white--text"
           height="300"
@@ -170,7 +180,19 @@ export default {
 
       set (value) {
         !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
+
+        if (this.errorActive) {
+          this.$store.commit('CLOSE_DIALOG_ALERT')
+        }
       }
+    },
+
+    alert () {
+      return this.$store.state.activeDialogAlert
+    },
+
+    errorActive () {
+      return this.alert.active
     },
 
     formData: {
@@ -179,7 +201,6 @@ export default {
       },
 
       set (value) {
-        console.log('formdata', value)
         value && this.$store.commit('SET_NEW_SPONSORED_LISTING', value)
       }
     },
@@ -260,6 +281,10 @@ export default {
     fileUpload (event) {
       event.preventDefault()
       this.isUploading = true
+
+      if (this.errorActive) {
+        this.$store.commit('CLOSE_DIALOG_ALERT')
+      }
 
       const images = Array.from(event.target.files)
         .filter(file => file.type.startsWith('image/'))

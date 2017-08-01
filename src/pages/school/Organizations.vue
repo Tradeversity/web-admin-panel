@@ -24,6 +24,7 @@
       :headers="headers"
       :items="organizations"
       :search="search"
+      :no-data-text="noDataText"
     >
 
       <template slot="items" scope="props" >
@@ -64,7 +65,11 @@ export default {
   computed: {
     organizations () {
       return this.$store.getters.organizations
-    }
+    },
+
+    noDataText () {
+      return `There are currently no Organizations`
+    },
   },
   methods: {
     openOrganization (item) {

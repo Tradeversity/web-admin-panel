@@ -8,6 +8,11 @@ export default {
     message: '',
     type: 'info',
   },
+  activeDialogAlert: {
+    active: false,
+    message: '',
+    type: 'info',
+  },
   dialogs: {
     AddListingDialog: {
       active: false,
