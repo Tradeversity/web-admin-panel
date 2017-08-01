@@ -57,7 +57,7 @@
       </v-card-text>
 
       <v-list v-if="!editMode">
-        <v-list-tile v-for="description in descriptions" :key="description">
+        <v-list-tile v-for="(description, index) in descriptions" :key="index">
           <v-list-tile-content>
             <v-list-tile-title>
               {{ description.type }}

@@ -22,9 +22,9 @@
       <v-icon>add</v-icon>
     </v-btn>
 
-     <user-dialog></user-dialog>
+    <user-dialog></user-dialog>
     <add-listing-dialog></add-listing-dialog>
-     <add-organization-dialog></add-organization-dialog>
+    <add-organization-dialog></add-organization-dialog>
     <event-dialog></event-dialog>
     <listing-dialog></listing-dialog>
   </v-card>

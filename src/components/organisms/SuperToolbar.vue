@@ -64,7 +64,7 @@ export default {
     },
 
     goToSchool () {
-      this.$router.push({path: `/global/schools/create`})
+      this.$router.push({ path: `/global/schools/create` })
     },
   }
 }

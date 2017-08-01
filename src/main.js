@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
 })
 
 /* eslint-disable no-undef */
-console.log(store.state.version, VERSION)
+// console.log(store.state.version, VERSION)
 if (store.state.version !== VERSION) {
   console.log('clearing state...')
 
