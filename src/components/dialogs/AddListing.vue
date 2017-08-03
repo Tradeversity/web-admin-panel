@@ -69,6 +69,7 @@
           <v-text-field
             label="Amount"
             v-model="formData.price"
+            hint="Please add the cent amount and decimal point"
             placeholder="0.00"
             prefix="$"
             @keypress.native="numberOnly"
@@ -134,6 +135,9 @@ export default {
     staticMapURL: '',
     newImages: [],
   }),
+  beforeDestroy () {
+    this.$store.commit('CLOSE_DIALOG_ALERT')
+  },
   mounted () {
     window.addEventListener('dragover', (event) => {
       event.preventDefault()

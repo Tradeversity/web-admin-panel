@@ -216,7 +216,11 @@ const PUT_SPONSORED_LISTING = (state, listingFormData) => {
 const DELETE_LISTING = ({ getters, commit }, listingID) => {
   return api.request('post', `/listings/${listingID}/archive`)
     .then(response => response)
-    .catch(errorHandler)
+    .catch(error => {
+      errorHandler(error)
+
+      return error
+    })
 }
 
 export default {

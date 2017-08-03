@@ -113,8 +113,8 @@ export default {
 
     listings () {
       return (this.showFlagged
-      ? this.$store.state.flaggedListings
-      : this.$store.state.listings) || []
+      ? this.$store.getters.flaggedListings
+      : this.$store.getters.listings) || []
     }
   },
   methods: {
@@ -168,6 +168,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('GET_FLAGGED_LISTINGS')
     this.$store.dispatch('GET_LISTINGS')
 
     if (this.$store.state.flaggedListings.length < 1) {

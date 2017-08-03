@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" width="400">
+  <v-dialog v-model="isOpen" width="400" :persistent="persistent">
     <v-card>
       <v-card-media
         v-if="listing.carousel && !editMode"
@@ -11,11 +11,7 @@
           <v-layout fill-height>
             <v-flex xs12 align-start flexbox>
               <span class="headline drop">
-                {{
-                  this.listing.price === 0
-                    ? 'Free'
-                    : `$${this.listing.price}`
-                }} - {{ listing.title }}
+                {{ price }} - {{ listing.title }}
               </span>
             </v-flex>
           </v-layout>
@@ -30,6 +26,7 @@
         </v-carousel>
       </v-card-media>
 
+
       <v-card-text v-if="editMode">
         <v-card class="primary pt-3 pb-3">
           <v-card-title class="white--text">
@@ -42,6 +39,17 @@
           </v-card-title>
         </v-card>
       </v-card-text>
+
+      <v-alert
+        class="mt-0"
+        :success="alert.type === 'success'"
+        :info="alert.type === 'info'"
+        :warning="alert.type === 'warning'"
+        :error="alert.type === 'error'"
+        :value="alert.active"
+      >
+        {{ alert.message }}
+      </v-alert>
 
       <v-alert
         error
@@ -109,6 +117,7 @@
 
         <v-dialog
           v-model="deleteDialog"
+          class="delete-dialog"
           lazy
           absolute
         >
@@ -173,6 +182,7 @@
 </template>
 
 <script>
+import setTime from '@/services/setTime'
 import { forEach, isArray, has } from 'lodash'
 
 export default {
@@ -181,7 +191,11 @@ export default {
     deleteDialog: false,
     editMode: false,
     isCreate: false,
+    persistent: false,
   }),
+  beforeDestroy () {
+    this.$store.commit('CLOSE_DIALOG_ALERT')
+  },
   computed: {
     isOpen: {
       get () {
@@ -189,8 +203,13 @@ export default {
       },
 
       set (value) {
+        this.$store.commit('CLOSE_DIALOG_ALERT')
         !value && this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
+    },
+
+    alert () {
+      return this.$store.state.activeDialogAlert
     },
 
     listing () {
@@ -227,6 +246,23 @@ export default {
       }
     },
 
+    price () {
+      const price = this.listing.price.toString()
+      let formattedPrice = null
+
+      if (price === '0') {
+        formattedPrice = 'Free'
+      } else if (price % 100 === 0) {
+        formattedPrice = `$${price / 100}.${price.slice(-2)}`
+      } else if (price.length < 3) {
+        formattedPrice = `$0.${price}`
+      } else {
+        formattedPrice = `$${price / 100}`
+      }
+
+      return formattedPrice
+    },
+
     formData () {
       return this.editMode ? {} : this.listing
     },
@@ -238,7 +274,7 @@ export default {
           text: this.listing.id || '',
         }, {
           type: 'Price',
-          text: `$${this.listing.price || ''}`,
+          text: this.price,
         }, {
           type: 'Status',
           text: this.listing.status || '',
@@ -247,10 +283,10 @@ export default {
           text: this.listing.category || '',
         }, {
           type: 'Posted',
-          text: new Date(this.listing.created_at).toDateString(),
+          text: setTime(this.listing.created_at),
         }, {
           type: 'Expires at',
-          text: new Date(this.listing.expires_at).toDateString(),
+          text: setTime(this.listing.expires_at),
         },
       ]
     }
@@ -268,11 +304,18 @@ export default {
     },
 
     deleteListing () {
+      this.persistent = true
+
       this.$store.dispatch('DELETE_LISTING', this.listing.id)
         .then(response => {
-          this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
-          this.$store.dispatch('GET_LISTINGS')
+          if (response.toString().indexOf('400') === -1) {
+            this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
+            this.$store.dispatch('GET_LISTINGS')
+            this.$store.dispatch('GET_FLAGGED_LISTINGS')
+          }
+
           this.deleteDialog = false
+          this.persistent = false
         })
     },
 
@@ -281,6 +324,7 @@ export default {
         .then(response => {
           this.listing.isFlagged = false
           this.$store.commit('CLOSE_DIALOG', this.$options.name)
+          this.$store.dispatch('GET_FLAGGED_LISTINGS')
         })
     },
 
@@ -289,6 +333,7 @@ export default {
         .then(response => {
           this.listing.isFlagged = false
           this.$store.commit('CLOSE_DIALOG', this.$options.name)
+          this.$store.dispatch('GET_FLAGGED_LISTINGS')
         })
     }
   },
@@ -321,6 +366,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.delete-dialog
+  z-index: 100
+
 .drop
   text-shadow: 0 1px 2px rgba(0, 0, 0, .6)
 

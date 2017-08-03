@@ -8,4 +8,6 @@ export default {
   },
   disabledFilters: state => state.filters.disabled_filters,
   additionalFilters: state => state.filters.additional_filters,
+  flaggedListings: state => state.flaggedListings,
+  listings: state => state.listings
 }
