@@ -71,5 +71,17 @@ export default {
   },
   SET_VERSION (state, version) {
     state.version = version
+  },
+  TOGGLE_IS_DELETE_DIALOG_OPEN (state) {
+    state.isDeleteDialogOpen = !state.isDeleteDialogOpen
+  },
+  OPEN_DELETE_DIALOG (state) {
+    state.isDeleteDialogOpen = true
+  },
+  CLOSE_DELETE_DIALOG (state) {
+    state.isDeleteDialogOpen = false
+  },
+  SET_DELETE_DIALOG_DATA (state, data) {
+    state.deleteDialogData = data
   }
 }

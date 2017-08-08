@@ -22,6 +22,7 @@
       <v-icon>add</v-icon>
     </v-btn>
 
+    <delete-dialog></delete-dialog>
     <user-dialog></user-dialog>
     <add-listing-dialog></add-listing-dialog>
     <add-organization-dialog></add-organization-dialog>
@@ -40,6 +41,7 @@ import EventDialog from '@/components/dialogs/Event'
 import SetLocationDialog from '@/components/dialogs/SetLocation'
 import UserDialog from '@/components/dialogs/User'
 import ListingDialog from '@/components/dialogs/Listing'
+import DeleteDialog from '@/components/dialogs/Delete'
 
 export default {
   name: 'SchoolAdminContainer',
@@ -52,6 +54,7 @@ export default {
     SetLocationDialog,
     UserDialog,
     ListingDialog,
+    DeleteDialog,
   },
   created () {
     console.log(this.$route.fullPath)
@@ -64,6 +67,10 @@ export default {
 
     isFabActive () {
       return this.$store.getters.isFabActive
+    },
+
+    isDeleteDialogOpen () {
+      return this.$store.getters.isDeleteDialogOpen
     }
   },
   methods: {
@@ -73,6 +80,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.index__1
+  z-index: 1
+</style>
 
 <style lang="stylus" scoped>
 .main

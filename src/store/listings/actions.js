@@ -135,16 +135,22 @@ const POST_IMAGE = ({ getters, commit }, imageFile) => {
 }
 
 const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
+  const price = listingFormData.price.toString().replace('.', '')
+
   const data = {
     title: listingFormData.title,
     description: listingFormData.description,
-    price: listingFormData.price,
+    price: price,
     listing_type: 'item',
     primary_media_id: listingFormData.assets[0].id,
     category: listingFormData.category,
     additional_properties: {
       condition: 'meh' // listingFormData.condition,
     },
+    is_promoted: true,
+    latitude: 0,
+    longitude: 0,
+    radius: 0,
   }
 
   if (listingFormData.assets.length > 1) {

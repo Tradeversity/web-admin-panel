@@ -1,8 +1,10 @@
 export default {
+  isDeleteDialogOpen: false,
   isEventLoading: true,
   isEventsOwned: false,
   isDrawerOpen: false,
   isTableLoading: false,
+  deleteDialogData: {},
   activeAlert: {
     active: false,
     message: '',
@@ -30,6 +32,9 @@ export default {
       active: false,
     },
     AddAdminDialog: {
+      active: false,
+    },
+    DeleteDialog: {
       active: false,
     }
   },

@@ -10,9 +10,12 @@
       <v-list-tile avatar tag="div">
         <v-list-tile-avatar>
           <img
+            v-if="hasAvatar"
             :src="avatar"
             role="presentation"
           />
+
+          <v-icon v-else x-large>account_circle</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -59,8 +62,6 @@
 </template>
 
 <script>
-import Avatar from '@/assets/avatar.png'
-
 export default {
   name: 'Drawer',
   computed: {
@@ -97,7 +98,11 @@ export default {
     },
 
     avatar () {
-      return this.$store.getters.avatar || Avatar
+      return this.$store.getters.avatar
+    },
+
+    hasAvatar () {
+      return this.$store.getters.avatar
     },
 
     pages () {

@@ -91,6 +91,9 @@ const isDialogActive = state => name => {
   return _.has(state.dialogs, `[${name}].active`) && state.dialogs[name].active
 }
 
+const isDeleteDialogOpen = state => state.isDeleteDialogOpen
+const deleteDialogData = state => state.deleteDialogData
+
 export default {
   listing,
   activeUI,
@@ -103,4 +106,6 @@ export default {
   organizationID,
   isDialogActive,
   isFabActive,
+  isDeleteDialogOpen,
+  deleteDialogData,
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" width="400" :persistent="persistent">
+  <v-dialog v-model="isOpen" width="400">
     <v-card>
       <v-card-media
         v-if="listing.carousel && !editMode"
@@ -115,48 +115,12 @@
           Edit
         </v-btn>
 
-        <v-dialog
-          v-model="deleteDialog"
-          class="delete-dialog"
-          lazy
-          absolute
+        <v-btn
+          flat
+          @click.native.stop="openDelete"
         >
-          <v-btn
-            flat
-            slot="activator"
-          >
-            Delete
-          </v-btn>
-
-          <v-card>
-            <v-card-title>
-              <span class="headline">Delete</span>
-              <v-spacer></v-spacer>
-              <v-btn
-                flat
-                icon
-                @click.native.stop="deleteDialog = false"
-              >
-                <v-icon>close</v-icon>
-              </v-btn>
-            </v-card-title>
-            <v-card-text>
-              Are you sure you would like to delete <b>{{ listing.title }}</b>
-            </v-card-text>
-            <v-card-actions class="actions">
-              <v-spacer></v-spacer>
-              <v-btn
-                flat
-                @click.native.stop="deleteDialog = false"
-              >Cancel</v-btn>
-              <v-btn
-                flat
-                primary
-                @click.native="deleteListing"
-              >Confirm</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+          Delete
+        </v-btn>
       </v-card-actions>
 
       <v-card-actions v-else>
@@ -188,10 +152,8 @@ import { forEach, isArray, has } from 'lodash'
 export default {
   name: 'ListingDialog',
   data: () => ({
-    deleteDialog: false,
     editMode: false,
     isCreate: false,
-    persistent: false,
   }),
   beforeDestroy () {
     this.$store.commit('CLOSE_DIALOG_ALERT')
@@ -292,6 +254,13 @@ export default {
     }
   },
   methods: {
+    openDelete () {
+      this.$store.commit('CLOSE_DIALOG_ALERT')
+      this.$store.commit('SET_DELETE_DIALOG_DATA', this.listing)
+      this.$store.commit('CLOSE_DIALOG', this.$options.name)
+      this.$store.commit('OPEN_DIALOG', 'DeleteDialog')
+    },
+
     openEditDialog () {
       this.$store.commit('SET_NEW_SPONSORED_LISTING', this.listing)
       this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
@@ -301,22 +270,6 @@ export default {
     editListing () {
       this.$store.commit('SET_NEW_LISTING', this.listing)
       this.$store.commit('OPEN_DIALOG', 'AddListingDialog')
-    },
-
-    deleteListing () {
-      this.persistent = true
-
-      this.$store.dispatch('DELETE_LISTING', this.listing.id)
-        .then(response => {
-          if (response.toString().indexOf('400') === -1) {
-            this.$store.commit('CLOSE_DIALOG', 'ListingDialog')
-            this.$store.dispatch('GET_LISTINGS')
-            this.$store.dispatch('GET_FLAGGED_LISTINGS')
-          }
-
-          this.deleteDialog = false
-          this.persistent = false
-        })
     },
 
     approve () {
@@ -365,10 +318,9 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.delete-dialog
-  z-index: 100
 
+
+<style lang="stylus" scoped>
 .drop
   text-shadow: 0 1px 2px rgba(0, 0, 0, .6)
 
