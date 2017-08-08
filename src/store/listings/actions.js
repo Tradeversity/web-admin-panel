@@ -135,7 +135,13 @@ const POST_IMAGE = ({ getters, commit }, imageFile) => {
 }
 
 const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
-  const price = listingFormData.price.toString().replace('.', '')
+  let price = null
+
+  if (listingFormData.price.toString().indexOf('.') === -1) {
+    price = `${listingFormData.price}00`
+  } else {
+    price = listingFormData.price.toString().replace('.', '')
+  }
 
   const data = {
     title: listingFormData.title,
