@@ -6,7 +6,7 @@
     ></v-progress-linear>
     <v-card-title>
       <span class="headline">
-        Organization Admin
+        Organization Admins
       </span>
       <v-spacer></v-spacer>
       <v-text-field
