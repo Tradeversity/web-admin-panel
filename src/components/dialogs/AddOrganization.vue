@@ -52,7 +52,7 @@
           icon
           flat
           v-if="isEdit"
-          v-tooltip:right="{ html: 'Archive organization' }"
+          v-tooltip:right="{ html: 'Archive organization admin' }"
           @click.native.stop="archive"
         >
           <v-icon>delete</v-icon>
@@ -99,7 +99,8 @@ const isLength = (
 }
 
 export default {
-  name: 'AddOrganizationDialog',
+  name: 'Add
+  Dialog',
   data () {
     return {
       snackbar: false,
@@ -107,7 +108,7 @@ export default {
       isLoading: false,
       formState: {
         form: 'info',
-        snackMessage: 'Invite user to organization',
+        snackMessage: 'Invite Organization Admin',
         firstName: {
           hint: '',
           error: false,
