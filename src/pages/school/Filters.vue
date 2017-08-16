@@ -53,7 +53,7 @@
       </v-card>
     </v-flex>
 
-    <v-flex xs12 class="text-xs-center mt-5">
+   <!-- <v-flex xs12 class="text-xs-center mt-5">
       <v-btn
         primary
         v-if="hideDefaults"
@@ -69,7 +69,7 @@
       >
         Show default filters
       </v-btn>
-    </v-flex>
+    </v-flex>-->
 
     <v-flex xs12 sm6 v-if="hideDefaults">
       <v-card class="default-card">
