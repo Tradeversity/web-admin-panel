@@ -17,35 +17,35 @@ const statusHandler = status => {
     case 401:
       store.commit('OPEN_LOGIN_ALERT', {
         type: 'error',
-        message: '401: User unauthorized',
+        message: 'Incorrect Email/Password',
       })
       router.push({ path: '/login' })
       break
     case 403:
       store.commit('OPEN_LOGIN_ALERT', {
         type: 'error',
-        message: '403: User forbidden',
+        message: 'User forbidden',
       })
       router.push({ path: '/login' })
       break
     case 500:
       store.commit('OPEN_LOGIN_ALERT', {
         type: 'error',
-        message: '500: Internal server error',
+        message: 'Internal server error',
       })
       router.push({ path: '/login' })
       break
     case 502:
       store.commit('OPEN_LOGIN_ALERT', {
         type: 'error',
-        message: '500: Bad gateway',
+        message: 'Bad gateway',
       })
       router.push({ path: '/login' })
       break
     case 503:
       store.commit('OPEN_LOGIN_ALERT', {
         type: 'error',
-        message: '503: Service unavailable',
+        message: 'Service unavailable',
       })
       router.push({ path: '/login' })
       break
