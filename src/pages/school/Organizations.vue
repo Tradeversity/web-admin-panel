@@ -74,6 +74,7 @@ export default {
   methods: {
     openOrganization (item) {
       this.$store.commit('SET_NEW_ORGANIZATION', item)
+      this.$store.commit('SELECTED_ORGANIZATION', item.id)
       this.$store.commit('OPEN_DIALOG', 'AddOrganizationDialog')
 
       // this.$store.dispatch('GET_ORGANIZATION', item)

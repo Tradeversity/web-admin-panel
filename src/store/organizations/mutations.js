@@ -7,5 +7,8 @@ export default {
   },
   ADD_ORGANIZATION (state, data) {
     state.organizations.unshift(data.organization)
+  },
+  SELECTED_ORGANIZATION (state, data) {
+    state.selectedOrg = data
   }
 }

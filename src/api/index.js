@@ -1,18 +1,15 @@
 import { has } from 'lodash'
 
+import Vue from 'vue'
 import axios from 'axios'
 import router from '@/router'
 import store from '@/store'
 import config from '@/config'
 
-const statusHandler = status => {
+const statusHandler = (status, data) => {
   switch (status) {
     case 400:
-      store.commit('OPEN_LOGIN_ALERT', {
-        type: 'error',
-        message: '400: Bad request',
-      })
-      router.push({ path: '/login' })
+      Vue.toasted.error(data.message, { duration: 7500 })
       break
     case 401:
       store.commit('OPEN_LOGIN_ALERT', {
@@ -22,11 +19,7 @@ const statusHandler = status => {
       router.push({ path: '/login' })
       break
     case 403:
-      store.commit('OPEN_LOGIN_ALERT', {
-        type: 'error',
-        message: 'User forbidden',
-      })
-      router.push({ path: '/login' })
+      Vue.toasted.error(data.message, { duration: 7500 })
       break
     case 500:
       store.commit('OPEN_LOGIN_ALERT', {
@@ -98,7 +91,7 @@ export default {
           error.config.url.indexOf('upload_image') === -1 &&
           error.config.url.indexOf('archive') === -1
         ) {
-          statusHandler(error.response.status)
+          statusHandler(error.response.status, error.response.data)
         } else if (error.config.url.indexOf('archive') !== -1) {
           store.commit('OPEN_DIALOG_ALERT', {
             type: 'error',

@@ -1,8 +1,8 @@
 {
   "name": "web-admin-panel",
   "version": "0.1.11",
-  "description": "52inc admin panel based on Material design and built with Vue",
-  "author": "Zach Barnes <zach@52inc.com>",
+  "description": "Tradeversity admin panel based on Material design and built with Vue",
+  "author": "52inc <hello@52inc.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -28,6 +28,7 @@
     "vue-fab": "^2.0.4",
     "vue-google-autocomplete": "^1.0.10",
     "vue-router": "^2.7.0",
+    "vue-toasted": "^1.1.14",
     "vue2-leaflet": "^0.0.51",
     "vuelidate": "^0.5.0",
     "vuex": "^2.3.1",

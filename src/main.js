@@ -8,6 +8,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
+import Toasted from 'vue-toasted'
 import '../node_modules/vuetify/dist/vuetify.min.css'
 import VueCookie from 'vue-cookie'
 import { sync } from 'vuex-router-sync'
@@ -22,6 +23,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(Vuelidate)
+Vue.use(Toasted)
 Vue.use(Vuetify)
 Vue.use(VueCookie)
 

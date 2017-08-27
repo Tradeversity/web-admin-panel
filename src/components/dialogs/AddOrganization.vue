@@ -9,17 +9,17 @@
         <v-card-text class="text-xs-left">
           <v-text-field
             label="First name"
-            :hint="formState.firstName.hint"
-            :error="formState.firstName.error"
-            :persistent-hint="formState.firstName.error"
-            v-model="formData.firstName"
+            :hint="formState.first_name.hint"
+            :error="formState.first_name.error"
+            :persistent-hint="formState.first_name.error"
+            v-model="formData.first_name"
           ></v-text-field>
           <v-text-field
             label="Last name"
-            :hint="formState.lastName.hint"
-            :error="formState.lastName.error"
-            :persistent-hint="formState.lastName.error"
-            v-model="formData.lastName"
+            :hint="formState.last_name.hint"
+            :error="formState.last_name.error"
+            :persistent-hint="formState.last_name.error"
+            v-model="formData.last_name"
           ></v-text-field>
           <v-text-field
             label="Email"
@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import { has } from 'lodash'
 import validateEmail from '@/services/validateEmail'
 
 const isLength = (
@@ -99,8 +98,7 @@ const isLength = (
 }
 
 export default {
-  name: 'Add
-  Dialog',
+  name: 'AddOrganizationDialog',
   data () {
     return {
       snackbar: false,
@@ -109,11 +107,11 @@ export default {
       formState: {
         form: 'info',
         snackMessage: 'Invite Organization Admin',
-        firstName: {
+        first_name: {
           hint: '',
           error: false,
         },
-        lastName: {
+        last_name: {
           hint: '',
           error: false,
         },
@@ -164,17 +162,16 @@ export default {
     },
 
     isEdit () {
-      return has(this.formData, 'id') &&
-        this.formData.id !== null &&
-        this.formData.id.length > 4
+      return this.$store.getters.isEdit
     }
   },
   methods: {
     archive () {
       this.$store.dispatch('POST_BAN_USER', this.formData.id)
         .then(() => {
-          this.$store.commit('CLOSE_DIALOG', this.$options.name)
-          this.$store.dispatch('GET_ORGANIZATIONS')
+          this.$store.dispatch('GET_ORGANIZATIONS').then(() => {
+            this.$store.commit('CLOSE_DIALOG', this.$options.name)
+          })
         })
     },
 
@@ -196,25 +193,24 @@ export default {
     submit () {
       if (this.isEdit) {
         this.$store.dispatch('PUT_ORGANIZATION')
-
         return
       }
 
-      const isFirstNameVaild = isLength(this.formData.firstName, 1)
-      const isLastNameVaild = isLength(this.formData.lastName, 1)
+      const isFirstNameVaild = isLength(this.formData.first_name, 1)
+      const isLastNameVaild = isLength(this.formData.last_name, 1)
       const isEmailValid = validateEmail(this.formData.email)
       const isPasswordLong = isLength(this.formData.password, 7)
       const isPasswordSame = this.formData.password === this.confirm
       const isPasswordValid = isPasswordLong && isPasswordSame
 
       if (!isFirstNameVaild) {
-        this.formState.firstName.hint = 'Please enter a valid name'
-        this.formState.firstName.error = true
+        this.formState.first_name.hint = 'Please enter a valid name'
+        this.formState.first_name.error = true
       }
 
       if (!isLastNameVaild) {
-        this.formState.lastName.hint = 'Please enter a valid name'
-        this.formState.lastName.error = true
+        this.formState.last_name.hint = 'Please enter a valid name'
+        this.formState.last_name.error = true
       }
 
       if (!isEmailValid) {

@@ -21,19 +21,19 @@ const GET_ORGANIZATIONS = ({ getters, commit }) => {
 
   return api.request('get', `${baseURL}/organizations`)
     .then(response => {
-      commit('SET_NEW_ORGANIZATION', response.data)
+      commit('SET_ORGANIZATIONS', response.data)
 
       return response
     })
     .catch(errorHandler)
 }
 
-const PUT_ORGANIZATION = ({ getters, commit }) => {
+const PUT_ORGANIZATION = ({ getters, commit, dispatch }) => {
   const {
     id,
     email,
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     password,
   } = getters.organization
 
@@ -42,32 +42,26 @@ const PUT_ORGANIZATION = ({ getters, commit }) => {
     return false
   }
 
-  const baseURL = `/admin/school/${getters.schoolID}/`
+  const firstName = first_name // eslint-disable-line
+  const lastName = last_name // eslint-disable-line
+
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   const formattedData = {
     platform: window.navigator.userAgent,
     type: 'Web',
   }
 
-  if (email) {
-    formattedData.email = email
-  }
+  formattedData.first_name = firstName
+  formattedData.last_name = lastName
+  formattedData.email = email
+  formattedData.password = password
 
-  if (firstName) {
-    formattedData.first_name = firstName
-  }
+  console.log(formattedData)
 
-  if (lastName) {
-    formattedData.last_name = lastName
-  }
-
-  if (password) {
-    formattedData.password = password
-  }
-
-  api.request('post', `${baseURL}/organization`, formattedData)
+  api.request('put', `${baseURL}/organization/${id}`, formattedData)
     .then(response => {
-      commit('ADD_ORGANIZATION', response.data)
+      dispatch('GET_ORGANIZATIONS')
     })
     .catch(errorHandler)
 }
@@ -76,8 +70,8 @@ const POST_ORGANIZATION = ({ getters, commit }) => {
   const baseURL = `/admin/school/${getters.schoolID}`
   const formattedData = {
     email: getters.organization.email,
-    first_name: getters.organization.firstName,
-    last_name: getters.organization.lastName,
+    first_name: getters.organization.first_name,
+    last_name: getters.organization.last_name,
     password: getters.organization.password,
     platform: window.navigator.userAgent,
     type: 'Web',
