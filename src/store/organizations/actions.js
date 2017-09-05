@@ -38,7 +38,6 @@ const PUT_ORGANIZATION = ({ getters, commit, dispatch }) => {
   } = getters.organization
 
   if (id === undefined || id === null) {
-    console.log('PUT_ORGANIZATION: An ID is required to send a put request...')
     return false
   }
 
@@ -56,8 +55,6 @@ const PUT_ORGANIZATION = ({ getters, commit, dispatch }) => {
   formattedData.last_name = lastName
   formattedData.email = email
   formattedData.password = password
-
-  console.log(formattedData)
 
   api.request('put', `${baseURL}/organization/${id}`, formattedData)
     .then(response => {

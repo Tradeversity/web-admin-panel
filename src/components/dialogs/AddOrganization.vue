@@ -44,6 +44,7 @@
             :error="formState.passwordConfirm.error"
             :persistent-hint="formState.passwordConfirm.error"
             v-model="confirm"
+            v-if="!this.isEdit"
           ></v-text-field>
         </v-card-text>
 
@@ -193,7 +194,10 @@ export default {
     submit () {
       if (this.isEdit) {
         this.$store.dispatch('PUT_ORGANIZATION')
-        return
+        this.formState.snackMessage = 'Success!'
+        this.formState.form = 'success'
+        this.formState.snackbar = true
+        this.$store.commit('CLOSE_DIALOG', this.$options.name)
       }
 
       const isFirstNameVaild = isLength(this.formData.first_name, 1)

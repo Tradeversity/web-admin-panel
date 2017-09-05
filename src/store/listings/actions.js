@@ -173,6 +173,8 @@ const POST_SPONSORED_LISTING = ({ getters, commit }, listingFormData) => {
 }
 
 const PUT_SPONSORED_LISTING = (state, listingFormData) => {
+  console.log('LISTING FORM')
+  console.log(listingFormData)
   if (listingFormData.id === null || listingFormData.id === undefined) {
     console.log('An ID needs to be specified.')
     return
@@ -209,6 +211,12 @@ const PUT_SPONSORED_LISTING = (state, listingFormData) => {
   if (listingFormData.condition) {
     data.additional_properties = {
       condition: 'meh'
+    }
+  }
+
+  if (listingFormData.is_promoted && listingFormData.additional_properties.info_url) {
+    data.additional_properties = {
+      info_url: listingFormData.additional_properties.info_url
     }
   }
 

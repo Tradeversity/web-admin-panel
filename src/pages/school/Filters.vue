@@ -172,7 +172,7 @@ export default {
     },
 
     filteredDefaultFilters () {
-      const filters = this.$store.getters.defaultFilters
+      const filters = this.$store.getters.defaultFilters || []
 
       // If search query, filter items
       const searchedFilters = this.searchActive.length > 0 &&
@@ -183,7 +183,7 @@ export default {
     },
 
     additionalFilters () {
-      return this.$store.getters.additionalFilters
+      return this.$store.getters.additionalFilters || []
     },
 
     filteredDisabledFilters () {
@@ -199,7 +199,6 @@ export default {
   },
   methods: {
     addFilter () {
-      console.log(this.filterQuery)
       if (indexOf(this.additionalFilters, this.filterQuery) !== -1) {
         this.addFilterError = true
         this.filterHint = 'Duplicate keyword'

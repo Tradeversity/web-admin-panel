@@ -80,6 +80,12 @@
             v-model="formData.description"
           ></v-text-field>
 
+          <v-text-field
+            label="Sponsored Link"
+            v-model="formData.additional_properties.info_url"
+            v-if="formData.is_promoted"
+          ></v-text-field>
+
           <!-- <v-select
             :items="typeItems"
             label="Type"

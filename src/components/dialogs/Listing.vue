@@ -230,7 +230,7 @@ export default {
     },
 
     descriptions () {
-      return [
+      let descrip = [
         {
           type: 'ID',
           text: this.listing.id || '',
@@ -251,6 +251,15 @@ export default {
           text: setTime(this.listing.expires_at),
         },
       ]
+      if (this.listing.is_promoted) {
+        descrip.push(
+          {
+            type: 'Sponsored Link',
+            text: this.listing.additional_properties.info_url || '',
+          },
+        )
+      }
+      return descrip
     }
   },
   methods: {
