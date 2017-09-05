@@ -417,6 +417,7 @@ export default {
             })
           }
         })
+        return
       }
 
       if (this.startDate.length < 2) {
