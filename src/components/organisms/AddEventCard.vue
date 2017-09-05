@@ -46,10 +46,10 @@
         <v-text-field
           label="Event link"
           placeholder="http://"
-          :hint="formState.link.hint"
-          :error="formState.link.error"
-          :persistent-hint="formState.link.error"
-          v-model="formData.link"
+          :hint="formState.event_url.hint"
+          :error="formState.event_url.error"
+          :persistent-hint="formState.event_url.error"
+          v-model="formData.event_url"
         ></v-text-field>
 
         <v-text-field
@@ -84,8 +84,8 @@
                 v-model="startDate"
                 scrollable
                 :date-format="date => new Date(date).toDateString()"
-                :formatted-value.sync="startFormattedDate"
                 :allowed-dates="allowedStartDate"
+                :formatted-value.sync="startFormattedDate"
               >
                 <template scope="{ save, cancel }">
                   <v-card-actions>
@@ -154,8 +154,8 @@
                 v-model="endDate"
                 scrollable
                 :date-format="date => new Date(date).toDateString()"
-                :formatted-value.sync="endFormattedDate"
                 :allowed-dates="allowedEndDate"
+                :formatted-value.sync="endFormattedDate"
               >
                 <template scope="{ save, cancel }">
                   <v-card-actions>
@@ -263,7 +263,7 @@ export default {
       'startTime',
       'endTime',
       'location',
-      'link',
+      'event_url',
       'lat',
       'long',
     ],
@@ -274,6 +274,21 @@ export default {
     }
   },
   mounted () {
+    if (has(this.$store.state.newEvent, 'id')) {
+      this.getAddressData()
+    }
+    if (has(this.$store.state.newEvent, 'start_time')) {
+      this.startDate = new Date(this.$store.state.newEvent.start_time * 1000)
+      this.startFormattedDate = this.startDate.toDateString()
+      this.startTime = moment(this.startDate).format('h:ma')
+    }
+
+    if (has(this.$store.state.newEvent, 'end_time')) {
+      this.endDate = this.$store.state.newEvent.end_time * 1000
+      this.endFormattedDate = new Date(this.endDate).toDateString()
+      this.endTime = moment(this.endDate).format('h:ma')
+    }
+
     const today = new Date().toISOString().split('T')[0]
 
     this.allowedStartDate = (date) => {
@@ -326,12 +341,15 @@ export default {
 
       state.form = 'info'
       state.snackMessage = 'Add event'
-
       return state
     },
 
     title () {
       return has(this.$store.state.newEvent, 'id') ? 'Edit event' : 'Create event'
+    },
+
+    isEdit () {
+      return has(this.$store.state.newEvent, 'id')
     },
 
     formData: {
@@ -348,7 +366,7 @@ export default {
   methods: {
     getAddressData (addressData, placeResultData) {
       this.formData.locationData = {
-        addressData: addressData,
+        addressData: addressData || {latitude: this.$store.state.newEvent.latitude, longitude: this.$store.state.newEvent.longitude},
         placeResultData: placeResultData,
       }
 
@@ -367,7 +385,6 @@ export default {
 
     setEventStaticMap (data) {
       this.hasStaticMap = true
-      console.log(data)
       this.staticMapURL = `https://maps.googleapis.com/maps/api/staticmap?scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=color:red%7Clabel:C%7C${data.addressData.latitude},${data.addressData.longitude}&key=AIzaSyBpnXldNOLRyuT4SP_3gDvmpUaNpPrO9eM`
     },
 
@@ -379,9 +396,10 @@ export default {
       this.$store.commit('SET_NEW_EVENT', {
         title: '',
         description: '',
-        startTime: '',
-        endTime: '',
+        start_time: '',
+        end_time: '',
         location: '',
+        event_url: '',
         lat: '',
         long: '',
       })
@@ -390,6 +408,17 @@ export default {
     },
 
     submit () {
+      if (this.isEdit) {
+        this.$store.commit('SET_NEW_EVENT', this.formData)
+        this.$store.dispatch('PUT_EVENT').then(response => {
+          if (response.status === 200) {
+            this.$router.push({
+              path: `/school/${this.$store.state.school.short_name}/event-manager/`
+            })
+          }
+        })
+      }
+
       if (this.startDate.length < 2) {
         this.formState.startDate.hint = 'Please enter a valid date'
         this.formState.startDate.error = true
@@ -452,4 +481,3 @@ export default {
 <style lang="stylus" scoped>
 
 </style>
-

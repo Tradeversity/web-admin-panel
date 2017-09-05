@@ -89,13 +89,13 @@
               prepend-icon="access_time"
               label="Start time"
               readonly
-              :hint="formState.startTime.hint"
-              :error="formState.startTime.error"
-              :persistent-hint="formState.startTime.error"
-              v-model="formData.startTime"
+              :hint="formState.start_time.hint"
+              :error="formState.start_time.error"
+              :persistent-hint="formState.start_time.error"
+              v-model="formData.start_time"
             ></v-text-field>
             <v-time-picker
-              v-model="formData.startTime"
+              v-model="formData.start_time"
               autosave
             ></v-time-picker>
           </v-menu>
@@ -146,14 +146,14 @@
               prepend-icon="access_time"
               label="End time"
               readonly
-              :hint="formState.endTime.hint"
-              :error="formState.endTime.error"
-              :persistent-hint="formState.endTime.error"
+              :hint="formState.end_time.hint"
+              :error="formState.end_time.error"
+              :persistent-hint="formState.end_time.error"
               :formatted-value="val => new Date(val).toISOString().substr(0, 10)"
-              v-model="formData.endTime"
+              v-model="formData.end_time"
             ></v-text-field>
             <v-time-picker
-              v-model="formData.endTime"
+              v-model="formData.end_time"
               autosave
             ></v-time-picker>
           </v-menu>
@@ -199,8 +199,8 @@ export default {
       'description',
       'startDate',
       'endDate',
-      'startTime',
-      'endTime',
+      'start_time',
+      'end_time',
       'location',
       'lat',
       'long',
@@ -236,7 +236,6 @@ export default {
 
       state.form = 'info'
       state.snackMessage = 'Add event'
-
       return state
     },
 
@@ -273,7 +272,7 @@ export default {
         title: '',
         description: '',
         startTime: '',
-        endTime: '',
+        end_time: '',
         location: '',
         lat: '',
         long: '',

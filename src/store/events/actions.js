@@ -69,9 +69,17 @@ const DELETE_EVENT = ({ getters, dispatch }, eventID) => {
 const POST_EVENT = ({ getters, dispatch }) => {
   const data = getters.getEventFormData()
   const baseURL = `/admin/school/${getters.schoolID}`
-  console.log('posting', data)
 
   return api.request('post', `${baseURL}/event`, data)
+    .then(response => response)
+    .catch(errorHandler)
+}
+
+const PUT_EVENT = ({ getters, dispatch }) => {
+  const data = getters.getEventFormData()
+  const baseURL = `/admin/school/${getters.schoolID}`
+
+  return api.request('put', `${baseURL}/event/${data.id}`, data)
     .then(response => response)
     .catch(errorHandler)
 }
@@ -83,4 +91,5 @@ export default {
   GET_ORGANIZATION_EVENTS,
   DELETE_EVENT,
   POST_EVENT,
+  PUT_EVENT,
 }
