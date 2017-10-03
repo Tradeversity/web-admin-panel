@@ -172,6 +172,22 @@ const GET_KEEN = ({ getters, commit }) => {
     .catch(errorHandler)
 }
 
+const GET_KEEN_MARKETPLACE_USERS = ({ state, commit }) => {
+  return api.request('get', '/admin/stats/users')
+    .then(response => {
+      return response
+    })
+    .catch(errorHandler)
+}
+
+const GET_KEEN_TOTAL_MARKET_VALUE = ({state, commit}, start) => {
+  return api.request('get', '/admin/stats/market_value?start=' + start)
+    .then(response => {
+      return response
+    })
+    .catch(errorHandler)
+}
+
 /*
  *  Organizations Admin Endpoints
  */
@@ -245,4 +261,8 @@ export default {
   GET_SPONSORED_LISTINGS,
   // GET_ORGANIZATION_EVENTS,
   POST_EVENT,
+
+  // Stats
+  GET_KEEN_MARKETPLACE_USERS,
+  GET_KEEN_TOTAL_MARKET_VALUE
 }

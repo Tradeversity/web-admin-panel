@@ -209,17 +209,20 @@ export default {
     },
 
     price () {
-      const price = this.listing.price.toString()
       let formattedPrice = null
 
-      if (price === '0') {
-        formattedPrice = 'Free'
-      } else if (price % 100 === 0) {
-        formattedPrice = `$${price / 100}.${price.slice(-2)}`
-      } else if (price.length < 3) {
-        formattedPrice = `$0.${price}`
-      } else {
-        formattedPrice = `$${price / 100}`
+      if (this.listing.price) {
+        const price = this.listing.price.toString()
+
+        if (price === '0') {
+          formattedPrice = 'Free'
+        } else if (price % 100 === 0) {
+          formattedPrice = `$${price / 100}.${price.slice(-2)}`
+        } else if (price.length < 3) {
+          formattedPrice = `$0.${price}`
+        } else {
+          formattedPrice = `$${price / 100}`
+        }
       }
 
       return formattedPrice

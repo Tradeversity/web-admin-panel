@@ -4,12 +4,12 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Active users
+            Total Users
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
-          <div id="ActiveUserChart"></div>
+          <div id="MarketplaceUsersChart"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -17,12 +17,12 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Gross Merch By Category
+            Monthly Active Users
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
-          <div id="GrossMerchCatChart"></div>
+          <div id="MonthlyActiveUsersChart"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -30,12 +30,12 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Student Interaction
+            User Sessions
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
-          <div id="StudentInteractionChart"></div>
+          <div id="UserSessionsChart"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -43,65 +43,12 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Total Market Value
+            Listing by Category
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
-          <div id="TotalValueChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs7 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Active sellers
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="ActiveSellersChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs5 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Active Category Chart
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="ActiveCatChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-    <v-flex xs5 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Student Interaction By Category
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="StudentInteractionCatChart"></div>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-
-    <v-flex xs7 class="mt-3">
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            Market Engagement
-          </span>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="pa-4">
-          <div id="MarketEngagmentChart"></div>
+          <div id="ListingByCategoryChart"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -109,12 +56,77 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Daily Events
+            Listing Views
           </span>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
-          <div id="DailyEventsChart"></div>
+          <div id="ListingViewsChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs6 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            User Interactions
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="UserInteractionsChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs6 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Student Interaction by Category
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="StudentInteractionByCategoryChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs12 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Total Marketplace Value
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="TotalMarketplaceValueChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs6 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Sellers by Category
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="SellersByCategoryChart"></div>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+    <v-flex xs6 class="mt-3">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Gross Listing Value by Category
+          </span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pa-4">
+          <div id="GrossListingValueByCategory"></div>
         </v-card-text>
       </v-card>
     </v-flex>
@@ -141,6 +153,68 @@ export default {
       })
   },
   methods: {
+    getToday () {
+      let today = new Date()
+      let dd = today.getDate()
+      let mm = today.getMonth() + 1
+      let yyyy = today.getFullYear()
+
+      if (dd < 10) {
+        dd = '0' + dd
+      }
+
+      if (mm < 10) {
+        mm = '0' + mm
+      }
+      return yyyy + '-' + mm + '-' + dd
+    },
+    startOfSemester () {
+      return '2017-08-01'
+    },
+    computeCumulativeByCategory (response) {
+      let arrayOfResults = []
+      let arrayOfValues = []
+      for (let i = 0; i < response.length; i++) {
+        arrayOfValues = []
+
+        for (let j = 0; j < response[i].value.length; j++) {
+          if (i > 0) {
+            arrayOfValues[j] = {
+              category: response[i].value[j].category,
+              result: arrayOfResults[i - 1].value[j].result + response[i].value[j].result
+            }
+          } else {
+            arrayOfValues[j] = {
+              category: response[i].value[j].category,
+              result: response[i].value[j].result
+            }
+          }
+        }
+
+        arrayOfResults[i] = {
+          timeframe: response[i].timeframe,
+          value: arrayOfValues
+        }
+      }
+      return { result: arrayOfResults }
+    },
+    computeCumulativeSingleDimension (response) {
+      let arrayOfResults = []
+      for (let i = 0; i < response.length; i++) {
+        if (i > 0) {
+          arrayOfResults[i] = {
+            value: arrayOfResults[i - 1].value + response[i].value,
+            timeframe: response[i].timeframe
+          }
+        } else {
+          arrayOfResults[i] = {
+            value: response[i].value,
+            timeframe: response[i].timeframe
+          }
+        }
+      }
+      return { result: arrayOfResults }
+    },
     initKeen (readKey) {
       const client = new Keen({
         projectId: config.keenProjectID,
@@ -149,167 +223,234 @@ export default {
 
       Keen.ready(() => {
         /* Total accounts, active users */
-        const activeUserCount = new Keen.Query('count', {
+
+        const defaultTimeFrame = {
+          start: this.startOfSemester(),
+          end: this.getToday()
+        }
+
+        const marketplaceUserAccounts = new Keen.Query('count', {
+          event_collection: 'new_user_created',
+          target_property: 'total_users',
+          interval: 'daily',
+          timeframe: defaultTimeFrame,
+        })
+
+        const marketplaceUsersChart = new Keen.Dataviz()
+          .el('#MarketplaceUsersChart')
+          .type('line')
+          .prepare()
+
+        /* Number of Active Users by month */
+        const monthlyActiveUsers = new Keen.Query('count', {
+          event_collection: 'user_login',
+          interval: 'monthly',
+          timeframe: defaultTimeFrame,
+        })
+
+        const monthlyActiveUsersChart = new Keen.Dataviz()
+          .el('#MonthlyActiveUsersChart')
+          .type('bar')
+          .prepare()
+
+        const marketplaceUserSessions = new Keen.Query('count', {
           event_collection: 'new_user_session',
-          interval: 'daily',
-          timeframe: 'this_3_months',
+          interval: 'monthly',
+          timeframe: defaultTimeFrame,
         })
 
-        const activeUserChart = new Keen.Dataviz()
-          .el('#ActiveUserChart')
+        const userSessionsChart = new Keen.Dataviz()
+          .el('#UserSessionsChart')
           .type('line')
           .prepare()
 
-        /* Number of active events, day to day */
-        const dailyEventsCount = new Keen.Query('count', {
-          event_collection: 'show_events',
-          interval: 'daily',
-          timeframe: 'this_3_months',
-        })
-
-        const dailyEventsChart = new Keen.Dataviz()
-          .el('#DailyEventsChart')
-          .type('line')
-          .prepare()
-
-        /* Total current GMV, split by category */
-        const grossMerchCategory = new Keen.Query('sum', {
+        /* Number of listings by category */
+        const listingByCategory = new Keen.Query('count', {
           event_collection: 'full_listing_view',
-          target_property: 'price',
-          timeframe: 'this_3_months',
+          interval: 'daily',
           group_by: 'category',
+          timeframe: 'this_6_weeks',
         })
 
-        const grossMerchCatChart = new Keen.Dataviz()
-          .el('#GrossMerchCatChart')
-          .type('pie')
+        const listingByCategoryChart = new Keen.Dataviz()
+          .el('#ListingByCategoryChart')
+          .type('line')
           .prepare()
 
-        /* Total current GMV, day to day */
-        const totalMarketValue = new Keen.Query('sum', {
+        /* Number of listing views, day to day */
+        const listingViews = new Keen.Query('count_unique', {
           event_collection: 'full_listing_view',
-          target_property: 'price',
-          timeframe: 'this_3_months',
+          target_property: 'id',
           interval: 'daily',
+          group_by: 'category',
+          timeframe: defaultTimeFrame
         })
 
-        const totalValueChart = new Keen.Dataviz()
-          .el('#TotalValueChart')
+        const listingViewsChart = new Keen.Dataviz()
+          .el('#ListingViewsChart')
+          .type('line')
+          .prepare()
+
+        /* Number of active threads, day to day */
+        const userInteractions = new Keen.Query('count', {
+          event_collection: 'question_asked',
+          interval: 'daily',
+          timeframe: defaultTimeFrame
+        })
+
+        const userInteractionsChart = new Keen.Dataviz()
+          .el('#UserInteractionsChart')
+          .type('bar')
+          .prepare()
+
+        /* Count of active threads per category */
+        const studentInteractionByCategory = new Keen.Query('count', {
+          event_collection: 'question_asked',
+          group_by: 'category',
+          interval: 'daily',
+          timeframe: defaultTimeFrame
+        })
+
+        const studentInteractionByCategoryChart = new Keen.Dataviz()
+          .el('#StudentInteractionByCategoryChart')
           .type('line')
           .prepare()
 
         /* Number of users selling an item in each category */
-        const activeSellers = new Keen.Query('count_unique', {
+        const sellersByCategory = new Keen.Query('count_unique', {
           event_collection: 'full_listing_view',
           target_property: 'user_id',
           group_by: 'category',
-          timeframe: 'this_3_months',
+          timeframe: defaultTimeFrame
         })
 
-        const activeSellersChart = new Keen.Dataviz()
-          .el('#ActiveSellersChart')
+        const sellersByCategoryChart = new Keen.Dataviz()
+          .el('#SellersByCategoryChart')
           .type('pie')
           .prepare()
 
-        /* Number of listings by category */
-        const activeCategories = new Keen.Query('count', {
+        /* Total current GMV, day to day */
+        const totalMarketplaceValueCategories = new Keen.Query('sum', {
           event_collection: 'full_listing_view',
-          group_by: 'category',
-          timeframe: 'this_3_months',
-        })
-
-        const activeCatChart = new Keen.Dataviz()
-          .el('#ActiveCatChart')
-          .type('pie')
-          .prepare()
-
-        /* Count of active threads per category */
-        const studentInteractionCategory = new Keen.Query('count', {
-          event_collection: 'question_asked',
-          group_by: 'category',
-          timeframe: 'this_3_months',
-        })
-
-        const studentInteractionCatChart = new Keen.Dataviz()
-          .el('#StudentInteractionCatChart')
-          .type('pie')
-          .prepare()
-
-        /* Number of active threads, day to day */
-        const studentInteraction = new Keen.Query('count', {
-          event_collection: 'question_asked',
-          group_by: 'category',
-          timeframe: 'this_3_months',
-        })
-
-        const studentInteractionChart = new Keen.Dataviz()
-          .el('#StudentInteractionChart')
-          .type('bar')
-          .prepare()
-
-        /* Number of listing views, day to day */
-        const marketEngagment = new Keen.Query('count_unique', {
-          event_collection: 'full_listing_view',
-          target_property: 'id',
+          target_property: `price`,
+          timeframe: defaultTimeFrame,
           interval: 'daily',
-          timeframe: 'this_3_months',
         })
 
-        const marketEngagmentChart = new Keen.Dataviz()
-          .el('#MarketEngagmentChart')
+        /* Total current GMV, day to day by category */
+        const totalMarketplaceValue = new Keen.Query('sum', {
+          event_collection: 'full_listing_view',
+          target_property: `price`,
+          timeframe: defaultTimeFrame,
+          group_by: 'category',
+          interval: 'daily'
+        })
+
+        const totalMarketplaceValueChart = new Keen.Dataviz()
+          .el('#TotalMarketplaceValueChart')
           .type('line')
           .prepare()
 
+        /* Total current GMV, split by category */
+        const grossListingValueByCategory = new Keen.Query('sum', {
+          event_collection: 'full_listing_view',
+          target_property: 'price',
+          timeframe: defaultTimeFrame,
+          group_by: 'category',
+        })
+
+        const grossListingValueByCategoryChart = new Keen.Dataviz()
+          .el('#GrossListingValueByCategory')
+          .type('pie')
+          .prepare()
+
         client.run([
-          activeUserCount,
-          dailyEventsCount,
-          grossMerchCategory,
-          totalMarketValue,
-          activeSellers,
-          activeCategories,
-          studentInteractionCategory,
-          studentInteraction,
-          marketEngagment,
+          marketplaceUserAccounts,
+          monthlyActiveUsers,
+          marketplaceUserSessions,
+          listingByCategory,
+          listingViews,
+          userInteractions,
+          studentInteractionByCategory,
+          sellersByCategory,
+          totalMarketplaceValue,
+          totalMarketplaceValueCategories,
+          grossListingValueByCategory,
         ], (error, response) => {
           if (error) {
             console.log('Client run keen profile count error:', error)
           } else if (response !== null) {
             console.log('Keen response', response)
 
-            activeUserChart
-              .data(response[0])
-              .render()
+            this.$store.dispatch('GET_KEEN_MARKETPLACE_USERS')
+              .then(res => {
+                marketplaceUsersChart
+                  .data(res.data)
+                  .render()
+              })
 
-            dailyEventsChart
+            monthlyActiveUsersChart
               .data(response[1])
               .render()
 
-            grossMerchCatChart
+            userSessionsChart
               .data(response[2])
               .render()
 
-            totalValueChart
-              .data(response[3])
+            listingByCategoryChart
+              .data(this.computeCumulativeByCategory(response[3].result))
               .render()
 
-            activeSellersChart
+            listingViewsChart
               .data(response[4])
               .render()
 
-            activeCatChart
-              .data(response[5])
+            userInteractionsChart
+              .data(this.computeCumulativeSingleDimension(response[5].result))
               .render()
 
-            studentInteractionCatChart
-              .data(response[6])
+            studentInteractionByCategoryChart
+              .data(this.computeCumulativeByCategory(response[6].result))
               .render()
 
-            studentInteractionChart
+            sellersByCategoryChart
               .data(response[7])
               .render()
 
-            marketEngagmentChart
-              .data(response[8])
+            this.$store.dispatch('GET_KEEN_TOTAL_MARKET_VALUE', this.startOfSemester())
+              .then(res => {
+                totalMarketplaceValueChart
+                  .chartOptions({
+                    axis: {
+                      x: {
+                        localtime: false,
+                        type: 'timeseries',
+                        tick: {
+                          format: '%b %e'
+                        }
+                      }
+                    }
+                  })
+                  .data(res.data)
+                  .call(function () {
+                    for (let i = 1; i < this.dataset.matrix.length; i++) {
+                      this.dataset.updateColumn(i, function (value, index, column) {
+                        return value / 100
+                      })
+                    }
+                  })
+                  .render()
+              })
+
+            grossListingValueByCategoryChart
+              .data(response[10])
+              .call(function () {
+                for (let i = 1; i < this.dataset.matrix.length; i++) {
+                  this.dataset.updateColumn(i, function (value, index, column) {
+                    return value / 100
+                  })
+                }
+              })
               .render()
           }
         })
