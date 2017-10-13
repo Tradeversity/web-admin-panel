@@ -60,7 +60,7 @@ const POST_SCHOOL = ({ state }, school) => {
 }
 
 const POST_UPDATE = ({ getters }, school) => {
-  api.request('post', `/admin/school/${getters.schooldID}`, school)
+  api.request('post', `/admin/school/${getters.schoolID}`, school)
     .then(response => {})
     .catch(errorHandler)
 }
@@ -172,16 +172,16 @@ const GET_KEEN = ({ getters, commit }) => {
     .catch(errorHandler)
 }
 
-const GET_KEEN_MARKETPLACE_USERS = ({ state, commit }) => {
-  return api.request('get', '/admin/stats/users')
+const GET_KEEN_MARKETPLACE_USERS = ({ getters, commit }) => {
+  return api.request('get', `/admin/stats/${getters.schoolID}/users`)
     .then(response => {
       return response
     })
     .catch(errorHandler)
 }
 
-const GET_KEEN_TOTAL_MARKET_VALUE = ({state, commit}, start) => {
-  return api.request('get', '/admin/stats/market_value?start=' + start)
+const GET_KEEN_TOTAL_MARKET_VALUE = ({getters, commit}, start) => {
+  return api.request('get', `/admin/stats/${getters.schoolID}/market_value?start=${start}`)
     .then(response => {
       return response
     })
@@ -193,7 +193,7 @@ const GET_KEEN_TOTAL_MARKET_VALUE = ({state, commit}, start) => {
  */
 
 const GET_EVENTS = ({ getters, commit }) => {
-  const baseURL = `/admin/school/${getters.schooldID}`
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/events`)
     .then(response => {
@@ -203,7 +203,7 @@ const GET_EVENTS = ({ getters, commit }) => {
 }
 
 const GET_SPONSORED_LISTINGS = ({ getters, commit }, organizationsID) => {
-  const baseURL = `/admin/school/${getters.schooldID}`
+  const baseURL = `/admin/school/${getters.schoolID}`
 
   api.request('get', `${baseURL}/organization/${organizationsID}/sponsored_listings`)
     .then(response => {
@@ -223,7 +223,7 @@ const GET_SPONSORED_LISTINGS = ({ getters, commit }, organizationsID) => {
 // }
 
 const POST_EVENT = ({ getters }, eventItem) => {
-  const baseURL = `/admin/school/${getters.schooldID}`
+  const baseURL = `/admin/school/${getters.schoolID}`
   const data = {
     title: eventItem.title,
     description: eventItem.description,

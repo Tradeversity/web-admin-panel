@@ -43,7 +43,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Listing by Category
+            New Listings Created by Category
           </span>
         </v-card-title>
         <v-divider></v-divider>
@@ -82,7 +82,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Student Interaction by Category
+            Questions Asked by Category
           </span>
         </v-card-title>
         <v-divider></v-divider>
@@ -238,12 +238,18 @@ export default {
 
         const marketplaceUsersChart = new Keen.Dataviz()
           .el('#MarketplaceUsersChart')
-          .type('line')
+          .type('area-spline')
+          .chartOptions({
+            point: {
+              show: false
+            }
+          })
           .prepare()
 
         /* Number of Active Users by month */
-        const monthlyActiveUsers = new Keen.Query('count', {
-          event_collection: 'user_login',
+        const monthlyActiveUsers = new Keen.Query('count_unique', {
+          event_collection: 'new_user_session',
+          target_property: 'user_id',
           interval: 'monthly',
           timeframe: defaultTimeFrame,
         })
@@ -261,59 +267,82 @@ export default {
 
         const userSessionsChart = new Keen.Dataviz()
           .el('#UserSessionsChart')
-          .type('line')
+          .type('bar')
+          .colors(['green'])
           .prepare()
 
         /* Number of listings by category */
         const listingByCategory = new Keen.Query('count', {
-          event_collection: 'full_listing_view',
-          interval: 'daily',
+          event_collection: 'create_listing',
+          interval: 'weekly',
           group_by: 'category',
           timeframe: 'this_6_weeks',
         })
 
         const listingByCategoryChart = new Keen.Dataviz()
           .el('#ListingByCategoryChart')
-          .type('line')
+          .type('area-spline')
+          .stacked(true)
+          .chartOptions({
+            point: {
+              show: false
+            }
+          })
           .prepare()
 
         /* Number of listing views, day to day */
-        const listingViews = new Keen.Query('count_unique', {
+        const listingViews = new Keen.Query('count', {
           event_collection: 'full_listing_view',
-          target_property: 'id',
-          interval: 'daily',
+          interval: 'weekly',
           group_by: 'category',
           timeframe: defaultTimeFrame
         })
 
         const listingViewsChart = new Keen.Dataviz()
           .el('#ListingViewsChart')
-          .type('line')
+          .type('area-spline')
+          .stacked(true)
+          .chartOptions({
+            point: {
+              show: false
+            }
+          })
           .prepare()
 
         /* Number of active threads, day to day */
         const userInteractions = new Keen.Query('count', {
-          event_collection: 'question_asked',
-          interval: 'daily',
+          event_collection: 'send_message',
+          interval: 'weekly',
           timeframe: defaultTimeFrame
         })
 
         const userInteractionsChart = new Keen.Dataviz()
           .el('#UserInteractionsChart')
-          .type('bar')
+          .type('area-spline')
+          .chartOptions({
+            point: {
+              show: false
+            }
+          })
           .prepare()
 
         /* Count of active threads per category */
         const studentInteractionByCategory = new Keen.Query('count', {
           event_collection: 'question_asked',
           group_by: 'category',
-          interval: 'daily',
+          interval: 'weekly',
           timeframe: defaultTimeFrame
         })
 
         const studentInteractionByCategoryChart = new Keen.Dataviz()
           .el('#StudentInteractionByCategoryChart')
-          .type('line')
+          .type('area-spline')
+          .stacked(true)
+          .chartOptions({
+            point: {
+              show: false
+            }
+          })
           .prepare()
 
         /* Number of users selling an item in each category */
@@ -326,7 +355,7 @@ export default {
 
         const sellersByCategoryChart = new Keen.Dataviz()
           .el('#SellersByCategoryChart')
-          .type('pie')
+          .type('donut')
           .prepare()
 
         /* Total current GMV, day to day */
@@ -348,7 +377,24 @@ export default {
 
         const totalMarketplaceValueChart = new Keen.Dataviz()
           .el('#TotalMarketplaceValueChart')
-          .type('line')
+          .type('area-spline')
+          .stacked(true)
+          .chartOptions({
+            point: {
+              show: false
+            },
+            legend: {
+              show: true,
+              position: 'bottom'
+            },
+            axis: {
+              y: {
+                tick: {
+                  format: function (d) { return '$' + d }
+                }
+              }
+            }
+          })
           .prepare()
 
         /* Total current GMV, split by category */
@@ -361,7 +407,7 @@ export default {
 
         const grossListingValueByCategoryChart = new Keen.Dataviz()
           .el('#GrossListingValueByCategory')
-          .type('pie')
+          .type('donut')
           .prepare()
 
         client.run([
@@ -398,7 +444,7 @@ export default {
               .render()
 
             listingByCategoryChart
-              .data(this.computeCumulativeByCategory(response[3].result))
+              .data(response[3])
               .render()
 
             listingViewsChart
@@ -406,11 +452,11 @@ export default {
               .render()
 
             userInteractionsChart
-              .data(this.computeCumulativeSingleDimension(response[5].result))
+              .data(response[5])
               .render()
 
             studentInteractionByCategoryChart
-              .data(this.computeCumulativeByCategory(response[6].result))
+              .data(response[6])
               .render()
 
             sellersByCategoryChart
