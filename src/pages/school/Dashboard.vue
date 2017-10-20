@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Total Users
+            Marketplace Users
           </span>
         </v-card-title>
         <v-divider></v-divider>
@@ -135,6 +135,7 @@
 
 <script>
 import config from '@/config'
+import d3 from 'd3'
 import Keen from 'keen-js'
 
 import 'keen-analysis'
@@ -171,51 +172,7 @@ export default {
     startOfSemester () {
       return '2017-08-01'
     },
-    computeCumulativeByCategory (response) {
-      let arrayOfResults = []
-      let arrayOfValues = []
-      for (let i = 0; i < response.length; i++) {
-        arrayOfValues = []
-
-        for (let j = 0; j < response[i].value.length; j++) {
-          if (i > 0) {
-            arrayOfValues[j] = {
-              category: response[i].value[j].category,
-              result: arrayOfResults[i - 1].value[j].result + response[i].value[j].result
-            }
-          } else {
-            arrayOfValues[j] = {
-              category: response[i].value[j].category,
-              result: response[i].value[j].result
-            }
-          }
-        }
-
-        arrayOfResults[i] = {
-          timeframe: response[i].timeframe,
-          value: arrayOfValues
-        }
-      }
-      return { result: arrayOfResults }
-    },
-    computeCumulativeSingleDimension (response) {
-      let arrayOfResults = []
-      for (let i = 0; i < response.length; i++) {
-        if (i > 0) {
-          arrayOfResults[i] = {
-            value: arrayOfResults[i - 1].value + response[i].value,
-            timeframe: response[i].timeframe
-          }
-        } else {
-          arrayOfResults[i] = {
-            value: response[i].value,
-            timeframe: response[i].timeframe
-          }
-        }
-      }
-      return { result: arrayOfResults }
-    },
-    initKeen (readKey) {
+    initKeen: function (readKey) {
       const client = new Keen({
         projectId: config.keenProjectID,
         readKey: readKey,
@@ -327,56 +284,15 @@ export default {
           .prepare()
 
         /* Count of active threads per category */
-        const studentInteractionByCategory = new Keen.Query('count', {
+        const questionsAskedByCategory = new Keen.Query('count', {
           event_collection: 'question_asked',
           group_by: 'category',
           interval: 'weekly',
           timeframe: defaultTimeFrame
         })
 
-        const studentInteractionByCategoryChart = new Keen.Dataviz()
+        const questionsAskedByCategoryChart = new Keen.Dataviz()
           .el('#StudentInteractionByCategoryChart')
-          .type('area-spline')
-          .stacked(true)
-          .chartOptions({
-            point: {
-              show: false
-            }
-          })
-          .prepare()
-
-        /* Number of users selling an item in each category */
-        const sellersByCategory = new Keen.Query('count_unique', {
-          event_collection: 'full_listing_view',
-          target_property: 'user_id',
-          group_by: 'category',
-          timeframe: defaultTimeFrame
-        })
-
-        const sellersByCategoryChart = new Keen.Dataviz()
-          .el('#SellersByCategoryChart')
-          .type('donut')
-          .prepare()
-
-        /* Total current GMV, day to day */
-        const totalMarketplaceValueCategories = new Keen.Query('sum', {
-          event_collection: 'full_listing_view',
-          target_property: `price`,
-          timeframe: defaultTimeFrame,
-          interval: 'daily',
-        })
-
-        /* Total current GMV, day to day by category */
-        const totalMarketplaceValue = new Keen.Query('sum', {
-          event_collection: 'full_listing_view',
-          target_property: `price`,
-          timeframe: defaultTimeFrame,
-          group_by: 'category',
-          interval: 'daily'
-        })
-
-        const totalMarketplaceValueChart = new Keen.Dataviz()
-          .el('#TotalMarketplaceValueChart')
           .type('area-spline')
           .stacked(true)
           .chartOptions({
@@ -386,28 +302,38 @@ export default {
             legend: {
               show: true,
               position: 'bottom'
+            }
+          })
+          .prepare()
+
+        /* Number of users selling an item in each category */
+
+        const sellersByCategoryChart = new Keen.Dataviz()
+          .el('#SellersByCategoryChart')
+          .type('pie')
+          .prepare()
+
+        const totalMarketplaceValueChart = new Keen.Dataviz()
+          .el('#TotalMarketplaceValueChart')
+          .type('area-spline')
+          .stacked(true)
+          .chartOptions({
+            point: {
+              show: false
             },
             axis: {
               y: {
                 tick: {
-                  format: function (d) { return '$' + d }
+                  format: d3.format('$,')
                 }
               }
             }
           })
           .prepare()
 
-        /* Total current GMV, split by category */
-        const grossListingValueByCategory = new Keen.Query('sum', {
-          event_collection: 'full_listing_view',
-          target_property: 'price',
-          timeframe: defaultTimeFrame,
-          group_by: 'category',
-        })
-
         const grossListingValueByCategoryChart = new Keen.Dataviz()
           .el('#GrossListingValueByCategory')
-          .type('donut')
+          .type('pie')
           .prepare()
 
         client.run([
@@ -417,11 +343,7 @@ export default {
           listingByCategory,
           listingViews,
           userInteractions,
-          studentInteractionByCategory,
-          sellersByCategory,
-          totalMarketplaceValue,
-          totalMarketplaceValueCategories,
-          grossListingValueByCategory,
+          questionsAskedByCategory,
         ], (error, response) => {
           if (error) {
             console.log('Client run keen profile count error:', error)
@@ -432,6 +354,27 @@ export default {
               .then(res => {
                 marketplaceUsersChart
                   .data(res.data)
+                  .render()
+              })
+
+            this.$store.dispatch('GET_SELLERS_BY_CATEGORY')
+              .then(res => {
+                sellersByCategoryChart
+                  .data(res.data)
+                  .render()
+              })
+
+            this.$store.dispatch('GET_VALUE_BY_CATEGORY')
+              .then(res => {
+                grossListingValueByCategoryChart
+                  .data(res.data)
+                  .call(function () {
+                    for (let i = 1; i < this.dataset.matrix.length; i++) {
+                      this.dataset.updateColumn(i, function (value, index, column) {
+                        return value / 100
+                      })
+                    }
+                  })
                   .render()
               })
 
@@ -455,12 +398,8 @@ export default {
               .data(response[5])
               .render()
 
-            studentInteractionByCategoryChart
+            questionsAskedByCategoryChart
               .data(response[6])
-              .render()
-
-            sellersByCategoryChart
-              .data(response[7])
               .render()
 
             this.$store.dispatch('GET_KEEN_TOTAL_MARKET_VALUE', this.startOfSemester())
@@ -487,17 +426,6 @@ export default {
                   })
                   .render()
               })
-
-            grossListingValueByCategoryChart
-              .data(response[10])
-              .call(function () {
-                for (let i = 1; i < this.dataset.matrix.length; i++) {
-                  this.dataset.updateColumn(i, function (value, index, column) {
-                    return value / 100
-                  })
-                }
-              })
-              .render()
           }
         })
       })

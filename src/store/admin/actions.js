@@ -172,6 +172,22 @@ const GET_KEEN = ({ getters, commit }) => {
     .catch(errorHandler)
 }
 
+const GET_VALUE_BY_CATEGORY = ({ getters, commit }) => {
+  return api.request('get', `/admin/stats/${getters.schoolID}/gross_value_by_category`)
+    .then(response => {
+      return response
+    })
+    .catch(errorHandler)
+}
+
+const GET_SELLERS_BY_CATEGORY = ({ getters, commit }) => {
+  return api.request('get', `/admin/stats/${getters.schoolID}/sellers_by_category`)
+    .then(response => {
+      return response
+    })
+    .catch(errorHandler)
+}
+
 const GET_KEEN_MARKETPLACE_USERS = ({ getters, commit }) => {
   return api.request('get', `/admin/stats/${getters.schoolID}/users`)
     .then(response => {
@@ -264,5 +280,7 @@ export default {
 
   // Stats
   GET_KEEN_MARKETPLACE_USERS,
-  GET_KEEN_TOTAL_MARKET_VALUE
+  GET_KEEN_TOTAL_MARKET_VALUE,
+  GET_SELLERS_BY_CATEGORY,
+  GET_VALUE_BY_CATEGORY
 }
